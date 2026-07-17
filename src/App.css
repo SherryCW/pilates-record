@@ -1,0 +1,65 @@
+:root { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; color: #211a14; background: #ede0c7; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; background: #ede0c7; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+.fitness-app { min-height: 100vh; padding-bottom: 60px; background: radial-gradient(circle at 10% 0%, #f7efde 0, transparent 32%), #ede0c7; }
+.fitness-header { display: flex; align-items: flex-end; justify-content: space-between; padding: 34px max(22px, calc((100vw - 1320px) / 2)) 24px; color: #f7efde; background: #211a14; border-bottom: 5px solid #9f2f24; }
+.fitness-header h1 { margin: 5px 0 0; font: 700 34px/1.1 Georgia, "Songti SC", serif; letter-spacing: .02em; }
+.eyebrow { color: #9f2f24; font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.fitness-header .eyebrow { color: #d8c6a7; }
+.date-stamp { color: #d8c6a7; font: 15px Georgia, serif; }
+.progress { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 19px 20px; color: #73685b; font-size: 13px; border-bottom: 1px solid #af8b5575; }
+.progress span.active { color: #9f2f24; font-weight: 800; }
+.progress i { width: 48px; height: 1px; background: #af8b5575; }
+.sheet { width: min(1320px, calc(100% - 40px)); margin: 28px auto 0; padding: 28px; background: #f7efde; border: 1px solid #af8b5575; box-shadow: 0 10px 28px #35281e12; }
+.section-heading { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 22px; }
+h2 { margin: 6px 0 0; font: 700 30px/1.2 Georgia, "Songti SC", serif; }
+.count { color: #9f2f24; font-weight: 800; }
+.search { width: 100%; padding: 14px 16px; color: #211a14; background: #ede0c7; border: 1px solid #af8b5575; outline: none; }
+.search:focus { border-color: #9f2f24; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 10px; }
+.filters button { padding: 7px 11px; color: #73685b; background: transparent; border: 1px solid #af8b5575; border-radius: 2px; font-size: 12px; }
+.filters button.on { color: #f7efde; background: #66745e; border-color: #66745e; }
+.exercise-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+.exercise-card { position: relative; padding: 0 0 12px; overflow: hidden; text-align: left; color: #211a14; background: #f7efde; border: 1px solid #af8b5575; transition: transform .18s, border-color .18s, box-shadow .18s; }
+.exercise-card:hover { transform: translateY(-2px); border-color: #9f2f24; box-shadow: 0 5px 12px #35281e18; }
+.exercise-card.selected { border: 2px solid #9f2f24; }
+.exercise-card img, .exercise-art { display: block; width: 100%; aspect-ratio: 320 / 335; object-fit: cover; border-bottom: 1px solid #af8b5538; }
+.exercise-art { background-repeat: no-repeat; background-size: 400% 300%; }
+.exercise-card strong, .exercise-card small { display: block; padding: 0 12px; }
+.exercise-card strong { margin-top: 10px; font: 700 15px Georgia, "Songti SC", serif; }
+.exercise-card small { margin-top: 3px; color: #73685b; font-size: 11px; }
+.number, .chosen-mark, .kind-mark { position: absolute; top: 9px; padding: 4px 7px; color: #f7efde; background: #66745e; font-size: 12px; font-weight: 800; }
+.number { left: 9px; }
+.kind-mark { right: 8px; background: #66745e; font-size: 10px; }
+.chosen-mark { top: 34px; right: 8px; background: #9f2f24; }
+.action-bar { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 24px; padding-top: 18px; border-top: 1px solid #af8b5575; color: #73685b; font-size: 13px; }
+.primary, .secondary { padding: 12px 18px; border: 1px solid #9f2f24; border-radius: 2px; font-weight: 800; }
+.primary { color: #f7efde; background: #9f2f24; }
+.primary:disabled { cursor: not-allowed; opacity: .4; }
+.secondary { color: #9f2f24; background: transparent; }
+.text-button { padding: 5px 0; color: #9f2f24; background: none; border: 0; }
+.edit-list { display: grid; gap: 14px; }
+.edit-row { display: flex; gap: 18px; padding: 14px; border: 1px solid #af8b5575; background: #ede0c7; }
+.edit-row img { width: 120px; height: 125px; object-fit: cover; }
+.edit-main { flex: 1; }
+.edit-title { display: flex; align-items: baseline; gap: 12px; margin-bottom: 13px; }
+.edit-title h3, .share-preview h3 { margin: 0; font: 700 21px Georgia, "Songti SC", serif; }
+.edit-title small, .share-preview small { color: #73685b; }
+.set-line { display: flex; align-items: center; gap: 8px; margin: 7px 0; color: #73685b; font-size: 13px; }
+.set-line span { width: 52px; }
+.set-line input { width: 90px; padding: 8px 9px; background: #f7efde; border: 1px solid #af8b5575; }
+.set-line b { color: #211a14; font-size: 12px; }
+.add-set { padding: 5px 0; color: #66745e; background: none; border: 0; font-size: 13px; font-weight: 700; }
+.share-sheet { max-width: 760px; }
+.share-preview { padding: 34px; color: #211a14; background: #f7efde; border: 1px solid #af8b5575; }
+.share-preview-head { display: flex; justify-content: space-between; padding-bottom: 22px; color: #9f2f24; border-bottom: 2px solid #9f2f24; font-size: 12px; letter-spacing: .1em; }
+.share-preview-head b { font: 700 18px Georgia, serif; }
+.share-preview article { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 22px 0; border-bottom: 1px solid #af8b5575; }
+.share-preview article p { margin: 0 0 7px; color: #73685b; font-size: 13px; }
+.share-preview article strong { color: #211a14; }
+.share-preview footer { padding-top: 22px; color: #73685b; font: italic 13px Georgia, serif; text-align: right; }
+.share-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+@media (max-width: 900px) { .exercise-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .fitness-header { padding: 24px 18px 20px; } .fitness-header h1 { font-size: 27px; } .sheet { width: calc(100% - 20px); padding: 18px 14px; margin-top: 14px; } .progress { gap: 7px; font-size: 11px; } .progress i { width: 17px; } .exercise-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; } .section-heading { align-items: start; flex-direction: column; } .action-bar { align-items: stretch; flex-direction: column; } .action-bar .primary { width: 100%; } .edit-row { gap: 10px; padding: 10px; } .edit-row img { width: 74px; height: 78px; } .edit-title { display: block; } .set-line { flex-wrap: wrap; } .set-line span { width: 46px; } .set-line input { width: 68px; } .share-preview { padding: 20px 16px; } .share-preview article { grid-template-columns: 1fr; gap: 10px; } }
