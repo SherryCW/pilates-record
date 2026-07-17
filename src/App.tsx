@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import './App.css'
 
 type EquipmentKind = '塔架' | '垫上' | 'Ladder Barrel' | '小器械' | 'Wunda Chair' | 'Reformer'
+type MuscleGroup = '胸部' | '肩部' | '手臂' | '腹部' | '背部' | '臀部' | '髋部' | '股四' | '腘绳' | '小腿'
 type Exercise = { id: number; en: string; zh: string; image: string; kind: EquipmentKind; sprite?: string; tileX?: number; tileY?: number }
 type SetEntry = { weight: string; reps: string }
 const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path}`
@@ -25,6 +26,18 @@ const extraSets: { kind: EquipmentKind; folder: string; names: [string, string][
 ]
 const extraExercises: Exercise[] = extraSets.flatMap(({ kind, folder, names }, setIndex) => names.map(([en, zh], index) => ({ id: 55 + setIndex * 12 + index, en, zh, image: assetUrl(`assets/${folder}/${index + 1}.png?v=1`), sprite: assetUrl(`assets/${folder}/${folder}-clean.png?v=1`), tileX: index % 4, tileY: Math.floor(index / 4), kind })))
 const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercises]
+
+const muscleLabels: Record<MuscleGroup, string> = { 胸部: '胸部', 肩部: '肩部', 手臂: '手臂', 腹部: '腹部', 背部: '背部', 臀部: '臀部', 髋部: '髋部', 股四: '股四头肌', 腘绳: '腘绳肌', 小腿: '小腿' }
+const musclesFor = (exercise: Exercise): MuscleGroup[] => {
+  const name = `${exercise.en} ${exercise.zh}`.toLowerCase()
+  const muscles = new Set<MuscleGroup>()
+  if (/hundred|roll|teaser|corkscrew|rocker|jackknife|bicycle|crab|v形|卷|翻滚|腹|折刀|摇摆/.test(name)) muscles.add('腹部')
+  if (/leg|footwork|frog|kick|scissor|bicycle|side|tree|horse|ballet|hamstring|hip flexor|knee|tendon|腿|脚|踢|剪刀|髋|侧/.test(name)) { muscles.add('股四'); muscles.add('腘绳'); muscles.add('髋部') }
+  if (/bridge|swan|backstroke|pulling|row|long stretch|elephant|push|press|pull up|handstand|肩桥|天鹅|划|拉|推|上拉|倒立/.test(name)) { muscles.add('背部'); muscles.add('肩部'); muscles.add('手臂') }
+  if (/circle|mermaid|hip|inner thigh|美人鱼|画圈|髋|内收/.test(name)) muscles.add('臀部')
+  if (!muscles.size) { muscles.add('腹部'); muscles.add('髋部') }
+  return [...muscles]
+}
 
 type Step = 'choose' | 'edit' | 'share'
 
@@ -57,7 +70,25 @@ export default function App() {
     <header className="fitness-header"><div><span className="eyebrow">训练本纪 · 今日记录</span><h1>Cadillac / Tower</h1></div><span className="date-stamp">{new Date().toLocaleDateString('zh-CN')}</span></header>
     <div className="progress"><span className={step === 'choose' ? 'active' : ''}>01 选择动作</span><i /> <span className={step === 'edit' ? 'active' : ''}>02 填写训练</span><i /> <span className={step === 'share' ? 'active' : ''}>03 生成分享图</span></div>
     {step === 'choose' && <section className="sheet"><div className="section-heading"><div><span className="eyebrow">Classical Pilates Library · {exercises.length} Exercises</span><h2>选择今天练习的动作</h2></div><span className="count">已选 {selected.length} / {exercises.length}</span></div><div className="filters"><button className={kind === '全部' ? 'on' : ''} onClick={() => setKind('全部')}>全部 · {exercises.length}</button>{(['塔架', '垫上', 'Ladder Barrel', '小器械', 'Wunda Chair', 'Reformer'] as EquipmentKind[]).map(item => <button key={item} className={kind === item ? 'on' : ''} onClick={() => setKind(item)}>{item} · {exercises.filter(exercise => exercise.kind === item).length}</button>)}</div><input className="search" placeholder="搜索动作，例如：美人鱼、Monkey、The Hundred" value={query} onChange={e => setQuery(e.target.value)} /><div className="exercise-grid">{visible.map(exercise => <button className={`exercise-card ${selected.includes(exercise.id) ? 'selected' : ''}`} key={exercise.id} onClick={() => toggle(exercise.id)}>{exercise.sprite ? <div className="exercise-art" role="img" aria-label={exercise.en} style={{ backgroundImage: `url(${exercise.sprite})`, backgroundPosition: `${(exercise.tileX || 0) * 33.333333}% ${(exercise.tileY || 0) * 50}%` }} /> : <img src={exercise.image} alt={exercise.en} />}<span className="kind-mark">{exercise.kind}</span>{selected.includes(exercise.id) && <span className="chosen-mark">✓ 已选</span>}<strong>{exercise.zh}</strong><small>{exercise.en}</small></button>)}</div><div className="action-bar"><span>先选择动作，确认后再填写重量与组数</span><button className="primary" disabled={!selected.length} onClick={() => setStep('edit')}>确认选择 · {selected.length} 个动作</button></div></section>}
-    {step === 'edit' && <section className="sheet edit-sheet"><div className="section-heading"><div><span className="eyebrow">Training Log</span><h2>填写今天的训练</h2></div><button className="text-button" onClick={() => setStep('choose')}>← 返回选动作</button></div><div className="edit-list">{chosen.map(exercise => <article className="edit-row" key={exercise.id}><img src={exercise.image} alt="" /><div className="edit-main"><div className="edit-title"><h3>{exercise.zh}</h3><small>{exercise.en}</small></div>{(logs[exercise.id] || [{ weight: '', reps: '' }]).map((set, index) => <div className="set-line" key={index}><span>第 {index + 1} 组</span><input inputMode="decimal" placeholder="重量" value={set.weight} onChange={e => updateSet(exercise.id, index, 'weight', e.target.value)} /><b>kg ×</b><input inputMode="numeric" placeholder="次数" value={set.reps} onChange={e => updateSet(exercise.id, index, 'reps', e.target.value)} /><b>次</b></div>)}<button className="add-set" onClick={() => addSet(exercise.id)}>＋ 添加一组</button></div></article>)}</div><div className="action-bar"><span>{chosen.length} 个动作 · 数据只保留在当前页面</span><button className="primary" onClick={makeShare}>确认训练 · 生成分享图</button></div></section>}
-    {step === 'share' && <section className="sheet share-sheet"><div className="section-heading"><div><span className="eyebrow">Record Complete</span><h2>今日训练已整理</h2></div><button className="text-button" onClick={() => setStep('edit')}>← 修改训练</button></div><div id="share-card" className="share-preview"><div className="share-preview-head"><span>训练本纪 · 今日</span><b>CADILLAC / TOWER</b></div>{chosen.map(exercise => <article key={exercise.id}><div><h3>{exercise.zh}</h3><small>{exercise.en}</small></div><div>{(logs[exercise.id] || [{ weight: '', reps: '' }]).map((set, index) => <p key={index}>第 {index + 1} 组　<strong>{set.weight || '—'} kg × {set.reps || '—'} 次</strong></p>)}</div></article>)}<footer>Keep moving · Pilates practice</footer></div><div className="share-actions"><button className="secondary" onClick={() => setStep('choose')}>重新选择</button><button className="primary" onClick={download}>下载分享图 PNG</button></div></section>}
+    {step === 'edit' && <section className="sheet edit-sheet"><div className="section-heading"><div><span className="eyebrow">Training Log</span><h2>填写今天的训练</h2></div><button className="text-button" onClick={() => setStep('choose')}>← 返回选动作</button></div><div className="edit-layout"><div className="edit-list">{chosen.map(exercise => <article className="edit-row" key={exercise.id}>{exercise.sprite ? <div className="edit-sprite" role="img" aria-label={exercise.en} style={{ backgroundImage: `url(${exercise.sprite})`, backgroundPosition: `${(exercise.tileX || 0) * 33.333333}% ${(exercise.tileY || 0) * 50}%` }} /> : <img src={exercise.image} alt="" />}<div className="edit-main"><div className="edit-title"><h3>{exercise.zh}</h3><small>{exercise.en}</small></div>{(logs[exercise.id] || [{ weight: '', reps: '' }]).map((set, index) => <div className="set-line" key={index}><span>第 {index + 1} 组</span><input inputMode="decimal" placeholder="重量" value={set.weight} onChange={e => updateSet(exercise.id, index, 'weight', e.target.value)} /><b>kg ×</b><input inputMode="numeric" placeholder="次数" value={set.reps} onChange={e => updateSet(exercise.id, index, 'reps', e.target.value)} /><b>次</b></div>)}<button className="add-set" onClick={() => addSet(exercise.id)}>＋ 添加一组</button></div></article>)}</div><MuscleMap chosen={chosen} /></div><div className="action-bar"><span>{chosen.length} 个动作 · 数据只保留在当前页面</span><button className="primary" onClick={makeShare}>确认训练 · 生成分享图</button></div></section>}
+    {step === 'share' && <section className="sheet share-sheet"><div className="section-heading"><div><span className="eyebrow">Record Complete</span><h2>今日训练已整理</h2></div><button className="text-button" onClick={() => setStep('edit')}>← 修改训练</button></div><div className="share-layout"><div id="share-card" className="share-preview"><div className="share-preview-head"><span>训练本纪 · 今日</span><b>CADILLAC / TOWER</b></div>{chosen.map(exercise => <article key={exercise.id}><div><h3>{exercise.zh}</h3><small>{exercise.en}</small></div><div>{(logs[exercise.id] || [{ weight: '', reps: '' }]).map((set, index) => <p key={index}>第 {index + 1} 组　<strong>{set.weight || '—'} kg × {set.reps || '—'} 次</strong></p>)}</div></article>)}<footer>Keep moving · Pilates practice</footer></div><MuscleMap chosen={chosen} /></div><div className="share-actions"><button className="secondary" onClick={() => setStep('choose')}>重新选择</button><button className="primary" onClick={download}>下载分享图 PNG</button></div></section>}
   </main>
+}
+
+const muscleMarks: Record<MuscleGroup, { cx: number; cy: number; rx: number; ry: number }[]> = {
+  胸部: [{ cx: 450, cy: 285, rx: 84, ry: 52 }],
+  肩部: [{ cx: 365, cy: 270, rx: 27, ry: 32 }, { cx: 535, cy: 270, rx: 27, ry: 32 }, { cx: 918, cy: 270, rx: 28, ry: 33 }, { cx: 1082, cy: 270, rx: 28, ry: 33 }],
+  手臂: [{ cx: 345, cy: 370, rx: 24, ry: 78 }, { cx: 555, cy: 370, rx: 24, ry: 78 }, { cx: 895, cy: 370, rx: 24, ry: 78 }, { cx: 1105, cy: 370, rx: 24, ry: 78 }],
+  腹部: [{ cx: 450, cy: 390, rx: 68, ry: 100 }],
+  背部: [{ cx: 1000, cy: 335, rx: 102, ry: 120 }, { cx: 1000, cy: 435, rx: 66, ry: 70 }],
+  臀部: [{ cx: 955, cy: 520, rx: 53, ry: 52 }, { cx: 1045, cy: 520, rx: 53, ry: 52 }],
+  髋部: [{ cx: 410, cy: 520, rx: 46, ry: 55 }, { cx: 490, cy: 520, rx: 46, ry: 55 }],
+  股四: [{ cx: 405, cy: 645, rx: 39, ry: 115 }, { cx: 495, cy: 645, rx: 39, ry: 115 }],
+  腘绳: [{ cx: 955, cy: 660, rx: 38, ry: 115 }, { cx: 1045, cy: 660, rx: 38, ry: 115 }],
+  小腿: [{ cx: 407, cy: 835, rx: 27, ry: 82 }, { cx: 493, cy: 835, rx: 27, ry: 82 }, { cx: 957, cy: 835, rx: 27, ry: 82 }, { cx: 1043, cy: 835, rx: 27, ry: 82 }],
+}
+
+function MuscleMap({ chosen }: { chosen: Exercise[] }) {
+  const active = [...new Set(chosen.flatMap(musclesFor))]
+  return <aside className="muscle-panel"><div className="muscle-panel-head"><div><span className="eyebrow">Muscle Focus</span><h3>今日训练肌群</h3></div><span>{active.length} 个区域</span></div><div className="muscle-figure"><img src={assetUrl('assets/muscle-map-generated.png?v=2')} alt="女性前后肌肉示意图" /><svg viewBox="0 0 1448 1086" aria-hidden="true">{active.flatMap(group => muscleMarks[group].map((mark, index) => <ellipse key={`${group}-${index}`} {...mark} className="muscle-highlight" />))}</svg></div><div className="muscle-legend">{(Object.keys(muscleLabels) as MuscleGroup[]).map(group => <span className={active.includes(group) ? 'active' : ''} key={group}><i />{muscleLabels[group]}</span>)}</div><p>深蓝色表示本次所选动作重点参与的肌群。</p></aside>
 }
