@@ -47,7 +47,7 @@ const reformerExpansionNames: [string, string][] = [
   ['Snake', '蛇式'], ['Twist', '蛇式扭转'], ['Knee Stretches Knees Off', '膝部伸展离膝'], ['Control Balance Push Up Front', '前向控制俯卧撑'],
   ['Control Balance Push Up Back', '后向控制俯卧撑'], ['Star', '星式'], ['Front Splits', '前劈腿'], ['Russian Splits', '俄式劈腿'],
 ]
-const reformerExpansionExercises: Exercise[] = reformerExpansionNames.map(([en, zh], index) => ({ id: 121 + index, en, zh, image: en === 'Short Box Round Back' ? assetUrl('assets/reformer-expansion/short-box-round-back.png?v=2') : assetUrl(`assets/reformer-expansion/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
+const reformerExpansionExercises: Exercise[] = reformerExpansionNames.map(([en, zh], index) => ({ id: 121 + index, en, zh, image: en === 'Short Box Round Back' ? assetUrl('assets/reformer-expansion/short-box-round-back.png?v=2') : en === 'High Frog' ? assetUrl('assets/reformer-expansion/high-frog.png?v=1') : assetUrl(`assets/reformer-expansion/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
 const reformerAdditionalNames: [string, string][] = [
   ['Footwork Toes', '脚趾脚踏'], ['Footwork Heels', '足跟脚踏'], ['Long Spine Massage', '长脊柱按摩'], ['Rowing Back', '后向划船'],
   ['Rowing Front', '前向划船'], ['Pulling Straps', '拉带'], ['T-Pull', 'T形拉带'], ['Down Stretch', '下伸展'], ['Up Stretch', '上伸展'],
@@ -104,7 +104,7 @@ const spriteStyle = (exercise: Exercise) => {
 const exerciseImageClass = (exercise: Exercise) => {
   if (exercise.en === 'Hanging Pull Ups') return 'hanging-pull-image'
   if (exercise.kind === '垫上' && ['Scissors', 'Bicycle'].includes(exercise.en)) return 'compact-mat-image'
-  if (exercise.kind === 'Reformer' && ['Rowing 90 Degrees', 'Rowing From the Hips', 'Shaving', 'Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree'].includes(exercise.en)) return 'compact-reformer-image'
+  if (exercise.kind === 'Reformer' && ['Rowing 90 Degrees', 'Rowing From the Hips', 'Shaving', 'Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'High Frog', 'High Bridge', 'Footwork Heels', 'Footwork Toes', 'Coordination', 'Arm Circles', 'Knee Stretches Knees Off'].includes(exercise.en)) return 'compact-reformer-image'
   if (exercise.kind === '小器械' && ['Supine Bent-Knee Magic Circle Inner Thigh Squeeze', 'Seated Magic Circle Inner Thigh Squeeze', 'Supine Tabletop Magic Circle Inner Thigh Squeeze', 'Magic Circle Side Leg Press', 'Resistance Band Leg Press', 'Small Ball Leg Lift'].includes(exercise.en)) return 'compact-small-apparatus-image'
   return ''
 }
