@@ -40,6 +40,12 @@ const reformerExpansionNames: [string, string][] = [
   ['Control Balance Push Up Back', '后向控制俯卧撑'], ['Star', '星式'], ['Front Splits', '前劈腿'], ['Russian Splits', '俄式劈腿'],
 ]
 const reformerExpansionExercises: Exercise[] = reformerExpansionNames.map(([en, zh], index) => ({ id: 121 + index, en, zh, image: assetUrl(`assets/reformer-expansion/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
+const reformerAdditionalNames: [string, string][] = [
+  ['Footwork Toes', '脚趾脚踏'], ['Footwork Heels', '足跟脚踏'], ['Long Spine Massage', '长脊柱按摩'], ['Rowing Back', '后向划船'],
+  ['Rowing Front', '前向划船'], ['Pulling Straps', '拉带'], ['T-Pull', 'T形拉带'], ['Down Stretch', '下伸展'], ['Up Stretch', '上伸展'],
+  ['Knee Stretches Round', '圆背膝部伸展'], ['Knee Stretches Arched', '拱背膝部伸展'], ['Pelvic Lift', '骨盆抬升'], ['Side Splits', '侧劈腿'],
+]
+const reformerAdditionalExercises: Exercise[] = reformerAdditionalNames.map(([en, zh], index) => ({ id: 169 + index, en, zh, image: assetUrl(`assets/reformer-additional/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
 const moreNames: { kind: EquipmentKind; en: string; zh: string }[] = [
   { kind: '塔架', en: 'Standing Arm Press', zh: '站姿手臂推压' }, { kind: '塔架', en: 'Roll Back', zh: '塔架后卷' }, { kind: '塔架', en: 'Hip Opener', zh: '髋部打开' },
   { kind: '垫上', en: 'Plank Leg Lift', zh: '平板抬腿' }, { kind: '垫上', en: 'Side Plank Twist', zh: '侧平板扭转' }, { kind: '垫上', en: 'Bridge March', zh: '桥式交替抬腿' },
@@ -49,7 +55,7 @@ const moreNames: { kind: EquipmentKind; en: string; zh: string }[] = [
   { kind: 'Reformer', en: 'Coordination', zh: '协调式' }, { kind: 'Reformer', en: 'Stomach Massage', zh: '腹部按摩式' }, { kind: 'Reformer', en: 'Running', zh: '跑步式' },
 ]
 const moreExercises: Exercise[] = moreNames.map((item, index) => ({ ...item, id: 103 + index, image: assetUrl('assets/more-exercises/more-exercises-clean.png?v=1'), sprite: assetUrl('assets/more-exercises/more-exercises-clean.png?v=1'), tileX: index % 6, tileY: Math.floor(index / 6), spriteCols: 6, spriteRows: 3 }))
-const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercises, ...reformerExpansionExercises, ...moreExercises]
+const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...moreExercises]
 
 const spriteStyle = (exercise: Exercise) => {
   const cols = exercise.spriteCols || 4
@@ -202,6 +208,19 @@ const exerciseMuscles: Record<string, MuscleGroup[]> = {
   Star: ['肩部', '手臂', '腹部', '髋部'],
   'Front Splits': ['腘绳', '髋部', '股四', '臀部'],
   'Russian Splits': ['腘绳', '髋部', '股四', '臀部'],
+  'Footwork Toes': ['股四', '臀部', '腘绳', '小腿'],
+  'Footwork Heels': ['股四', '臀部', '腘绳', '小腿'],
+  'Long Spine Massage': ['腹部', '臀部', '腘绳', '背部'],
+  'Rowing Back': ['背部', '肩部', '手臂', '腹部'],
+  'Rowing Front': ['背部', '肩部', '手臂', '腹部'],
+  'Pulling Straps': ['背部', '肩部', '手臂', '臀部'],
+  'T-Pull': ['背部', '肩部', '手臂', '腹部'],
+  'Down Stretch': ['肩部', '手臂', '腹部', '髋部'],
+  'Up Stretch': ['肩部', '手臂', '腹部', '腘绳'],
+  'Knee Stretches Round': ['肩部', '手臂', '腹部', '髋部'],
+  'Knee Stretches Arched': ['肩部', '手臂', '腹部', '背部'],
+  'Pelvic Lift': ['臀部', '腘绳', '腹部', '髋部'],
+  'Side Splits': ['髋部', '臀部', '股四', '腘绳'],
 
   'Standing Arm Press': ['肩部', '手臂', '背部', '腹部'],
   'Roll Back': ['腹部', '背部'],
