@@ -12,39 +12,13 @@
 
 ## 在线打开
 
-本仓库已配置 GitHub Pages。GitHub Actions 完成部署后，可以通过下面的地址打开：
-
 <https://sherrycw.github.io/pilates-record/>
 
-如果地址暂时打不开，请在仓库的 **Actions** 页面确认 `Deploy Pilates library to GitHub Pages` 工作流已经成功运行；第一次部署通常需要等待一会儿。
-
-### 手机打开
-
-1. 用手机浏览器打开上面的 GitHub Pages 地址。
-2. iPhone 可以在 Safari 中点击“分享”→“添加到主屏幕”。
-3. Android 可以在 Chrome 中点击菜单→“添加到主屏幕”或“安装应用”。
-
-添加到主屏幕后，它可以像普通手机应用一样从桌面打开；训练记录仍然只在当前浏览器页面中使用。
+训练记录仍然只在当前浏览器页面中使用。
 
 ### 网页端打开
 
 在电脑浏览器直接打开上面的地址即可。建议使用最新版 Chrome、Safari、Edge 或 Firefox。
-
-## 本地运行
-
-```bash
-npm install
-npm run dev
-```
-
-启动后打开 <http://localhost:5173/>。
-
-## 构建与预览
-
-```bash
-npm run build
-npm run preview
-```
 
 ## 隐私承诺
 
