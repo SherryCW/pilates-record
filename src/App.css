@@ -30,6 +30,7 @@ h2 { margin: 6px 0 0; font: 700 30px/1.2 Georgia, "Songti SC", serif; }
 .exercise-image-frame img.hanging-pull-image { transform: translateY(18px); }
 .exercise-image-frame img.compact-mat-image, .edit-image-frame img.compact-mat-image { object-fit: contain; transform: scale(.9); }
 .exercise-image-frame img.compact-reformer-image, .edit-image-frame img.compact-reformer-image { object-fit: contain; transform: scale(.88); }
+.exercise-image-frame img.compact-small-apparatus-image, .edit-image-frame img.compact-small-apparatus-image { object-fit: contain; transform: scale(.82); }
 .exercise-art { background-repeat: no-repeat; background-size: 400% 300%; }
 .exercise-card strong, .exercise-card small { display: block; padding: 0 12px; }
 .exercise-card strong { margin-top: 10px; font: 700 15px Georgia, "Songti SC", serif; }
