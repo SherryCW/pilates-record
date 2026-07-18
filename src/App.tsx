@@ -28,6 +28,7 @@ const extraExercises: Exercise[] = extraSets.flatMap(({ kind, folder, names }, s
 const extraExercisesWithCustomImages: Exercise[] = extraExercises.map(exercise => {
   if (exercise.kind === 'Reformer' && exercise.en === 'The Hundred') return { ...exercise, image: assetUrl('assets/reformer/reformer-hundred.png?v=2'), sprite: undefined, tileX: undefined, tileY: undefined }
   if (exercise.kind === 'Reformer' && exercise.en === 'Frog') return { ...exercise, image: assetUrl('assets/reformer/reformer-frog.png?v=2'), sprite: undefined, tileX: undefined, tileY: undefined }
+  if (exercise.kind === '小器械' && exercise.en === 'Magic Circle Side Leg Press') return { ...exercise, image: assetUrl('assets/small-apparatus/magic-circle-side-leg-press.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
   if (exercise.kind === '小器械' && exercise.en === 'Resistance Band Leg Press') return { ...exercise, image: assetUrl('assets/small-apparatus/resistance-band-leg-press.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
   return exercise
 })
@@ -73,7 +74,7 @@ const moreNames: { kind: EquipmentKind; en: string; zh: string }[] = [
   { kind: 'Reformer', en: 'Coordination', zh: '协调式' }, { kind: 'Reformer', en: 'Stomach Massage', zh: '腹部按摩式' }, { kind: 'Reformer', en: 'Running', zh: '跑步式' },
 ]
 const moreExercises: Exercise[] = moreNames.map((item, index) => ({ ...item, id: 103 + index, image: assetUrl('assets/more-exercises/more-exercises-clean.png?v=1'), sprite: assetUrl('assets/more-exercises/more-exercises-clean.png?v=1'), tileX: index % 6, tileY: Math.floor(index / 6), spriteCols: 6, spriteRows: 3 }))
-const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercisesWithCustomImages, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...moreExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree')))
+const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercisesWithCustomImages, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...moreExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press')))
 
 const spriteStyle = (exercise: Exercise) => {
   const cols = exercise.spriteCols || 4
