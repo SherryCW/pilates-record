@@ -46,6 +46,18 @@ const reformerAdditionalNames: [string, string][] = [
   ['Knee Stretches Round', '圆背膝部伸展'], ['Knee Stretches Arched', '拱背膝部伸展'], ['Pelvic Lift', '骨盆抬升'], ['Side Splits', '侧劈腿'],
 ]
 const reformerAdditionalExercises: Exercise[] = reformerAdditionalNames.map(([en, zh], index) => ({ id: 169 + index, en, zh, image: assetUrl(`assets/reformer-additional/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
+const reformerGeneratedNames: [string, string][] = [
+  ['Single Leg Footwork', '单腿脚踏'], ['Footwork on Footplate', '脚踏板脚步'], ['Jumping on Footplate', '脚踏板跳跃'],
+  ['Supine Arm Work', '仰卧手臂练习'], ['Bridging', '桥式'], ['Kneeling Abdominals Facing Back', '面向后跪姿腹部'],
+  ['Kneeling Abdominals Facing Front', '面向前跪姿腹部'], ['Feet in Straps', '脚套弹簧'], ['Short Box Abdominals', '短箱腹部'],
+  ['Short Box Oblique Abdominals', '短箱侧腹'], ['Short Box Advanced Abdominals', '短箱进阶腹部'], ['Short Box Mermaid', '短箱美人鱼'],
+  ['Short Box Climb a Tree', '短箱爬树'], ['Long Box Double Leg Kick', '长箱双腿踢'], ['Arm Work Facing Straps', '面向弹簧手臂练习'],
+  ['Arm Work Facing Footbar', '面向脚杆手臂练习'], ['Kneeling Side Arms', '跪姿侧臂'], ['Lunges', '弓步'],
+  ['Side Stretch / Mermaid', '侧向伸展/美人鱼'], ['Cleopatra', '克娄巴特拉式'], ['Reverse Abdominals', '反向腹部'],
+  ['Control Front Facing Carriage', '面向车厢控制'], ['Control Back Facing Ceiling', '面向天花板控制'], ['Side Support', '侧支撑'],
+  ['Biceps Curl', '二头肌弯举'], ['Posterior Shoulder Press', '后肩推压'], ['Serve a Tray', '端盘式'],
+]
+const reformerGeneratedExercises: Exercise[] = reformerGeneratedNames.map(([en, zh], index) => ({ id: 182 + index, en, zh, image: assetUrl(`assets/reformer-generated/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
 const moreNames: { kind: EquipmentKind; en: string; zh: string }[] = [
   { kind: '塔架', en: 'Standing Arm Press', zh: '站姿手臂推压' }, { kind: '塔架', en: 'Roll Back', zh: '塔架后卷' }, { kind: '塔架', en: 'Hip Opener', zh: '髋部打开' },
   { kind: '垫上', en: 'Plank Leg Lift', zh: '平板抬腿' }, { kind: '垫上', en: 'Side Plank Twist', zh: '侧平板扭转' }, { kind: '垫上', en: 'Bridge March', zh: '桥式交替抬腿' },
@@ -55,7 +67,7 @@ const moreNames: { kind: EquipmentKind; en: string; zh: string }[] = [
   { kind: 'Reformer', en: 'Coordination', zh: '协调式' }, { kind: 'Reformer', en: 'Stomach Massage', zh: '腹部按摩式' }, { kind: 'Reformer', en: 'Running', zh: '跑步式' },
 ]
 const moreExercises: Exercise[] = moreNames.map((item, index) => ({ ...item, id: 103 + index, image: assetUrl('assets/more-exercises/more-exercises-clean.png?v=1'), sprite: assetUrl('assets/more-exercises/more-exercises-clean.png?v=1'), tileX: index % 6, tileY: Math.floor(index / 6), spriteCols: 6, spriteRows: 3 }))
-const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...moreExercises]
+const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...moreExercises]
 
 const spriteStyle = (exercise: Exercise) => {
   const cols = exercise.spriteCols || 4
@@ -208,6 +220,33 @@ const exerciseMuscles: Record<string, MuscleGroup[]> = {
   Star: ['肩部', '手臂', '腹部', '髋部'],
   'Front Splits': ['腘绳', '髋部', '股四', '臀部'],
   'Russian Splits': ['腘绳', '髋部', '股四', '臀部'],
+  'Single Leg Footwork': ['股四', '臀部', '腘绳', '小腿'],
+  'Footwork on Footplate': ['股四', '臀部', '腘绳', '小腿'],
+  'Jumping on Footplate': ['股四', '臀部', '腘绳', '小腿'],
+  'Supine Arm Work': ['肩部', '手臂', '背部', '腹部'],
+  Bridging: ['臀部', '腘绳', '腹部'],
+  'Kneeling Abdominals Facing Back': ['腹部', '背部', '肩部'],
+  'Kneeling Abdominals Facing Front': ['腹部', '肩部', '手臂'],
+  'Feet in Straps': ['腹部', '髋部', '腘绳'],
+  'Short Box Abdominals': ['腹部', '背部', '髋部'],
+  'Short Box Oblique Abdominals': ['腹部', '背部', '髋部'],
+  'Short Box Advanced Abdominals': ['腹部', '背部', '髋部'],
+  'Short Box Mermaid': ['腹部', '背部', '髋部', '肩部'],
+  'Short Box Climb a Tree': ['腹部', '腘绳', '髋部', '背部'],
+  'Long Box Double Leg Kick': ['背部', '臀部', '腘绳', '肩部'],
+  'Arm Work Facing Straps': ['肩部', '手臂', '背部', '腹部'],
+  'Arm Work Facing Footbar': ['肩部', '手臂', '胸部', '腹部'],
+  'Kneeling Side Arms': ['肩部', '手臂', '腹部', '背部'],
+  Lunges: ['股四', '臀部', '腘绳', '髋部'],
+  'Side Stretch / Mermaid': ['腹部', '背部', '髋部', '肩部'],
+  Cleopatra: ['腹部', '髋部', '肩部', '背部'],
+  'Reverse Abdominals': ['腹部', '髋部', '肩部'],
+  'Control Front Facing Carriage': ['肩部', '手臂', '腹部', '臀部'],
+  'Control Back Facing Ceiling': ['肩部', '手臂', '腹部', '臀部'],
+  'Side Support': ['肩部', '手臂', '腹部', '髋部'],
+  'Biceps Curl': ['手臂', '肩部', '腹部'],
+  'Posterior Shoulder Press': ['肩部', '手臂', '背部', '腹部'],
+  'Serve a Tray': ['胸部', '肩部', '手臂', '腹部'],
   'Footwork Toes': ['股四', '臀部', '腘绳', '小腿'],
   'Footwork Heels': ['股四', '臀部', '腘绳', '小腿'],
   'Long Spine Massage': ['腹部', '臀部', '腘绳', '背部'],
