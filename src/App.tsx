@@ -28,7 +28,7 @@ const extraExercises: Exercise[] = extraSets.flatMap(({ kind, folder, names }, s
 const extraExercisesWithReformerImages: Exercise[] = extraExercises.map(exercise => {
   if (exercise.kind !== 'Reformer') return exercise
   if (exercise.en === 'The Hundred') return { ...exercise, image: assetUrl('assets/reformer/reformer-hundred.png?v=2'), sprite: undefined, tileX: undefined, tileY: undefined }
-  if (exercise.en === 'Frog') return { ...exercise, image: assetUrl('assets/reformer/reformer-frog.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
+  if (exercise.en === 'Frog') return { ...exercise, image: assetUrl('assets/reformer/reformer-frog.png?v=2'), sprite: undefined, tileX: undefined, tileY: undefined }
   return exercise
 })
 const reformerExpansionNames: [string, string][] = [
