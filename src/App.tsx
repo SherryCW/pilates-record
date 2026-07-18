@@ -25,6 +25,21 @@ const extraSets: { kind: EquipmentKind; folder: string; names: [string, string][
   { kind: 'Reformer', folder: 'reformer', names: [['Footwork', '脚步练习'], ['The Hundred', '百次呼吸'], ['Frog', '蛙式'], ['Leg Circles', '腿部画圈'], ['Short Spine', '短脊柱'], ['Long Stretch', '长伸展'], ['Elephant', '大象式'], ['Knee Stretches', '跪姿伸展'], ['Long Box Pulling Straps', '长箱拉绳'], ['Backstroke', '仰卧划水'], ['Teaser', 'V形平衡'], ['Mermaid', '美人鱼式']] },
 ]
 const extraExercises: Exercise[] = extraSets.flatMap(({ kind, folder, names }, setIndex) => names.map(([en, zh], index) => ({ id: 55 + setIndex * 12 + index, en, zh, image: assetUrl(`assets/${folder}/${index + 1}.png?v=1`), sprite: assetUrl(`assets/${folder}/${folder}-clean.png?v=1`), tileX: index % 4, tileY: Math.floor(index / 4), kind })))
+const reformerExpansionNames: [string, string][] = [
+  ['Rowing Into the Sternum', '划船入胸骨'], ['Rowing 90 Degrees', '90度划船'], ['Rowing From the Chest', '胸前划船'], ['Rowing From the Hips', '髋部划船'],
+  ['Shaving', '剃须式'], ['Hug', '拥抱式'], ['Short Box Round Back', '短箱圆背'], ['Short Box Flat Back', '短箱平背'],
+  ['Short Box Side to Side', '短箱侧屈'], ['Short Box Twist and Reach', '短箱扭转伸展'], ['Gone Fishing', '钓鱼式（叉鱼）'], ['Tree / Climb-a-Tree', '爬树式'],
+  ['Swan on Long Box', '长箱天鹅式'], ['Breaststroke', '蛙泳式'], ['Hamstring Curls', '腘绳肌弯曲'], ['Horseback', '骑马式'],
+  ['Side Sit Ups', '侧仰卧起坐'], ['Overhead', '过顶式'], ['Corkscrew', '螺旋式'], ['Tic Toc', '钟摆式'],
+  ['Control Balance Off', '离床控制平衡'], ['Grasshopper', '蚱蜢式'], ['Swimming', '游泳式'], ['Rocking', '摇摆式'],
+  ['Single Leg Elephant', '单腿大象式'], ['Arabesque', '阿拉伯式'], ['Long Back Stretch', '长背伸展'], ['Stomach Massage Round', '胃部按摩圆背'],
+  ['Stomach Massage Hands Back', '胃部按摩手后撑'], ['Stomach Massage Reach Up', '胃部按摩上伸'], ['Stomach Massage Twist', '胃部按摩扭转'], ['Tendon Stretch', '肌腱伸展'],
+  ['Tendon Stretch Side', '侧向肌腱伸展'], ['High Frog', '高蛙式'], ['Semi Circle', '半圆式'], ['High Bridge', '高桥式'],
+  ['Chest Expansion', '胸部扩展'], ['Thigh Stretch', '大腿伸展'], ['Backbend to Bar', '后弯至脚杆'], ['Arm Circles', '手臂画圈'],
+  ['Snake', '蛇式'], ['Twist', '蛇式扭转'], ['Knee Stretches Knees Off', '膝部伸展离膝'], ['Control Balance Push Up Front', '前向控制俯卧撑'],
+  ['Control Balance Push Up Back', '后向控制俯卧撑'], ['Star', '星式'], ['Front Splits', '前劈腿'], ['Russian Splits', '俄式劈腿'],
+]
+const reformerExpansionExercises: Exercise[] = reformerExpansionNames.map(([en, zh], index) => ({ id: 121 + index, en, zh, image: assetUrl(`assets/reformer-expansion/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
 const moreNames: { kind: EquipmentKind; en: string; zh: string }[] = [
   { kind: '塔架', en: 'Standing Arm Press', zh: '站姿手臂推压' }, { kind: '塔架', en: 'Roll Back', zh: '塔架后卷' }, { kind: '塔架', en: 'Hip Opener', zh: '髋部打开' },
   { kind: '垫上', en: 'Plank Leg Lift', zh: '平板抬腿' }, { kind: '垫上', en: 'Side Plank Twist', zh: '侧平板扭转' }, { kind: '垫上', en: 'Bridge March', zh: '桥式交替抬腿' },
@@ -34,7 +49,7 @@ const moreNames: { kind: EquipmentKind; en: string; zh: string }[] = [
   { kind: 'Reformer', en: 'Coordination', zh: '协调式' }, { kind: 'Reformer', en: 'Stomach Massage', zh: '腹部按摩式' }, { kind: 'Reformer', en: 'Running', zh: '跑步式' },
 ]
 const moreExercises: Exercise[] = moreNames.map((item, index) => ({ ...item, id: 103 + index, image: assetUrl('assets/more-exercises/more-exercises-clean.png?v=1'), sprite: assetUrl('assets/more-exercises/more-exercises-clean.png?v=1'), tileX: index % 6, tileY: Math.floor(index / 6), spriteCols: 6, spriteRows: 3 }))
-const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercises, ...moreExercises]
+const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercises, ...reformerExpansionExercises, ...moreExercises]
 
 const spriteStyle = (exercise: Exercise) => {
   const cols = exercise.spriteCols || 4
@@ -146,6 +161,47 @@ const exerciseMuscles: Record<string, MuscleGroup[]> = {
   'Knee Stretches': ['肩部', '手臂', '腹部', '髋部'],
   'Long Box Pulling Straps': ['背部', '肩部', '手臂'],
   Backstroke: ['肩部', '手臂', '腹部', '髋部'],
+  'Rowing Into the Sternum': ['背部', '肩部', '手臂', '腹部'],
+  'Rowing 90 Degrees': ['背部', '肩部', '腹部'],
+  'Rowing From the Chest': ['背部', '肩部', '手臂'],
+  'Rowing From the Hips': ['背部', '肩部', '腹部'],
+  Shaving: ['肩部', '手臂', '背部', '腹部'],
+  Hug: ['胸部', '肩部', '手臂', '腹部'],
+  'Short Box Round Back': ['腹部', '背部', '髋部'],
+  'Short Box Flat Back': ['腹部', '背部', '髋部'],
+  'Short Box Side to Side': ['腹部', '背部', '髋部'],
+  'Short Box Twist and Reach': ['腹部', '背部', '肩部'],
+  'Gone Fishing': ['腹部', '背部', '肩部', '髋部'],
+  'Tree / Climb-a-Tree': ['腹部', '腘绳', '髋部', '背部'],
+  'Swan on Long Box': ['背部', '臀部', '肩部'],
+  Breaststroke: ['背部', '肩部', '臀部', '腘绳'],
+  'Hamstring Curls': ['腘绳', '臀部', '腹部'],
+  'Side Sit Ups': ['腹部', '髋部', '肩部'],
+  Overhead: ['肩部', '手臂', '腹部', '背部'],
+  'Tic Toc': ['腹部', '髋部', '肩部'],
+  'Control Balance Off': ['腹部', '臀部', '腘绳', '肩部'],
+  Grasshopper: ['背部', '臀部', '腘绳', '肩部'],
+  'Single Leg Elephant': ['肩部', '手臂', '腹部', '腘绳'],
+  Arabesque: ['臀部', '腘绳', '背部', '腹部'],
+  'Long Back Stretch': ['肩部', '手臂', '腹部', '臀部'],
+  'Stomach Massage Round': ['腹部', '髋部', '股四'],
+  'Stomach Massage Hands Back': ['腹部', '髋部', '肩部'],
+  'Stomach Massage Reach Up': ['腹部', '髋部', '肩部'],
+  'Stomach Massage Twist': ['腹部', '髋部', '背部'],
+  'Tendon Stretch Side': ['腘绳', '肩部', '腹部', '髋部'],
+  'High Frog': ['髋部', '臀部', '腹部'],
+  'Semi Circle': ['臀部', '腘绳', '髋部', '腹部'],
+  'High Bridge': ['臀部', '腘绳', '肩部', '腹部'],
+  'Backbend to Bar': ['背部', '肩部', '腹部', '髋部'],
+  'Arm Circles': ['肩部', '手臂', '背部'],
+  Snake: ['肩部', '手臂', '背部', '腹部'],
+  Twist: ['腹部', '背部', '肩部'],
+  'Knee Stretches Knees Off': ['肩部', '手臂', '腹部', '髋部'],
+  'Control Balance Push Up Front': ['肩部', '手臂', '腹部', '臀部'],
+  'Control Balance Push Up Back': ['肩部', '手臂', '腹部', '臀部'],
+  Star: ['肩部', '手臂', '腹部', '髋部'],
+  'Front Splits': ['腘绳', '髋部', '股四', '臀部'],
+  'Russian Splits': ['腘绳', '髋部', '股四', '臀部'],
 
   'Standing Arm Press': ['肩部', '手臂', '背部', '腹部'],
   'Roll Back': ['腹部', '背部'],
