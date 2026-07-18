@@ -55,7 +55,7 @@ const reformerGeneratedNames: [string, string][] = [
   ['Arm Work Facing Footbar', '面向脚杆手臂练习'], ['Kneeling Side Arms', '跪姿侧臂'], ['Lunges', '弓步'],
   ['Side Stretch / Mermaid', '侧向伸展/美人鱼'], ['Cleopatra', '克娄巴特拉式'], ['Reverse Abdominals', '反向腹部'],
   ['Control Front Facing Carriage', '面向车厢控制'], ['Control Back Facing Ceiling', '面向天花板控制'], ['Side Support', '侧支撑'],
-  ['Biceps Curl', '二头肌弯举'], ['Posterior Shoulder Press', '后肩推压'], ['Serve a Tray', '端盘式'],
+  ['Biceps Curl', '二头肌弯举'], ['Posterior Shoulder Press', '后肩推压'], ['Serve a Tray', '端盘式'], ['Scooter', '滑板车式'],
 ]
 const reformerGeneratedExercises: Exercise[] = reformerGeneratedNames.map(([en, zh], index) => ({ id: 182 + index, en, zh, image: assetUrl(`assets/reformer-generated/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
 const moreNames: { kind: EquipmentKind; en: string; zh: string }[] = [
@@ -247,6 +247,7 @@ const exerciseMuscles: Record<string, MuscleGroup[]> = {
   'Biceps Curl': ['手臂', '肩部', '腹部'],
   'Posterior Shoulder Press': ['肩部', '手臂', '背部', '腹部'],
   'Serve a Tray': ['胸部', '肩部', '手臂', '腹部'],
+  Scooter: ['臀部', '腘绳', '股四', '髋部'],
   'Footwork Toes': ['股四', '臀部', '腘绳', '小腿'],
   'Footwork Heels': ['股四', '臀部', '腘绳', '小腿'],
   'Long Spine Massage': ['腹部', '臀部', '腘绳', '背部'],
