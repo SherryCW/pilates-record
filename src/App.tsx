@@ -3,7 +3,7 @@ import './App.css'
 
 type EquipmentKind = '塔架' | '垫上' | 'Ladder Barrel' | '小器械' | 'Wunda Chair' | 'Reformer'
 type MuscleGroup = '胸部' | '肩部' | '手臂' | '腹部' | '背部' | '臀部' | '髋部' | '股四' | '腘绳' | '小腿'
-type Exercise = { id: number; en: string; zh: string; image: string; kind: EquipmentKind; sprite?: string; tileX?: number; tileY?: number }
+type Exercise = { id: number; en: string; zh: string; image: string; kind: EquipmentKind; sprite?: string; tileX?: number; tileY?: number; spriteCols?: number; spriteRows?: number }
 type SetEntry = { weight: string; reps: string }
 const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path}`
 
@@ -25,18 +25,160 @@ const extraSets: { kind: EquipmentKind; folder: string; names: [string, string][
   { kind: 'Reformer', folder: 'reformer', names: [['Footwork', '脚步练习'], ['The Hundred', '百次呼吸'], ['Frog', '蛙式'], ['Leg Circles', '腿部画圈'], ['Short Spine', '短脊柱'], ['Long Stretch', '长伸展'], ['Elephant', '大象式'], ['Knee Stretches', '跪姿伸展'], ['Long Box Pulling Straps', '长箱拉绳'], ['Backstroke', '仰卧划水'], ['Teaser', 'V形平衡'], ['Mermaid', '美人鱼式']] },
 ]
 const extraExercises: Exercise[] = extraSets.flatMap(({ kind, folder, names }, setIndex) => names.map(([en, zh], index) => ({ id: 55 + setIndex * 12 + index, en, zh, image: assetUrl(`assets/${folder}/${index + 1}.png?v=1`), sprite: assetUrl(`assets/${folder}/${folder}-clean.png?v=1`), tileX: index % 4, tileY: Math.floor(index / 4), kind })))
-const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercises]
+const moreNames: { kind: EquipmentKind; en: string; zh: string }[] = [
+  { kind: '塔架', en: 'Standing Arm Press', zh: '站姿手臂推压' }, { kind: '塔架', en: 'Roll Back', zh: '塔架后卷' }, { kind: '塔架', en: 'Hip Opener', zh: '髋部打开' },
+  { kind: '垫上', en: 'Plank Leg Lift', zh: '平板抬腿' }, { kind: '垫上', en: 'Side Plank Twist', zh: '侧平板扭转' }, { kind: '垫上', en: 'Bridge March', zh: '桥式交替抬腿' },
+  { kind: 'Ladder Barrel', en: 'Side Stretch', zh: '侧向伸展' }, { kind: 'Ladder Barrel', en: 'Back Extension', zh: '背部伸展' }, { kind: 'Ladder Barrel', en: 'Adductor Stretch', zh: '内收肌伸展' },
+  { kind: '小器械', en: 'Magic Circle Arm Press', zh: '普拉提圈手臂推压' }, { kind: '小器械', en: 'Small Ball Leg Lift', zh: '小球抬腿' }, { kind: '小器械', en: 'Resistance Band Side Step', zh: '弹力带侧向行走' },
+  { kind: 'Wunda Chair', en: 'Pumping One Leg', zh: '单腿踩踏' }, { kind: 'Wunda Chair', en: 'Flying Eagle', zh: '飞鹰式' }, { kind: 'Wunda Chair', en: 'Side Mountain Climb', zh: '侧向登山' },
+  { kind: 'Reformer', en: 'Coordination', zh: '协调式' }, { kind: 'Reformer', en: 'Stomach Massage', zh: '腹部按摩式' }, { kind: 'Reformer', en: 'Running', zh: '跑步式' },
+]
+const moreExercises: Exercise[] = moreNames.map((item, index) => ({ ...item, id: 103 + index, image: assetUrl('assets/more-exercises/more-exercises-clean.png?v=1'), sprite: assetUrl('assets/more-exercises/more-exercises-clean.png?v=1'), tileX: index % 6, tileY: Math.floor(index / 6), spriteCols: 6, spriteRows: 3 }))
+const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercises, ...moreExercises]
+
+const spriteStyle = (exercise: Exercise) => {
+  const cols = exercise.spriteCols || 4
+  const rows = exercise.spriteRows || 3
+  return { backgroundImage: `url(${exercise.sprite})`, backgroundSize: `${cols * 100}% ${rows * 100}%`, backgroundPosition: `${((exercise.tileX || 0) / Math.max(1, cols - 1)) * 100}% ${((exercise.tileY || 0) / Math.max(1, rows - 1)) * 100}%` }
+}
 
 const muscleLabels: Record<MuscleGroup, string> = { 胸部: '胸部', 肩部: '肩部', 手臂: '手臂', 腹部: '腹部', 背部: '背部', 臀部: '臀部', 髋部: '髋部', 股四: '股四头肌', 腘绳: '腘绳肌', 小腿: '小腿' }
+
+// Explicit exercise-by-exercise mapping. Pilates movements are full-body, so this
+// list describes the main movers plus the most important stabilising regions shown
+// by our simplified ten-region diagram; it is not a claim of muscle isolation.
+const exerciseMuscles: Record<string, MuscleGroup[]> = {
+  'Roll Down': ['腹部', '背部', '腘绳'],
+  'Push Through Front': ['肩部', '背部', '腹部', '腘绳'],
+  'Push Through Reverse': ['肩部', '背部', '手臂', '腹部'],
+  Tower: ['腹部', '臀部', '腘绳'],
+  Monkey: ['肩部', '背部', '腘绳', '小腿'],
+  'Leg Springs Frogs': ['髋部', '臀部', '股四', '腹部'],
+  'Leg Springs Circles': ['髋部', '臀部', '腹部'],
+  'Leg Springs Walking': ['髋部', '股四', '腘绳', '腹部'],
+  'Leg Spring Beats': ['髋部', '腹部', '股四'],
+  'Arm Springs Supine': ['肩部', '手臂', '背部', '腹部'],
+  'Arm Springs Kneeling': ['肩部', '手臂', '背部', '腹部'],
+  'Chest Expansion': ['背部', '肩部', '手臂', '腹部'],
+  'Thigh Stretch': ['股四', '腹部', '臀部'],
+  Cat: ['腹部', '背部', '肩部'],
+  Mermaid: ['腹部', '背部', '肩部', '髋部'],
+  Parakeet: ['臀部', '腘绳', '小腿', '腹部'],
+  Breathing: ['腹部', '背部', '臀部', '腘绳'],
+  'Teaser with Push-Through Bar': ['腹部', '髋部', '肩部'],
+  'Hanging Pull Ups': ['背部', '肩部', '手臂', '腹部'],
+  'Spread Eagle': ['背部', '肩部', '手臂', '腹部'],
+
+  'The Hundred': ['腹部', '髋部', '肩部'],
+  'Roll Up': ['腹部', '背部', '腘绳'],
+  'Roll Over': ['腹部', '背部', '腘绳'],
+  'One Leg Circle': ['腹部', '髋部'],
+  'Rolling Like a Ball': ['腹部', '背部'],
+  'Single Leg Stretch': ['腹部', '髋部'],
+  'Double Leg Stretch': ['腹部', '髋部', '肩部'],
+  'Spine Stretch Forward': ['腹部', '背部', '腘绳'],
+  'Open Leg Rocker': ['腹部', '髋部', '腘绳'],
+  Corkscrew: ['腹部', '髋部'],
+  Saw: ['腹部', '背部', '腘绳'],
+  'Swan Dive': ['背部', '臀部', '肩部'],
+  'Single Leg Kick': ['腘绳', '臀部', '背部'],
+  'Double Leg Kick': ['腘绳', '臀部', '背部', '肩部'],
+  'Neck Pull': ['腹部', '背部', '腘绳'],
+  Scissors: ['腹部', '髋部', '腘绳'],
+  Bicycle: ['腹部', '髋部', '腘绳'],
+  'Shoulder Bridge': ['臀部', '腘绳', '腹部'],
+  'Spine Twist': ['腹部', '背部'],
+  Jackknife: ['腹部', '臀部', '腘绳'],
+  'Side Kick': ['髋部', '臀部', '腹部'],
+  Teaser: ['腹部', '髋部'],
+  'Hip Twist': ['腹部', '髋部', '肩部'],
+  Swimming: ['背部', '臀部', '腘绳', '肩部'],
+  'Leg Pull Front': ['肩部', '手臂', '腹部', '臀部'],
+  'Leg Pull Back': ['肩部', '手臂', '臀部', '腘绳'],
+  'Side Kick Kneeling': ['髋部', '臀部', '腹部', '肩部'],
+  'Side Bend': ['腹部', '肩部', '手臂'],
+  Boomerang: ['腹部', '髋部', '腘绳'],
+  Seal: ['腹部', '背部', '髋部'],
+  Crab: ['腹部', '背部', '肩部'],
+  Rocking: ['背部', '臀部', '腘绳', '肩部'],
+  'Control Balance': ['腹部', '臀部', '腘绳'],
+  'Push Up': ['胸部', '肩部', '手臂', '腹部'],
+
+  Swan: ['背部', '臀部', '肩部'],
+  Horseback: ['腹部', '髋部', '股四', '背部'],
+  'Ballet Stretch': ['腘绳', '髋部', '背部'],
+  'Side Sit Up': ['腹部', '背部', '髋部'],
+  'Backward Stretch': ['背部', '腹部', '髋部', '肩部'],
+  'Short Box Round': ['腹部', '背部'],
+  Tree: ['腘绳', '髋部', '腹部'],
+  'Leg Circles': ['髋部', '臀部', '腹部'],
+  'Handstand Prep': ['肩部', '手臂', '腹部', '背部'],
+  'Hamstring Stretch': ['腘绳', '小腿', '背部'],
+  'Hip Flexor Stretch': ['髋部', '股四', '腹部'],
+
+  'Magic Circle Chest Press': ['胸部', '肩部', '手臂'],
+  'Magic Circle Inner Thigh Squeeze': ['髋部', '腹部'],
+  'Magic Circle Bridge Squeeze': ['臀部', '腘绳', '髋部', '腹部'],
+  'Magic Circle Overhead Press': ['肩部', '手臂', '背部'],
+  'Magic Circle Side Leg Press': ['臀部', '髋部', '腹部'],
+  'Magic Circle Teaser': ['腹部', '髋部'],
+  'Small Ball Ab Curl': ['腹部'],
+  'Small Ball Bridge': ['臀部', '腘绳', '腹部'],
+  'Resistance Band Row': ['背部', '肩部', '手臂'],
+  'Resistance Band Leg Press': ['股四', '臀部', '髋部'],
+  'Foam Roller Balance': ['腹部', '髋部', '背部'],
+  'Foam Roller Arm Arcs': ['肩部', '背部', '腹部'],
+
+  Footwork: ['股四', '臀部', '腘绳', '小腿'],
+  'Pull Up': ['肩部', '手臂', '腹部', '背部'],
+  'Going Up Front': ['股四', '臀部', '腘绳'],
+  'Going Up Side': ['臀部', '髋部', '股四'],
+  'Mountain Climb': ['股四', '臀部', '小腿', '腹部'],
+  'Swan Front': ['背部', '臀部', '肩部'],
+  'Tendon Stretch': ['肩部', '手臂', '腹部', '腘绳'],
+  Pike: ['肩部', '手臂', '腹部'],
+  'Press Down': ['肩部', '手臂', '腹部', '背部'],
+
+  Frog: ['髋部', '臀部', '腹部'],
+  'Short Spine': ['腹部', '臀部', '腘绳'],
+  'Long Stretch': ['肩部', '手臂', '腹部', '臀部'],
+  Elephant: ['肩部', '腹部', '背部', '腘绳'],
+  'Knee Stretches': ['肩部', '手臂', '腹部', '髋部'],
+  'Long Box Pulling Straps': ['背部', '肩部', '手臂'],
+  Backstroke: ['肩部', '手臂', '腹部', '髋部'],
+
+  'Standing Arm Press': ['肩部', '手臂', '背部', '腹部'],
+  'Roll Back': ['腹部', '背部'],
+  'Hip Opener': ['髋部', '腘绳'],
+  'Plank Leg Lift': ['肩部', '手臂', '腹部', '臀部'],
+  'Side Plank Twist': ['腹部', '肩部', '手臂'],
+  'Bridge March': ['臀部', '腘绳', '腹部'],
+  'Side Stretch': ['腹部', '背部', '髋部'],
+  'Back Extension': ['背部', '臀部'],
+  'Adductor Stretch': ['髋部', '腘绳'],
+  'Magic Circle Arm Press': ['胸部', '肩部', '手臂'],
+  'Small Ball Leg Lift': ['腹部', '髋部'],
+  'Resistance Band Side Step': ['臀部', '髋部'],
+  'Pumping One Leg': ['股四', '臀部', '小腿'],
+  'Flying Eagle': ['背部', '肩部', '腹部'],
+  'Side Mountain Climb': ['肩部', '手臂', '腹部', '髋部'],
+  Coordination: ['腹部', '髋部', '肩部'],
+  'Stomach Massage': ['腹部', '髋部', '股四'],
+  Running: ['小腿', '股四', '腘绳'],
+}
+
+const equipmentExerciseMuscles: Record<string, MuscleGroup[]> = {
+  // The mat Side Bend is a loaded side plank; the barrel version is an
+  // unsupported lateral-flexion exercise with less upper-limb loading.
+  'Ladder Barrel|Side Bend': ['腹部', '背部', '髋部'],
+  // Chair and Reformer footwork share the lower-limb pattern, but chair work
+  // demands more trunk stabilisation while the pedal is controlled vertically.
+  'Wunda Chair|Footwork': ['股四', '臀部', '腘绳', '腹部'],
+  'Reformer|Footwork': ['股四', '臀部', '腘绳', '小腿'],
+}
+
 const musclesFor = (exercise: Exercise): MuscleGroup[] => {
-  const name = `${exercise.en} ${exercise.zh}`.toLowerCase()
-  const muscles = new Set<MuscleGroup>()
-  if (/hundred|roll|teaser|corkscrew|rocker|jackknife|bicycle|crab|v形|卷|翻滚|腹|折刀|摇摆/.test(name)) muscles.add('腹部')
-  if (/leg|footwork|frog|kick|scissor|bicycle|side|tree|horse|ballet|hamstring|hip flexor|knee|tendon|腿|脚|踢|剪刀|髋|侧/.test(name)) { muscles.add('股四'); muscles.add('腘绳'); muscles.add('髋部') }
-  if (/bridge|swan|backstroke|pulling|row|long stretch|elephant|push|press|pull up|handstand|肩桥|天鹅|划|拉|推|上拉|倒立/.test(name)) { muscles.add('背部'); muscles.add('肩部'); muscles.add('手臂') }
-  if (/circle|mermaid|hip|inner thigh|美人鱼|画圈|髋|内收/.test(name)) muscles.add('臀部')
-  if (!muscles.size) { muscles.add('腹部'); muscles.add('髋部') }
-  return [...muscles]
+  return equipmentExerciseMuscles[`${exercise.kind}|${exercise.en}`] || exerciseMuscles[exercise.en] || []
 }
 
 type Step = 'choose' | 'edit' | 'share'
@@ -56,22 +198,36 @@ export default function App() {
   const download = () => {
     const node = document.getElementById('share-card')
     if (!node) return
-    const canvas = document.createElement('canvas'); canvas.width = 1200; canvas.height = 1500
+    const activeMuscles = [...new Set(chosen.flatMap(musclesFor))]
+    const totalSets = chosen.reduce((sum, exercise) => sum + (logs[exercise.id] || [{ weight: '', reps: '' }]).length, 0)
+    const canvas = document.createElement('canvas'); canvas.width = 1200; canvas.height = Math.max(1500, 430 + chosen.length * 100 + totalSets * 44)
     const ctx = canvas.getContext('2d'); if (!ctx) return
     ctx.fillStyle = '#f7efde'; ctx.fillRect(0, 0, canvas.width, canvas.height)
-    ctx.fillStyle = '#211a14'; ctx.font = 'bold 48px serif'; ctx.fillText('今日训练 · Cadillac / Tower', 70, 95)
+    ctx.fillStyle = '#211a14'; ctx.font = 'bold 48px serif'; ctx.fillText('今日训练记录', 70, 95)
     ctx.font = '26px sans-serif'; ctx.fillStyle = '#73685b'; ctx.fillText(new Date().toLocaleDateString('zh-CN'), 72, 140)
-    let y = 220
+    ctx.fillStyle = '#113a63'; ctx.font = 'bold 25px sans-serif'; ctx.fillText('主要参与肌群', 72, 205)
+    let chipX = 72; let chipY = 230
+    ctx.font = 'bold 21px sans-serif'
+    activeMuscles.forEach(group => {
+      const label = muscleLabels[group]
+      const width = ctx.measureText(label).width + 34
+      if (chipX + width > 1128) { chipX = 72; chipY += 48 }
+      ctx.fillStyle = '#113a63'; ctx.fillRect(chipX, chipY, width, 34)
+      ctx.fillStyle = '#f7efde'; ctx.fillText(label, chipX + 17, chipY + 24)
+      chipX += width + 12
+    })
+    ctx.fillStyle = '#73685b'; ctx.font = '20px sans-serif'; ctx.fillText(`本次训练覆盖 ${activeMuscles.length} 个主要发力或稳定区域`, 72, chipY + 66)
+    let y = chipY + 130
     chosen.forEach(exercise => { ctx.fillStyle = '#9f2f24'; ctx.font = 'bold 30px serif'; ctx.fillText(`${exercise.zh}  ${exercise.en}`, 72, y); y += 48; ctx.fillStyle = '#211a14'; ctx.font = '24px sans-serif'; (logs[exercise.id] || []).forEach((set, i) => { ctx.fillText(`第 ${i + 1} 组     ${set.weight || '—'} kg × ${set.reps || '—'} 次`, 90, y); y += 36 }); y += 35 })
     const link = document.createElement('a'); link.download = 'pilates-workout.png'; link.href = canvas.toDataURL('image/png'); link.click()
   }
 
   return <main className="fitness-app">
-    <header className="fitness-header"><div><span className="eyebrow">训练本纪 · 今日记录</span><h1>Cadillac / Tower</h1></div><span className="date-stamp">{new Date().toLocaleDateString('zh-CN')}</span></header>
+    <header className="fitness-header"><div><h1>训练本纪 · 今日记录</h1></div><span className="date-stamp">{new Date().toLocaleDateString('zh-CN')}</span></header>
     <div className="progress"><span className={step === 'choose' ? 'active' : ''}>01 选择动作</span><i /> <span className={step === 'edit' ? 'active' : ''}>02 填写训练</span><i /> <span className={step === 'share' ? 'active' : ''}>03 生成分享图</span></div>
-    {step === 'choose' && <section className="sheet"><div className="section-heading"><div><span className="eyebrow">Classical Pilates Library · {exercises.length} Exercises</span><h2>选择今天练习的动作</h2></div><span className="count">已选 {selected.length} / {exercises.length}</span></div><div className="filters"><button className={kind === '全部' ? 'on' : ''} onClick={() => setKind('全部')}>全部 · {exercises.length}</button>{(['塔架', '垫上', 'Ladder Barrel', '小器械', 'Wunda Chair', 'Reformer'] as EquipmentKind[]).map(item => <button key={item} className={kind === item ? 'on' : ''} onClick={() => setKind(item)}>{item} · {exercises.filter(exercise => exercise.kind === item).length}</button>)}</div><input className="search" placeholder="搜索动作，例如：美人鱼、Monkey、The Hundred" value={query} onChange={e => setQuery(e.target.value)} /><div className="exercise-grid">{visible.map(exercise => <button className={`exercise-card ${selected.includes(exercise.id) ? 'selected' : ''}`} key={exercise.id} onClick={() => toggle(exercise.id)}>{exercise.sprite ? <div className="exercise-art" role="img" aria-label={exercise.en} style={{ backgroundImage: `url(${exercise.sprite})`, backgroundPosition: `${(exercise.tileX || 0) * 33.333333}% ${(exercise.tileY || 0) * 50}%` }} /> : <img src={exercise.image} alt={exercise.en} />}<span className="kind-mark">{exercise.kind}</span>{selected.includes(exercise.id) && <span className="chosen-mark">✓ 已选</span>}<strong>{exercise.zh}</strong><small>{exercise.en}</small></button>)}</div><div className="action-bar"><span>先选择动作，确认后再填写重量与组数</span><button className="primary" disabled={!selected.length} onClick={() => setStep('edit')}>确认选择 · {selected.length} 个动作</button></div></section>}
-    {step === 'edit' && <section className="sheet edit-sheet"><div className="section-heading"><div><span className="eyebrow">Training Log</span><h2>填写今天的训练</h2></div><button className="text-button" onClick={() => setStep('choose')}>← 返回选动作</button></div><div className="edit-layout"><div className="edit-list">{chosen.map(exercise => <article className="edit-row" key={exercise.id}>{exercise.sprite ? <div className="edit-sprite" role="img" aria-label={exercise.en} style={{ backgroundImage: `url(${exercise.sprite})`, backgroundPosition: `${(exercise.tileX || 0) * 33.333333}% ${(exercise.tileY || 0) * 50}%` }} /> : <img src={exercise.image} alt="" />}<div className="edit-main"><div className="edit-title"><h3>{exercise.zh}</h3><small>{exercise.en}</small></div>{(logs[exercise.id] || [{ weight: '', reps: '' }]).map((set, index) => <div className="set-line" key={index}><span>第 {index + 1} 组</span><input inputMode="decimal" placeholder="重量" value={set.weight} onChange={e => updateSet(exercise.id, index, 'weight', e.target.value)} /><b>kg ×</b><input inputMode="numeric" placeholder="次数" value={set.reps} onChange={e => updateSet(exercise.id, index, 'reps', e.target.value)} /><b>次</b></div>)}<button className="add-set" onClick={() => addSet(exercise.id)}>＋ 添加一组</button></div></article>)}</div><MuscleMap chosen={chosen} /></div><div className="action-bar"><span>{chosen.length} 个动作 · 数据只保留在当前页面</span><button className="primary" onClick={makeShare}>确认训练 · 生成分享图</button></div></section>}
-    {step === 'share' && <section className="sheet share-sheet"><div className="section-heading"><div><span className="eyebrow">Record Complete</span><h2>今日训练已整理</h2></div><button className="text-button" onClick={() => setStep('edit')}>← 修改训练</button></div><div className="share-layout"><div id="share-card" className="share-preview"><div className="share-preview-head"><span>训练本纪 · 今日</span><b>CADILLAC / TOWER</b></div>{chosen.map(exercise => <article key={exercise.id}><div><h3>{exercise.zh}</h3><small>{exercise.en}</small></div><div>{(logs[exercise.id] || [{ weight: '', reps: '' }]).map((set, index) => <p key={index}>第 {index + 1} 组　<strong>{set.weight || '—'} kg × {set.reps || '—'} 次</strong></p>)}</div></article>)}<footer>Keep moving · Pilates practice</footer></div><MuscleMap chosen={chosen} /></div><div className="share-actions"><button className="secondary" onClick={() => setStep('choose')}>重新选择</button><button className="primary" onClick={download}>下载分享图 PNG</button></div></section>}
+    {step === 'choose' && <section className="sheet"><div className="section-heading"><div><span className="eyebrow">Classical Pilates Library · {exercises.length} Exercises</span><h2>选择今天练习的动作</h2></div><span className="count">已选 {selected.length} / {exercises.length}</span></div><div className="filters"><button className={kind === '全部' ? 'on' : ''} onClick={() => setKind('全部')}>全部 · {exercises.length}</button>{(['塔架', '垫上', 'Ladder Barrel', '小器械', 'Wunda Chair', 'Reformer'] as EquipmentKind[]).map(item => <button key={item} className={kind === item ? 'on' : ''} onClick={() => setKind(item)}>{item} · {exercises.filter(exercise => exercise.kind === item).length}</button>)}</div><input className="search" placeholder="搜索动作，例如：美人鱼、Monkey、The Hundred" value={query} onChange={e => setQuery(e.target.value)} /><div className="exercise-grid">{visible.map(exercise => <button className={`exercise-card ${selected.includes(exercise.id) ? 'selected' : ''}`} key={exercise.id} onClick={() => toggle(exercise.id)}>{exercise.sprite ? <div className="exercise-art" role="img" aria-label={exercise.en} style={spriteStyle(exercise)} /> : <div className="exercise-image-frame"><img className={exercise.en === 'Hanging Pull Ups' ? 'hanging-pull-image' : ''} src={exercise.image} alt={exercise.en} /></div>}<span className="kind-mark">{exercise.kind}</span>{selected.includes(exercise.id) && <span className="chosen-mark">✓ 已选</span>}<strong>{exercise.zh}</strong><small>{exercise.en}</small></button>)}</div><div className="action-bar"><span>先选择动作，确认后再填写重量与组数</span><button className="primary" disabled={!selected.length} onClick={() => setStep('edit')}>确认选择 · {selected.length} 个动作</button></div></section>}
+    {step === 'edit' && <section className="sheet edit-sheet"><div className="section-heading"><div><span className="eyebrow">Training Log</span><h2>填写今天的训练</h2></div><button className="text-button" onClick={() => setStep('choose')}>← 返回选动作</button></div><div className="edit-layout"><div className="edit-list">{chosen.map(exercise => <article className="edit-row" key={exercise.id}>{exercise.sprite ? <div className="edit-sprite" role="img" aria-label={exercise.en} style={spriteStyle(exercise)} /> : <div className="edit-image-frame"><img className={exercise.en === 'Hanging Pull Ups' ? 'hanging-pull-image' : ''} src={exercise.image} alt="" /></div>}<div className="edit-main"><div className="edit-title"><h3>{exercise.zh}</h3><small>{exercise.en}</small></div>{(logs[exercise.id] || [{ weight: '', reps: '' }]).map((set, index) => <div className="set-line" key={index}><span>第 {index + 1} 组</span><input inputMode="decimal" placeholder="重量" value={set.weight} onChange={e => updateSet(exercise.id, index, 'weight', e.target.value)} /><b>kg ×</b><input inputMode="numeric" placeholder="次数" value={set.reps} onChange={e => updateSet(exercise.id, index, 'reps', e.target.value)} /><b>次</b></div>)}<button className="add-set" onClick={() => addSet(exercise.id)}>＋ 添加一组</button></div></article>)}</div><MuscleMap chosen={chosen} /></div><div className="action-bar"><span>{chosen.length} 个动作 · 数据只保留在当前页面</span><button className="primary" onClick={makeShare}>确认训练 · 生成分享图</button></div></section>}
+    {step === 'share' && <section className="sheet share-sheet"><div className="section-heading"><div><span className="eyebrow">Record Complete</span><h2>今日训练已整理</h2></div><button className="text-button" onClick={() => setStep('edit')}>← 修改训练</button></div><div className="share-layout"><div id="share-card" className="share-preview"><div className="share-preview-head"><span>训练本纪 · 今日</span></div>{chosen.map(exercise => <article key={exercise.id}><div><h3>{exercise.zh}</h3><small>{exercise.en}</small></div><div>{(logs[exercise.id] || [{ weight: '', reps: '' }]).map((set, index) => <p key={index}>第 {index + 1} 组　<strong>{set.weight || '—'} kg × {set.reps || '—'} 次</strong></p>)}</div></article>)}<footer>Keep moving · Pilates practice</footer></div><MuscleMap chosen={chosen} /></div><div className="share-actions"><button className="secondary" onClick={() => setStep('choose')}>重新选择</button><button className="primary" onClick={download}>下载分享图 PNG</button></div></section>}
   </main>
 }
 
@@ -90,5 +246,5 @@ const muscleMarks: Record<MuscleGroup, { cx: number; cy: number; rx: number; ry:
 
 function MuscleMap({ chosen }: { chosen: Exercise[] }) {
   const active = [...new Set(chosen.flatMap(musclesFor))]
-  return <aside className="muscle-panel"><div className="muscle-panel-head"><div><span className="eyebrow">Muscle Focus</span><h3>今日训练肌群</h3></div><span>{active.length} 个区域</span></div><div className="muscle-figure"><img src={assetUrl('assets/muscle-map-generated.png?v=2')} alt="女性前后肌肉示意图" /><svg viewBox="0 0 1448 1086" aria-hidden="true">{active.flatMap(group => muscleMarks[group].map((mark, index) => <ellipse key={`${group}-${index}`} {...mark} className="muscle-highlight" />))}</svg></div><div className="muscle-legend">{(Object.keys(muscleLabels) as MuscleGroup[]).map(group => <span className={active.includes(group) ? 'active' : ''} key={group}><i />{muscleLabels[group]}</span>)}</div><p>深蓝色表示本次所选动作重点参与的肌群。</p></aside>
+  return <aside className="muscle-panel"><div className="muscle-panel-head"><div><span className="eyebrow">Muscle Focus</span><h3>主要参与肌群</h3></div><span>{active.length} 个区域</span></div><div className="muscle-figure"><img src={assetUrl('assets/muscle-map-generated.png?v=2')} alt="女性前后肌肉示意图" /><svg viewBox="0 0 1448 1086" aria-hidden="true">{active.flatMap(group => muscleMarks[group].map((mark, index) => <ellipse key={`${group}-${index}`} {...mark} className="muscle-highlight" />))}</svg></div><div className="muscle-legend">{(Object.keys(muscleLabels) as MuscleGroup[]).map(group => <span className={active.includes(group) ? 'active' : ''} key={group}><i />{muscleLabels[group]}</span>)}</div><p>深蓝色表示主要发力肌群及维持动作所需的关键稳定肌群；伸展动作显示主要被拉伸区域。</p></aside>
 }
