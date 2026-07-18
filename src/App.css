@@ -21,6 +21,11 @@ h2 { margin: 6px 0 0; font: 700 30px/1.2 Georgia, "Songti SC", serif; }
 .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 10px; }
 .filters button { padding: 7px 11px; color: #73685b; background: transparent; border: 1px solid #af8b5575; border-radius: 2px; font-size: 12px; }
 .filters button.on { color: #f7efde; background: #66745e; border-color: #66745e; }
+.reformer-subfilters { margin: 13px 0 10px; padding: 11px 13px 12px; background: #ede0c7; border-left: 3px solid #af8b55; }
+.reformer-subfilters > span { display: block; margin-bottom: 8px; color: #73685b; font-size: 11px; font-weight: 800; letter-spacing: .08em; }
+.reformer-subfilters > div { display: flex; flex-wrap: wrap; gap: 7px; }
+.reformer-subfilters button { padding: 6px 9px; color: #73685b; background: transparent; border: 1px solid #af8b5575; border-radius: 2px; font-size: 11px; }
+.reformer-subfilters button.on { color: #f7efde; background: #66745e; border-color: #66745e; }
 .exercise-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
 .exercise-card { position: relative; padding: 0 0 12px; overflow: hidden; text-align: left; color: #211a14; background: #f7efde; border: 1px solid #af8b5575; transition: transform .18s, border-color .18s, box-shadow .18s; }
 .exercise-card:hover { transform: translateY(-2px); border-color: #9f2f24; box-shadow: 0 5px 12px #35281e18; }
