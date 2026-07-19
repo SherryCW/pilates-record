@@ -51,11 +51,13 @@ const reformerExpansionNames: [string, string][] = [
 ]
 const reformerExpansionCustomImages: Record<string, string> = {
   'Short Box Round Back': 'assets/reformer-expansion/short-box-round-back.png?v=2',
-  'High Frog': 'assets/reformer-expansion/high-frog.png?v=2',
+  'High Frog': 'assets/reformer-expansion/high-frog.png?v=3',
   'Hamstring Curls': 'assets/reformer-custom/hamstring-curls.png?v=1',
   Breaststroke: 'assets/reformer-custom/breaststroke.png?v=1',
   'Thigh Stretch': 'assets/reformer-custom/thigh-stretch.png?v=1',
   'Semi Circle': 'assets/reformer-custom/semi-circle.png?v=2',
+  'Short Box Side to Side': 'assets/reformer-custom/short-box-side-to-side.png?v=1',
+  'Short Box Twist and Reach': 'assets/reformer-custom/short-box-twist-and-reach.png?v=1',
 }
 const reformerExpansionExercises: Exercise[] = reformerExpansionNames.map(([en, zh], index) => ({ id: 121 + index, en, zh, image: assetUrl(reformerExpansionCustomImages[en] || `assets/reformer-expansion/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
 const reformerAdditionalNames: [string, string][] = [
@@ -116,7 +118,7 @@ const customMoreExercises: Exercise[] = moreExercises.map(exercise => {
   if (exercise.kind === 'Reformer' && exercise.en === 'Running') return { ...exercise, image: assetUrl('assets/reformer-custom/running.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
   return exercise
 })
-const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press')))
+const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press') || (exercise.kind === 'Reformer' && ['Tree / Climb-a-Tree', 'Short Box Mermaid', 'Thigh Stretch'].includes(exercise.en))))
 
 type ReformerCategory = '全部' | '脚踏板与仰卧' | '长箱' | '短箱' | '跪姿' | '坐姿与划船' | '站姿与侧向' | '进阶与平衡'
 const reformerCategoryNames: Record<Exclude<ReformerCategory, '全部'>, string[]> = {
