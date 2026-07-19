@@ -55,7 +55,7 @@ const reformerExpansionCustomImages: Record<string, string> = {
   'Hamstring Curls': 'assets/reformer-custom/hamstring-curls.png?v=1',
   Breaststroke: 'assets/reformer-custom/breaststroke.png?v=1',
   'Thigh Stretch': 'assets/reformer-custom/thigh-stretch.png?v=1',
-  'Semi Circle': 'assets/reformer-custom/semi-circle.png?v=1',
+  'Semi Circle': 'assets/reformer-custom/semi-circle.png?v=2',
 }
 const reformerExpansionExercises: Exercise[] = reformerExpansionNames.map(([en, zh], index) => ({ id: 121 + index, en, zh, image: assetUrl(reformerExpansionCustomImages[en] || `assets/reformer-expansion/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
 const reformerAdditionalNames: [string, string][] = [
