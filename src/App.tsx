@@ -91,6 +91,13 @@ const singleLegFootworkExercises: Exercise[] = [
   { id: 223, kind: 'Reformer', en: 'Single Leg Footwork with Leg Lift', zh: '单腿脚踏直腿上举', image: assetUrl('assets/reformer-custom/single-leg-footwork-leg-lift.png?v=1') },
   { id: 224, kind: 'Reformer', en: 'Seated Side Arm Pull', zh: '侧坐水平拉带', image: assetUrl('assets/reformer-custom/seated-side-arm-pull.png?v=1') },
 ]
+const describedReformerExercises: Exercise[] = [
+  { id: 225, kind: 'Reformer', en: 'Seated Side Arm Pull – Feet Grounded', zh: '侧坐双脚落地水平拉带', image: assetUrl('assets/reformer-custom/seated-side-arm-pull-feet-grounded.png?v=1') },
+  { id: 226, kind: 'Reformer', en: 'Teaser Arm Pull', zh: 'V型核心手臂拉带', image: assetUrl('assets/reformer-custom/teaser-arm-pull.png?v=1') },
+  { id: 227, kind: 'Reformer', en: 'Side Standing Scooter', zh: '侧向45°站姿蹬滑床', image: assetUrl('assets/reformer-custom/side-standing-scooter.png?v=1') },
+  { id: 228, kind: 'Reformer', en: 'Standing Instep Press', zh: '站姿压脚背', image: assetUrl('assets/reformer-custom/standing-instep-press.png?v=1') },
+  { id: 229, kind: 'Reformer', en: 'Teaser Beats', zh: 'V型直腿45°拍打', image: assetUrl('assets/reformer-custom/teaser-beats.png?v=1') },
+]
 const moreNames: { kind: EquipmentKind; en: string; zh: string }[] = [
   { kind: '塔架', en: 'Standing Arm Press', zh: '站姿手臂推压' }, { kind: '塔架', en: 'Roll Back', zh: '塔架后卷' }, { kind: '塔架', en: 'Hip Opener', zh: '髋部打开' },
   { kind: '垫上', en: 'Plank Leg Lift', zh: '平板抬腿' }, { kind: '垫上', en: 'Side Plank Twist', zh: '侧平板扭转' }, { kind: '垫上', en: 'Bridge March', zh: '桥式交替抬腿' },
@@ -109,16 +116,16 @@ const customMoreExercises: Exercise[] = moreExercises.map(exercise => {
   if (exercise.kind === 'Reformer' && exercise.en === 'Running') return { ...exercise, image: assetUrl('assets/reformer-custom/running.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
   return exercise
 })
-const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...customMoreExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press')))
+const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press')))
 
 type ReformerCategory = '全部' | '脚踏板与仰卧' | '长箱' | '短箱' | '跪姿' | '坐姿与划船' | '站姿与侧向' | '进阶与平衡'
 const reformerCategoryNames: Record<Exclude<ReformerCategory, '全部'>, string[]> = {
-  '脚踏板与仰卧': ['Footwork', 'The Hundred', 'Frog', 'Leg Circles', 'Short Spine', 'Footwork Toes', 'Footwork Heels', 'High Frog', 'Semi Circle', 'High Bridge', 'Pelvic Lift', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Footwork on Footplate', 'Jumping on Footplate', 'Supine Arm Work', 'Bridging', 'Feet in Straps', 'Reverse Abdominals', 'Running', 'Coordination'],
+  '脚踏板与仰卧': ['Footwork', 'The Hundred', 'Frog', 'Leg Circles', 'Short Spine', 'Footwork Toes', 'Footwork Heels', 'High Frog', 'Semi Circle', 'High Bridge', 'Pelvic Lift', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Footwork on Footplate', 'Jumping on Footplate', 'Supine Arm Work', 'Teaser Beats', 'Bridging', 'Feet in Straps', 'Reverse Abdominals', 'Running', 'Coordination'],
   '长箱': ['Long Box Pulling Straps', 'Backstroke', 'Swan on Long Box', 'Breaststroke', 'Hamstring Curls', 'Horseback', 'Side Sit Ups', 'Pulling Straps', 'Horizontal T-Pull', 'Grasshopper', 'Swimming', 'Long Box Double Leg Kick', 'Rocking'],
   '短箱': ['Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'Short Box Abdominals', 'Short Box Oblique Abdominals', 'Short Box Advanced Abdominals', 'Short Box Mermaid', 'Short Box Climb a Tree'],
   '跪姿': ['Knee Stretches', 'Down Stretch', 'Up Stretch', 'Knee Stretches Knees Off', 'Knee Stretches Round', 'Knee Stretches Arched', 'Chest Expansion', 'Thigh Stretch', 'Arm Circles', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Straps', 'Arm Work Facing Footbar', 'Kneeling Side Arms'],
-  '坐姿与划船': ['Rowing Into the Sternum', 'Rowing 90 Degrees', 'Rowing From the Chest', 'Rowing From the Hips', 'Rowing Back', 'Rowing Front', 'Seated Side Arm Pull', 'Shaving', 'Hug', 'Teaser', 'Mermaid', 'Stomach Massage', 'Stomach Massage Round', 'Stomach Massage Hands Back', 'Stomach Massage Reach Up', 'Stomach Massage Twist', 'Side Stretch / Mermaid', 'Cleopatra', 'Biceps Curl', 'Posterior Shoulder Press', 'Serve a Tray'],
-  '站姿与侧向': ['Single Leg Elephant', 'Arabesque', 'Front Splits', 'Russian Splits', 'Side Splits', 'Tendon Stretch', 'Tendon Stretch Side', 'Lunges', 'Scooter', 'Side Support'],
+  '坐姿与划船': ['Rowing Into the Sternum', 'Rowing 90 Degrees', 'Rowing From the Chest', 'Rowing From the Hips', 'Rowing Back', 'Rowing Front', 'Seated Side Arm Pull', 'Seated Side Arm Pull – Feet Grounded', 'Teaser Arm Pull', 'Shaving', 'Hug', 'Teaser', 'Mermaid', 'Stomach Massage', 'Stomach Massage Round', 'Stomach Massage Hands Back', 'Stomach Massage Reach Up', 'Stomach Massage Twist', 'Side Stretch / Mermaid', 'Cleopatra', 'Biceps Curl', 'Posterior Shoulder Press', 'Serve a Tray'],
+  '站姿与侧向': ['Single Leg Elephant', 'Arabesque', 'Front Splits', 'Russian Splits', 'Side Splits', 'Tendon Stretch', 'Tendon Stretch Side', 'Lunges', 'Scooter', 'Side Standing Scooter', 'Standing Instep Press', 'Side Support'],
   '进阶与平衡': ['Long Stretch', 'Elephant', 'Long Back Stretch', 'Overhead', 'Corkscrew', 'Tic Toc', 'Control Balance Off', 'Snake', 'Twist', 'Control Balance Push Up Front', 'Control Balance Push Up Back', 'Star', 'Control Front Facing Carriage', 'Control Back Facing Ceiling'],
 }
 const reformerCategoryList = Object.keys(reformerCategoryNames) as Exclude<ReformerCategory, '全部'>[]
@@ -133,7 +140,7 @@ const spriteStyle = (exercise: Exercise) => {
 const exerciseImageClass = (exercise: Exercise) => {
   if (exercise.en === 'Hanging Pull Ups') return 'hanging-pull-image'
   if (exercise.kind === '垫上' && ['Scissors', 'Bicycle'].includes(exercise.en)) return 'compact-mat-image'
-  if (exercise.kind === 'Reformer' && ['Frog', 'Rowing 90 Degrees', 'Rowing From the Hips', 'Shaving', 'Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'High Frog', 'High Bridge', 'Footwork Heels', 'Footwork Toes', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Horizontal T-Pull', 'Seated Side Arm Pull', 'Coordination', 'Arm Circles', 'Knee Stretches Knees Off', 'Running', 'Hamstring Curls', 'Long Box Pulling Straps', 'Backstroke', 'Breaststroke', 'Supine Arm Work', 'Semi Circle', 'Jumping on Footplate', 'Thigh Stretch'].includes(exercise.en)) return 'compact-reformer-image'
+  if (exercise.kind === 'Reformer' && ['Frog', 'Rowing 90 Degrees', 'Rowing From the Hips', 'Shaving', 'Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'High Frog', 'High Bridge', 'Footwork Heels', 'Footwork Toes', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Horizontal T-Pull', 'Seated Side Arm Pull', 'Seated Side Arm Pull – Feet Grounded', 'Teaser Arm Pull', 'Side Standing Scooter', 'Standing Instep Press', 'Teaser Beats', 'Coordination', 'Arm Circles', 'Knee Stretches Knees Off', 'Running', 'Hamstring Curls', 'Long Box Pulling Straps', 'Backstroke', 'Breaststroke', 'Supine Arm Work', 'Semi Circle', 'Jumping on Footplate', 'Thigh Stretch'].includes(exercise.en)) return 'compact-reformer-image'
   if (exercise.kind === '小器械' && ['Supine Bent-Knee Magic Circle Inner Thigh Squeeze', 'Seated Magic Circle Inner Thigh Squeeze', 'Supine Tabletop Magic Circle Inner Thigh Squeeze', 'Magic Circle Side Leg Press', 'Resistance Band Leg Press', 'Small Ball Leg Lift'].includes(exercise.en)) return 'compact-small-apparatus-image'
   return ''
 }
@@ -290,6 +297,11 @@ const exerciseMuscles: Record<string, MuscleGroup[]> = {
   'Single Leg Toe Footwork': ['股四', '臀部', '腘绳', '小腿'],
   'Single Leg Footwork with Leg Lift': ['股四', '臀部', '腘绳', '髋部', '小腿'],
   'Seated Side Arm Pull': ['肩部', '手臂', '背部', '腹部'],
+  'Seated Side Arm Pull – Feet Grounded': ['肩部', '手臂', '背部', '腹部'],
+  'Teaser Arm Pull': ['腹部', '髋部', '肩部', '手臂'],
+  'Side Standing Scooter': ['臀部', '髋部', '股四', '小腿'],
+  'Standing Instep Press': ['小腿', '髋部', '股四'],
+  'Teaser Beats': ['腹部', '髋部', '股四'],
   'Footwork on Footplate': ['股四', '臀部', '腘绳', '小腿'],
   'Jumping on Footplate': ['股四', '臀部', '腘绳', '小腿'],
   'Supine Arm Work': ['肩部', '手臂', '背部', '腹部'],
