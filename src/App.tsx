@@ -27,7 +27,7 @@ const extraSets: { kind: EquipmentKind; folder: string; names: [string, string][
 const extraExercises: Exercise[] = extraSets.flatMap(({ kind, folder, names }, setIndex) => names.map(([en, zh], index) => ({ id: 55 + setIndex * 12 + index, en, zh, image: assetUrl(`assets/${folder}/${index + 1}.png?v=1`), sprite: assetUrl(`assets/${folder}/${folder}-clean.png?v=1`), tileX: index % 4, tileY: Math.floor(index / 4), kind })))
 const extraExercisesWithCustomImages: Exercise[] = extraExercises.map(exercise => {
   if (exercise.kind === 'Reformer' && exercise.en === 'The Hundred') return { ...exercise, image: assetUrl('assets/reformer/reformer-hundred.png?v=2'), sprite: undefined, tileX: undefined, tileY: undefined }
-  if (exercise.kind === 'Reformer' && exercise.en === 'Frog') return { ...exercise, image: assetUrl('assets/reformer/reformer-frog.png?v=2'), sprite: undefined, tileX: undefined, tileY: undefined }
+  if (exercise.kind === 'Reformer' && exercise.en === 'Frog') return { ...exercise, image: assetUrl('assets/reformer/reformer-frog.png?v=3'), sprite: undefined, tileX: undefined, tileY: undefined }
   if (exercise.kind === 'Reformer' && exercise.en === 'Long Box Pulling Straps') return { ...exercise, image: assetUrl('assets/reformer-custom/long-box-pulling-straps.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
   if (exercise.kind === 'Reformer' && exercise.en === 'Backstroke') return { ...exercise, image: assetUrl('assets/reformer-custom/backstroke.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
   if (exercise.kind === '小器械' && exercise.en === 'Supine Bent-Knee Magic Circle Inner Thigh Squeeze') return { ...exercise, image: assetUrl('assets/small-apparatus/magic-circle-inner-thigh-squeeze-supine.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
@@ -69,7 +69,7 @@ const reformerAdditionalCustomImages: Record<string, string> = {
 }
 const reformerAdditionalExercises: Exercise[] = reformerAdditionalNames.map(([en, zh], index) => ({ id: 169 + index, en, zh, image: assetUrl(reformerAdditionalCustomImages[en] || `assets/reformer-additional/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
 const reformerGeneratedNames: [string, string][] = [
-  ['Single Leg Footwork', '单腿脚踏'], ['Footwork on Footplate', '脚踏板脚步'], ['Jumping on Footplate', '脚踏板跳跃'],
+  ['Single Leg Heel Footwork', '单腿脚跟脚踏'], ['Footwork on Footplate', '脚踏板脚步'], ['Jumping on Footplate', '脚踏板跳跃'],
   ['Supine Arm Work', '仰卧手臂练习'], ['Bridging', '桥式'], ['Kneeling Abdominals Facing Back', '面向后跪姿腹部'],
   ['Kneeling Abdominals Facing Front', '面向前跪姿腹部'], ['Feet in Straps', '脚套弹簧'], ['Short Box Abdominals', '短箱腹部'],
   ['Short Box Oblique Abdominals', '短箱侧腹'], ['Short Box Advanced Abdominals', '短箱进阶腹部'], ['Short Box Mermaid', '短箱美人鱼'],
@@ -79,7 +79,16 @@ const reformerGeneratedNames: [string, string][] = [
   ['Control Front Facing Carriage', '面向车厢控制'], ['Control Back Facing Ceiling', '面向天花板控制'], ['Side Support', '侧支撑'],
   ['Biceps Curl', '二头肌弯举'], ['Posterior Shoulder Press', '后肩推压'], ['Serve a Tray', '端盘式'], ['Scooter', '滑板车式'],
 ]
-const reformerGeneratedExercises: Exercise[] = reformerGeneratedNames.map(([en, zh], index) => ({ id: 182 + index, en, zh, image: assetUrl(en === 'Supine Arm Work' ? 'assets/reformer-custom/supine-arm-work.png?v=1' : en === 'Jumping on Footplate' ? 'assets/reformer-custom/jumping-on-footplate.png?v=1' : `assets/reformer-generated/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
+const reformerGeneratedCustomImages: Record<string, string> = {
+  'Single Leg Heel Footwork': 'assets/reformer-custom/single-leg-heel-footwork.png?v=1',
+  'Supine Arm Work': 'assets/reformer-custom/supine-arm-work.png?v=1',
+  'Jumping on Footplate': 'assets/reformer-custom/jumping-on-footplate.png?v=1',
+}
+const reformerGeneratedExercises: Exercise[] = reformerGeneratedNames.map(([en, zh], index) => ({ id: 182 + index, en, zh, image: assetUrl(reformerGeneratedCustomImages[en] || `assets/reformer-generated/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
+const singleLegFootworkExercises: Exercise[] = [
+  { id: 222, kind: 'Reformer', en: 'Single Leg Toe Footwork', zh: '单腿前脚掌脚踏', image: assetUrl('assets/reformer-custom/single-leg-toe-footwork.png?v=1') },
+  { id: 223, kind: 'Reformer', en: 'Single Leg Footwork with Leg Lift', zh: '单腿脚踏直腿上举', image: assetUrl('assets/reformer-custom/single-leg-footwork-leg-lift.png?v=1') },
+]
 const moreNames: { kind: EquipmentKind; en: string; zh: string }[] = [
   { kind: '塔架', en: 'Standing Arm Press', zh: '站姿手臂推压' }, { kind: '塔架', en: 'Roll Back', zh: '塔架后卷' }, { kind: '塔架', en: 'Hip Opener', zh: '髋部打开' },
   { kind: '垫上', en: 'Plank Leg Lift', zh: '平板抬腿' }, { kind: '垫上', en: 'Side Plank Twist', zh: '侧平板扭转' }, { kind: '垫上', en: 'Bridge March', zh: '桥式交替抬腿' },
@@ -98,11 +107,11 @@ const customMoreExercises: Exercise[] = moreExercises.map(exercise => {
   if (exercise.kind === 'Reformer' && exercise.en === 'Running') return { ...exercise, image: assetUrl('assets/reformer-custom/running.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
   return exercise
 })
-const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...customMoreExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press')))
+const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...customMoreExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press')))
 
 type ReformerCategory = '全部' | '脚踏板与仰卧' | '长箱' | '短箱' | '跪姿' | '坐姿与划船' | '站姿与侧向' | '进阶与平衡'
 const reformerCategoryNames: Record<Exclude<ReformerCategory, '全部'>, string[]> = {
-  '脚踏板与仰卧': ['Footwork', 'The Hundred', 'Frog', 'Leg Circles', 'Short Spine', 'Footwork Toes', 'Footwork Heels', 'Long Spine Massage', 'High Frog', 'Semi Circle', 'High Bridge', 'Pelvic Lift', 'Single Leg Footwork', 'Footwork on Footplate', 'Jumping on Footplate', 'Supine Arm Work', 'Bridging', 'Feet in Straps', 'Reverse Abdominals', 'Running', 'Coordination'],
+  '脚踏板与仰卧': ['Footwork', 'The Hundred', 'Frog', 'Leg Circles', 'Short Spine', 'Footwork Toes', 'Footwork Heels', 'High Frog', 'Semi Circle', 'High Bridge', 'Pelvic Lift', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Footwork on Footplate', 'Jumping on Footplate', 'Supine Arm Work', 'Bridging', 'Feet in Straps', 'Reverse Abdominals', 'Running', 'Coordination'],
   '长箱': ['Long Box Pulling Straps', 'Backstroke', 'Swan on Long Box', 'Breaststroke', 'Hamstring Curls', 'Horseback', 'Side Sit Ups', 'Pulling Straps', 'T-Pull', 'Grasshopper', 'Swimming', 'Long Box Double Leg Kick', 'Rocking'],
   '短箱': ['Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'Short Box Abdominals', 'Short Box Oblique Abdominals', 'Short Box Advanced Abdominals', 'Short Box Mermaid', 'Short Box Climb a Tree'],
   '跪姿': ['Knee Stretches', 'Down Stretch', 'Up Stretch', 'Knee Stretches Knees Off', 'Knee Stretches Round', 'Knee Stretches Arched', 'Chest Expansion', 'Thigh Stretch', 'Arm Circles', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Straps', 'Arm Work Facing Footbar', 'Kneeling Side Arms'],
@@ -122,7 +131,7 @@ const spriteStyle = (exercise: Exercise) => {
 const exerciseImageClass = (exercise: Exercise) => {
   if (exercise.en === 'Hanging Pull Ups') return 'hanging-pull-image'
   if (exercise.kind === '垫上' && ['Scissors', 'Bicycle'].includes(exercise.en)) return 'compact-mat-image'
-  if (exercise.kind === 'Reformer' && ['Rowing 90 Degrees', 'Rowing From the Hips', 'Shaving', 'Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'High Frog', 'High Bridge', 'Footwork Heels', 'Footwork Toes', 'Coordination', 'Arm Circles', 'Knee Stretches Knees Off', 'Running', 'Hamstring Curls', 'Long Box Pulling Straps', 'Backstroke', 'Breaststroke', 'Supine Arm Work', 'Semi Circle', 'Jumping on Footplate', 'Thigh Stretch'].includes(exercise.en)) return 'compact-reformer-image'
+  if (exercise.kind === 'Reformer' && ['Frog', 'Rowing 90 Degrees', 'Rowing From the Hips', 'Shaving', 'Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'High Frog', 'High Bridge', 'Footwork Heels', 'Footwork Toes', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Coordination', 'Arm Circles', 'Knee Stretches Knees Off', 'Running', 'Hamstring Curls', 'Long Box Pulling Straps', 'Backstroke', 'Breaststroke', 'Supine Arm Work', 'Semi Circle', 'Jumping on Footplate', 'Thigh Stretch'].includes(exercise.en)) return 'compact-reformer-image'
   if (exercise.kind === '小器械' && ['Supine Bent-Knee Magic Circle Inner Thigh Squeeze', 'Seated Magic Circle Inner Thigh Squeeze', 'Supine Tabletop Magic Circle Inner Thigh Squeeze', 'Magic Circle Side Leg Press', 'Resistance Band Leg Press', 'Small Ball Leg Lift'].includes(exercise.en)) return 'compact-small-apparatus-image'
   return ''
 }
@@ -275,7 +284,9 @@ const exerciseMuscles: Record<string, MuscleGroup[]> = {
   Star: ['肩部', '手臂', '腹部', '髋部'],
   'Front Splits': ['腘绳', '髋部', '股四', '臀部'],
   'Russian Splits': ['腘绳', '髋部', '股四', '臀部'],
-  'Single Leg Footwork': ['股四', '臀部', '腘绳', '小腿'],
+  'Single Leg Heel Footwork': ['股四', '臀部', '腘绳', '小腿'],
+  'Single Leg Toe Footwork': ['股四', '臀部', '腘绳', '小腿'],
+  'Single Leg Footwork with Leg Lift': ['股四', '臀部', '腘绳', '髋部', '小腿'],
   'Footwork on Footplate': ['股四', '臀部', '腘绳', '小腿'],
   'Jumping on Footplate': ['股四', '臀部', '腘绳', '小腿'],
   'Supine Arm Work': ['肩部', '手臂', '背部', '腹部'],
