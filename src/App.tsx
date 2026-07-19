@@ -60,12 +60,13 @@ const reformerExpansionCustomImages: Record<string, string> = {
 const reformerExpansionExercises: Exercise[] = reformerExpansionNames.map(([en, zh], index) => ({ id: 121 + index, en, zh, image: assetUrl(reformerExpansionCustomImages[en] || `assets/reformer-expansion/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
 const reformerAdditionalNames: [string, string][] = [
   ['Footwork Toes', '脚趾脚踏'], ['Footwork Heels', '足跟脚踏'], ['Rowing Back', '后向划船'],
-  ['Rowing Front', '前向划船'], ['Pulling Straps', '拉带'], ['T-Pull', 'T形拉带'], ['Down Stretch', '下伸展'], ['Up Stretch', '上伸展'],
+  ['Rowing Front', '前向划船'], ['Pulling Straps', '拉带'], ['Horizontal T-Pull', '水平拉带（T形）'], ['Down Stretch', '下伸展'], ['Up Stretch', '上伸展'],
   ['Knee Stretches Round', '圆背膝部伸展'], ['Knee Stretches Arched', '拱背膝部伸展'], ['Pelvic Lift', '骨盆抬升'], ['Side Splits', '侧劈腿'],
 ]
 const reformerAdditionalCustomImages: Record<string, string> = {
   'Footwork Toes': 'assets/reformer-custom/footwork-toes.png?v=1',
   'Footwork Heels': 'assets/reformer-custom/footwork-heels.png?v=1',
+  'Horizontal T-Pull': 'assets/reformer-custom/horizontal-t-pull.png?v=1',
 }
 const reformerAdditionalExercises: Exercise[] = reformerAdditionalNames.map(([en, zh], index) => ({ id: 169 + index, en, zh, image: assetUrl(reformerAdditionalCustomImages[en] || `assets/reformer-additional/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
 const reformerGeneratedNames: [string, string][] = [
@@ -112,7 +113,7 @@ const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExerc
 type ReformerCategory = '全部' | '脚踏板与仰卧' | '长箱' | '短箱' | '跪姿' | '坐姿与划船' | '站姿与侧向' | '进阶与平衡'
 const reformerCategoryNames: Record<Exclude<ReformerCategory, '全部'>, string[]> = {
   '脚踏板与仰卧': ['Footwork', 'The Hundred', 'Frog', 'Leg Circles', 'Short Spine', 'Footwork Toes', 'Footwork Heels', 'High Frog', 'Semi Circle', 'High Bridge', 'Pelvic Lift', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Footwork on Footplate', 'Jumping on Footplate', 'Supine Arm Work', 'Bridging', 'Feet in Straps', 'Reverse Abdominals', 'Running', 'Coordination'],
-  '长箱': ['Long Box Pulling Straps', 'Backstroke', 'Swan on Long Box', 'Breaststroke', 'Hamstring Curls', 'Horseback', 'Side Sit Ups', 'Pulling Straps', 'T-Pull', 'Grasshopper', 'Swimming', 'Long Box Double Leg Kick', 'Rocking'],
+  '长箱': ['Long Box Pulling Straps', 'Backstroke', 'Swan on Long Box', 'Breaststroke', 'Hamstring Curls', 'Horseback', 'Side Sit Ups', 'Pulling Straps', 'Horizontal T-Pull', 'Grasshopper', 'Swimming', 'Long Box Double Leg Kick', 'Rocking'],
   '短箱': ['Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'Short Box Abdominals', 'Short Box Oblique Abdominals', 'Short Box Advanced Abdominals', 'Short Box Mermaid', 'Short Box Climb a Tree'],
   '跪姿': ['Knee Stretches', 'Down Stretch', 'Up Stretch', 'Knee Stretches Knees Off', 'Knee Stretches Round', 'Knee Stretches Arched', 'Chest Expansion', 'Thigh Stretch', 'Arm Circles', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Straps', 'Arm Work Facing Footbar', 'Kneeling Side Arms'],
   '坐姿与划船': ['Rowing Into the Sternum', 'Rowing 90 Degrees', 'Rowing From the Chest', 'Rowing From the Hips', 'Rowing Back', 'Rowing Front', 'Shaving', 'Hug', 'Teaser', 'Mermaid', 'Stomach Massage', 'Stomach Massage Round', 'Stomach Massage Hands Back', 'Stomach Massage Reach Up', 'Stomach Massage Twist', 'Side Stretch / Mermaid', 'Cleopatra', 'Biceps Curl', 'Posterior Shoulder Press', 'Serve a Tray'],
@@ -131,7 +132,7 @@ const spriteStyle = (exercise: Exercise) => {
 const exerciseImageClass = (exercise: Exercise) => {
   if (exercise.en === 'Hanging Pull Ups') return 'hanging-pull-image'
   if (exercise.kind === '垫上' && ['Scissors', 'Bicycle'].includes(exercise.en)) return 'compact-mat-image'
-  if (exercise.kind === 'Reformer' && ['Frog', 'Rowing 90 Degrees', 'Rowing From the Hips', 'Shaving', 'Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'High Frog', 'High Bridge', 'Footwork Heels', 'Footwork Toes', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Coordination', 'Arm Circles', 'Knee Stretches Knees Off', 'Running', 'Hamstring Curls', 'Long Box Pulling Straps', 'Backstroke', 'Breaststroke', 'Supine Arm Work', 'Semi Circle', 'Jumping on Footplate', 'Thigh Stretch'].includes(exercise.en)) return 'compact-reformer-image'
+  if (exercise.kind === 'Reformer' && ['Frog', 'Rowing 90 Degrees', 'Rowing From the Hips', 'Shaving', 'Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'High Frog', 'High Bridge', 'Footwork Heels', 'Footwork Toes', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Horizontal T-Pull', 'Coordination', 'Arm Circles', 'Knee Stretches Knees Off', 'Running', 'Hamstring Curls', 'Long Box Pulling Straps', 'Backstroke', 'Breaststroke', 'Supine Arm Work', 'Semi Circle', 'Jumping on Footplate', 'Thigh Stretch'].includes(exercise.en)) return 'compact-reformer-image'
   if (exercise.kind === '小器械' && ['Supine Bent-Knee Magic Circle Inner Thigh Squeeze', 'Seated Magic Circle Inner Thigh Squeeze', 'Supine Tabletop Magic Circle Inner Thigh Squeeze', 'Magic Circle Side Leg Press', 'Resistance Band Leg Press', 'Small Ball Leg Lift'].includes(exercise.en)) return 'compact-small-apparatus-image'
   return ''
 }
@@ -320,7 +321,7 @@ const exerciseMuscles: Record<string, MuscleGroup[]> = {
   'Rowing Back': ['背部', '肩部', '手臂', '腹部'],
   'Rowing Front': ['背部', '肩部', '手臂', '腹部'],
   'Pulling Straps': ['背部', '肩部', '手臂', '臀部'],
-  'T-Pull': ['背部', '肩部', '手臂', '腹部'],
+  'Horizontal T-Pull': ['背部', '肩部', '手臂', '腹部'],
   'Down Stretch': ['肩部', '手臂', '腹部', '髋部'],
   'Up Stretch': ['肩部', '手臂', '腹部', '腘绳'],
   'Knee Stretches Round': ['肩部', '手臂', '腹部', '髋部'],
