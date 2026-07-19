@@ -51,7 +51,7 @@ const reformerExpansionNames: [string, string][] = [
 ]
 const reformerExpansionCustomImages: Record<string, string> = {
   'Short Box Round Back': 'assets/reformer-expansion/short-box-round-back.png?v=2',
-  'High Frog': 'assets/reformer-expansion/high-frog.png?v=1',
+  'High Frog': 'assets/reformer-expansion/high-frog.png?v=2',
   'Hamstring Curls': 'assets/reformer-custom/hamstring-curls.png?v=1',
   Breaststroke: 'assets/reformer-custom/breaststroke.png?v=1',
   'Thigh Stretch': 'assets/reformer-custom/thigh-stretch.png?v=1',
@@ -63,7 +63,11 @@ const reformerAdditionalNames: [string, string][] = [
   ['Rowing Front', '前向划船'], ['Pulling Straps', '拉带'], ['T-Pull', 'T形拉带'], ['Down Stretch', '下伸展'], ['Up Stretch', '上伸展'],
   ['Knee Stretches Round', '圆背膝部伸展'], ['Knee Stretches Arched', '拱背膝部伸展'], ['Pelvic Lift', '骨盆抬升'], ['Side Splits', '侧劈腿'],
 ]
-const reformerAdditionalExercises: Exercise[] = reformerAdditionalNames.map(([en, zh], index) => ({ id: 169 + index, en, zh, image: assetUrl(`assets/reformer-additional/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
+const reformerAdditionalCustomImages: Record<string, string> = {
+  'Footwork Toes': 'assets/reformer-custom/footwork-toes.png?v=1',
+  'Footwork Heels': 'assets/reformer-custom/footwork-heels.png?v=1',
+}
+const reformerAdditionalExercises: Exercise[] = reformerAdditionalNames.map(([en, zh], index) => ({ id: 169 + index, en, zh, image: assetUrl(reformerAdditionalCustomImages[en] || `assets/reformer-additional/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
 const reformerGeneratedNames: [string, string][] = [
   ['Single Leg Footwork', '单腿脚踏'], ['Footwork on Footplate', '脚踏板脚步'], ['Jumping on Footplate', '脚踏板跳跃'],
   ['Supine Arm Work', '仰卧手臂练习'], ['Bridging', '桥式'], ['Kneeling Abdominals Facing Back', '面向后跪姿腹部'],
