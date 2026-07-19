@@ -62,6 +62,12 @@ h2 { margin: 6px 0 0; font: 700 30px/1.2 Georgia, "Songti SC", serif; }
 .edit-title { display: flex; align-items: baseline; gap: 12px; min-width: 0; }
 .edit-title h3, .share-preview h3 { margin: 0; font: 700 21px Georgia, "Songti SC", serif; }
 .edit-title small, .share-preview small { color: #73685b; }
+.edit-row-actions { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+.order-actions { display: flex; overflow: hidden; border: 1px solid #66745e70; border-radius: 2px; }
+.order-actions button { padding: 5px 8px; color: #53604d; background: transparent; border: 0; border-right: 1px solid #66745e50; font-size: 11px; font-weight: 700; }
+.order-actions button:last-child { border-right: 0; }
+.order-actions button:hover:not(:disabled), .order-actions button:focus-visible { color: #f7efde; background: #66745e; outline: none; }
+.order-actions button:disabled { color: #a99d8c; cursor: not-allowed; opacity: .55; }
 .remove-exercise { flex: 0 0 auto; padding: 5px 8px; color: #9f2f24; background: transparent; border: 1px solid #9f2f2470; border-radius: 2px; font-size: 11px; font-weight: 700; }
 .remove-exercise:hover, .remove-exercise:focus-visible { color: #f7efde; background: #9f2f24; border-color: #9f2f24; outline: none; }
 .set-line { display: flex; align-items: center; gap: 8px; margin: 7px 0; color: #73685b; font-size: 13px; }
@@ -98,4 +104,4 @@ h2 { margin: 6px 0 0; font: 700 30px/1.2 Georgia, "Songti SC", serif; }
 .share-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
 @media (max-width: 900px) { .exercise-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 900px) { .edit-layout, .share-layout { grid-template-columns: 1fr; } .muscle-panel { order: -1; } }
-@media (max-width: 600px) { .fitness-header { padding: 24px 18px 20px; } .fitness-header h1 { font-size: 27px; } .sheet { width: calc(100% - 20px); padding: 18px 14px; margin-top: 14px; } .progress { gap: 7px; font-size: 11px; } .progress i { width: 17px; } .exercise-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; } .section-heading { align-items: start; flex-direction: column; } .action-bar { align-items: stretch; flex-direction: column; } .action-bar .primary { width: 100%; } .edit-row { gap: 10px; padding: 10px; } .edit-row img, .edit-sprite { width: 74px; height: 78px; flex-basis: 74px; } .edit-row-heading { align-items: start; } .edit-title { display: block; } .remove-exercise { padding: 4px 6px; } .set-line { flex-wrap: wrap; } .set-line span { width: 46px; } .set-line input { width: 68px; } .share-preview { padding: 20px 16px; } .share-preview article { grid-template-columns: 1fr; gap: 10px; } }
+@media (max-width: 600px) { .fitness-header { padding: 24px 18px 20px; } .fitness-header h1 { font-size: 27px; } .sheet { width: calc(100% - 20px); padding: 18px 14px; margin-top: 14px; } .progress { gap: 7px; font-size: 11px; } .progress i { width: 17px; } .exercise-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; } .section-heading { align-items: start; flex-direction: column; } .action-bar { align-items: stretch; flex-direction: column; } .action-bar .primary { width: 100%; } .edit-row { gap: 10px; padding: 10px; } .edit-row img, .edit-sprite { width: 74px; height: 78px; flex-basis: 74px; } .edit-row-heading { align-items: start; flex-direction: column; } .edit-title { display: block; } .edit-row-actions { width: 100%; justify-content: space-between; } .order-actions button, .remove-exercise { padding: 6px 8px; } .set-line { flex-wrap: wrap; } .set-line span { width: 46px; } .set-line input { width: 68px; } .share-preview { padding: 20px 16px; } .share-preview article { grid-template-columns: 1fr; gap: 10px; } }
