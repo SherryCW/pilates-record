@@ -54,10 +54,12 @@ const reformerExpansionCustomImages: Record<string, string> = {
   'High Frog': 'assets/reformer-expansion/high-frog.png?v=1',
   'Hamstring Curls': 'assets/reformer-custom/hamstring-curls.png?v=1',
   Breaststroke: 'assets/reformer-custom/breaststroke.png?v=1',
+  'Thigh Stretch': 'assets/reformer-custom/thigh-stretch.png?v=1',
+  'Semi Circle': 'assets/reformer-custom/semi-circle.png?v=1',
 }
 const reformerExpansionExercises: Exercise[] = reformerExpansionNames.map(([en, zh], index) => ({ id: 121 + index, en, zh, image: assetUrl(reformerExpansionCustomImages[en] || `assets/reformer-expansion/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
 const reformerAdditionalNames: [string, string][] = [
-  ['Footwork Toes', '脚趾脚踏'], ['Footwork Heels', '足跟脚踏'], ['Long Spine Massage', '长脊柱按摩'], ['Rowing Back', '后向划船'],
+  ['Footwork Toes', '脚趾脚踏'], ['Footwork Heels', '足跟脚踏'], ['Rowing Back', '后向划船'],
   ['Rowing Front', '前向划船'], ['Pulling Straps', '拉带'], ['T-Pull', 'T形拉带'], ['Down Stretch', '下伸展'], ['Up Stretch', '上伸展'],
   ['Knee Stretches Round', '圆背膝部伸展'], ['Knee Stretches Arched', '拱背膝部伸展'], ['Pelvic Lift', '骨盆抬升'], ['Side Splits', '侧劈腿'],
 ]
@@ -73,7 +75,7 @@ const reformerGeneratedNames: [string, string][] = [
   ['Control Front Facing Carriage', '面向车厢控制'], ['Control Back Facing Ceiling', '面向天花板控制'], ['Side Support', '侧支撑'],
   ['Biceps Curl', '二头肌弯举'], ['Posterior Shoulder Press', '后肩推压'], ['Serve a Tray', '端盘式'], ['Scooter', '滑板车式'],
 ]
-const reformerGeneratedExercises: Exercise[] = reformerGeneratedNames.map(([en, zh], index) => ({ id: 182 + index, en, zh, image: assetUrl(en === 'Supine Arm Work' ? 'assets/reformer-custom/supine-arm-work.png?v=1' : `assets/reformer-generated/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
+const reformerGeneratedExercises: Exercise[] = reformerGeneratedNames.map(([en, zh], index) => ({ id: 182 + index, en, zh, image: assetUrl(en === 'Supine Arm Work' ? 'assets/reformer-custom/supine-arm-work.png?v=1' : en === 'Jumping on Footplate' ? 'assets/reformer-custom/jumping-on-footplate.png?v=1' : `assets/reformer-generated/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
 const moreNames: { kind: EquipmentKind; en: string; zh: string }[] = [
   { kind: '塔架', en: 'Standing Arm Press', zh: '站姿手臂推压' }, { kind: '塔架', en: 'Roll Back', zh: '塔架后卷' }, { kind: '塔架', en: 'Hip Opener', zh: '髋部打开' },
   { kind: '垫上', en: 'Plank Leg Lift', zh: '平板抬腿' }, { kind: '垫上', en: 'Side Plank Twist', zh: '侧平板扭转' }, { kind: '垫上', en: 'Bridge March', zh: '桥式交替抬腿' },
@@ -116,7 +118,7 @@ const spriteStyle = (exercise: Exercise) => {
 const exerciseImageClass = (exercise: Exercise) => {
   if (exercise.en === 'Hanging Pull Ups') return 'hanging-pull-image'
   if (exercise.kind === '垫上' && ['Scissors', 'Bicycle'].includes(exercise.en)) return 'compact-mat-image'
-  if (exercise.kind === 'Reformer' && ['Rowing 90 Degrees', 'Rowing From the Hips', 'Shaving', 'Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'High Frog', 'High Bridge', 'Footwork Heels', 'Footwork Toes', 'Coordination', 'Arm Circles', 'Knee Stretches Knees Off', 'Running', 'Hamstring Curls', 'Long Box Pulling Straps', 'Backstroke', 'Breaststroke', 'Supine Arm Work'].includes(exercise.en)) return 'compact-reformer-image'
+  if (exercise.kind === 'Reformer' && ['Rowing 90 Degrees', 'Rowing From the Hips', 'Shaving', 'Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'High Frog', 'High Bridge', 'Footwork Heels', 'Footwork Toes', 'Coordination', 'Arm Circles', 'Knee Stretches Knees Off', 'Running', 'Hamstring Curls', 'Long Box Pulling Straps', 'Backstroke', 'Breaststroke', 'Supine Arm Work', 'Semi Circle', 'Jumping on Footplate', 'Thigh Stretch'].includes(exercise.en)) return 'compact-reformer-image'
   if (exercise.kind === '小器械' && ['Supine Bent-Knee Magic Circle Inner Thigh Squeeze', 'Seated Magic Circle Inner Thigh Squeeze', 'Supine Tabletop Magic Circle Inner Thigh Squeeze', 'Magic Circle Side Leg Press', 'Resistance Band Leg Press', 'Small Ball Leg Lift'].includes(exercise.en)) return 'compact-small-apparatus-image'
   return ''
 }
