@@ -18,6 +18,16 @@ const matNames: [string, string][] = [
   ['The Hundred', '百次呼吸'], ['Roll Up', '卷脊起身'], ['Roll Over', '翻滚'], ['One Leg Circle', '单腿画圈'], ['Rolling Like a Ball', '像球一样滚动'], ['Single Leg Stretch', '单腿伸展'], ['Double Leg Stretch', '双腿伸展'], ['Spine Stretch Forward', '脊柱前伸展'], ['Open Leg Rocker', '开腿摇摆'], ['Corkscrew', '螺旋转'], ['Saw', '锯式'], ['Swan Dive', '天鹅俯冲'], ['Single Leg Kick', '单腿踢'], ['Double Leg Kick', '双腿踢'], ['Neck Pull', '颈部牵拉'], ['Scissors', '剪刀式'], ['Bicycle', '自行车式'], ['Shoulder Bridge', '肩桥'], ['Spine Twist', '脊柱扭转'], ['Jackknife', '折刀式'], ['Side Kick', '侧踢系列'], ['Teaser', 'V形平衡'], ['Hip Twist', '髋部扭转'], ['Swimming', '游泳式'], ['Leg Pull Front', '前侧腿拉'], ['Leg Pull Back', '后侧腿拉'], ['Side Kick Kneeling', '跪姿侧踢'], ['Side Bend', '侧弯支撑'], ['Boomerang', '回旋木马'], ['Seal', '海豹式'], ['Crab', '螃蟹式'], ['Rocking', '摇摆式'], ['Control Balance', '控制平衡'], ['Push Up', '普拉提俯卧撑'],
 ]
 const matExercises: Exercise[] = matNames.map(([en, zh], index) => ({ id: 21 + index, en, zh, image: assetUrl(`assets/mat/${index + 1}.png?v=4`), kind: '垫上' as const }))
+const matExtraExercises: Exercise[] = [
+  ['Half Roll Back', '半卷脊后倒', 'half-roll-back.png'],
+  ['Chest Lift', '胸部抬升', 'chest-lift.png'],
+  ['Single Leg Lift', '单腿抬升', 'single-leg-lift.png'],
+  ['Toe Taps', '脚尖点地', 'toe-taps.png'],
+  ['Side-Lying Leg Series', '侧卧腿部系列', 'side-lying-leg-series.png'],
+  ['Clam', '蚌式开合', 'clam.png'],
+  ['Dart', '飞镖式', 'dart.png'],
+  ['Mat Mermaid', '垫上美人鱼式', 'mat-mermaid.png'],
+].map(([en, zh, file], index) => ({ id: 230 + index, en, zh, image: assetUrl(`assets/mat-extra/${file}?v=1`), kind: '垫上' as const }))
 const extraSets: { kind: EquipmentKind; folder: string; names: [string, string][] }[] = [
   { kind: 'Ladder Barrel', folder: 'ladder-barrel', names: [['Swan', '天鹅式'], ['Horseback', '马背式'], ['Ballet Stretch', '芭蕾伸展'], ['Side Sit Up', '侧坐起身'], ['Backward Stretch', '后弯伸展'], ['Short Box Round', '短箱圆背'], ['Tree', '树式'], ['Side Bend', '侧弯'], ['Leg Circles', '腿部画圈'], ['Handstand Prep', '倒立准备'], ['Hamstring Stretch', '腿后侧伸展'], ['Hip Flexor Stretch', '髋屈肌伸展']] },
   { kind: '小器械', folder: 'small-apparatus', names: [['Magic Circle Chest Press', '普拉提圈胸推'], ['Supine Bent-Knee Magic Circle Inner Thigh Squeeze', '仰卧屈膝普拉提圈内收'], ['Magic Circle Bridge Squeeze', '普拉提圈桥式'], ['Magic Circle Overhead Press', '普拉提圈过顶推'], ['Magic Circle Side Leg Press', '普拉提圈侧腿推'], ['Magic Circle Teaser', '普拉提圈V形平衡'], ['Small Ball Ab Curl', '小球腹部卷曲'], ['Small Ball Bridge', '小球桥式'], ['Resistance Band Row', '弹力带划船'], ['Resistance Band Leg Press', '弹力带腿推'], ['Foam Roller Balance', '泡沫轴平衡'], ['Foam Roller Arm Arcs', '泡沫轴手臂画圈']] },
@@ -126,13 +136,19 @@ const innerThighSqueezeExercises: Exercise[] = [
   { id: 220, kind: '小器械', en: 'Seated Magic Circle Inner Thigh Squeeze', zh: '坐姿普拉提圈内收', image: assetUrl('assets/small-apparatus/magic-circle-inner-thigh-squeeze-seated.png?v=1') },
   { id: 221, kind: '小器械', en: 'Supine Tabletop Magic Circle Inner Thigh Squeeze', zh: '仰卧桌面腿普拉提圈内收', image: assetUrl('assets/small-apparatus/magic-circle-inner-thigh-squeeze-tabletop.png?v=1') },
 ]
+const smallApparatusExtraExercises: Exercise[] = [
+  { id: 238, kind: '小器械', en: 'Mini Ball Adductor Squeeze', zh: '小球内收夹压', image: assetUrl('assets/small-apparatus-extra/mini-ball-adductor-squeeze.png?v=1') },
+  { id: 239, kind: '小器械', en: 'Resistance Band Chest Expansion', zh: '弹力带胸部扩展', image: assetUrl('assets/small-apparatus-extra/resistance-band-chest-expansion.png?v=1') },
+  { id: 240, kind: '小器械', en: 'Foam Roller Dead Bug', zh: '泡沫轴死虫式', image: assetUrl('assets/small-apparatus-extra/foam-roller-dead-bug.png?v=1') },
+  { id: 241, kind: '小器械', en: 'Mini Ball Hundred', zh: '小球百次呼吸', image: assetUrl('assets/small-apparatus-extra/mini-ball-hundred.png?v=1') },
+]
 const customMoreExercises: Exercise[] = moreExercises.map(exercise => {
   if (exercise.en === 'Small Ball Leg Lift') return { ...exercise, image: assetUrl('assets/small-apparatus/small-ball-leg-lift.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
   if (exercise.kind === 'Reformer' && exercise.en === 'Running') return { ...exercise, image: assetUrl('assets/reformer-custom/running.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
   if (exercise.kind === 'Reformer' && exercise.en === 'Stomach Massage Basic') return { ...exercise, image: assetUrl('assets/reformer-custom/stomach-massage-basic.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
   return exercise
 })
-const exercises: Exercise[] = [...towerExercises, ...matExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press') || (exercise.kind === 'Reformer' && ['Tree / Climb-a-Tree', 'Short Box Mermaid', 'Thigh Stretch', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Footbar', 'Rowing Back'].includes(exercise.en))))
+const exercises: Exercise[] = [...towerExercises, ...matExercises, ...matExtraExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press') || (exercise.kind === 'Reformer' && ['Tree / Climb-a-Tree', 'Short Box Mermaid', 'Thigh Stretch', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Footbar', 'Rowing Back'].includes(exercise.en))))
 
 type ReformerCategory = '全部' | '脚踏板与仰卧' | '长箱' | '短箱' | '跪姿' | '坐姿与划船' | '站姿与侧向' | '进阶与平衡'
 const reformerCategoryNames: Record<Exclude<ReformerCategory, '全部'>, string[]> = {
@@ -376,6 +392,18 @@ const exerciseMuscles: Record<string, MuscleGroup[]> = {
   'Side Mountain Climb': ['肩部', '手臂', '腹部', '髋部'],
   Coordination: ['腹部', '髋部', '肩部'],
   'Stomach Massage Basic': ['腹部', '髋部', '股四'],
+  'Half Roll Back': ['腹部', '背部'],
+  'Chest Lift': ['腹部'],
+  'Single Leg Lift': ['腹部', '髋部'],
+  'Toe Taps': ['腹部', '髋部'],
+  'Side-Lying Leg Series': ['臀部', '髋部', '腹部'],
+  Clam: ['臀部', '髋部'],
+  Dart: ['背部', '臀部', '肩部'],
+  'Mat Mermaid': ['腹部', '背部', '髋部'],
+  'Mini Ball Adductor Squeeze': ['髋部', '腹部'],
+  'Resistance Band Chest Expansion': ['背部', '肩部', '手臂'],
+  'Foam Roller Dead Bug': ['腹部', '髋部', '肩部'],
+  'Mini Ball Hundred': ['腹部', '髋部'],
   Running: ['小腿', '股四', '腘绳'],
 }
 
