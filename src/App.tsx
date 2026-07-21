@@ -51,6 +51,7 @@ const reformerExpansionNames: [string, string][] = [
 ]
 const reformerExpansionCustomImages: Record<string, string> = {
   'Short Box Round Back': 'assets/reformer-expansion/short-box-round-back.png?v=2',
+  'Short Box Flat Back': 'assets/reformer-custom/short-box-flat-back-v2.png?v=1',
   'High Frog': 'assets/reformer-expansion/high-frog.png?v=3',
   'Hamstring Curls': 'assets/reformer-custom/hamstring-curls.png?v=1',
   Breaststroke: 'assets/reformer-custom/breaststroke.png?v=1',
