@@ -3,6 +3,7 @@ import './App.css'
 
 type EquipmentKind = '塔架' | '垫上' | 'Ladder Barrel' | '小器械' | 'Wunda Chair' | 'Reformer'
 type MuscleGroup = '胸部' | '肩部' | '手臂' | '腹部' | '背部' | '臀部' | '髋部' | '股四' | '腘绳' | '小腿'
+type ReformerCategory = '全部' | '脚踏板与仰卧' | '长箱' | '短箱' | '跪姿' | '坐姿与划船' | '站姿与侧向' | '进阶与平衡'
 type Exercise = { id: number; en: string; zh: string; image: string; kind: EquipmentKind; sprite?: string; tileX?: number; tileY?: number; spriteCols?: number; spriteRows?: number }
 type SetEntry = { weight: string; reps: string }
 const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path}`
@@ -148,17 +149,99 @@ const customMoreExercises: Exercise[] = moreExercises.map(exercise => {
   if (exercise.kind === 'Reformer' && exercise.en === 'Stomach Massage Basic') return { ...exercise, image: assetUrl('assets/reformer-custom/stomach-massage-basic.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
   return exercise
 })
-const exercises: Exercise[] = [...towerExercises, ...matExercises, ...matExtraExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press') || (exercise.kind === 'Reformer' && ['Tree / Climb-a-Tree', 'Short Box Mermaid', 'Thigh Stretch', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Footbar', 'Rowing Back'].includes(exercise.en))))
+type ReformerLibraryItem = { en: string; zh: string; file: string; category: Exclude<ReformerCategory, '全部'>; muscles: MuscleGroup[] }
+const reformerComprehensiveItems: ReformerLibraryItem[] = [
+  { en: 'Footwork Arches', zh: '足弓脚踏', file: 'footwork-arches', category: '脚踏板与仰卧', muscles: ['股四', '臀部', '腘绳', '小腿'] },
+  { en: 'Footwork Tendon Stretch', zh: '脚踏肌腱伸展', file: 'footwork-tendon-stretch', category: '脚踏板与仰卧', muscles: ['小腿', '腘绳', '股四'] },
+  { en: 'Backbend', zh: '后弯式', file: 'backbend', category: '进阶与平衡', muscles: ['背部', '臀部', '肩部', '腹部'] },
+  { en: 'Up Stretch Combo', zh: '上伸展组合', file: 'up-stretch-combo', category: '进阶与平衡', muscles: ['肩部', '手臂', '腹部', '腘绳'] },
+  { en: 'One-Leg Tendon Stretch Front', zh: '单腿前向肌腱伸展', file: 'one-leg-tendon-stretch-front', category: '站姿与侧向', muscles: ['腘绳', '小腿', '臀部', '腹部'] },
+  { en: 'One-Leg Tendon Stretch Back', zh: '单腿后向肌腱伸展', file: 'one-leg-tendon-stretch-back', category: '站姿与侧向', muscles: ['腘绳', '小腿', '臀部', '腹部'] },
+  { en: 'Tendon Stretch Combo', zh: '肌腱伸展组合', file: 'tendon-stretch-combo', category: '进阶与平衡', muscles: ['肩部', '手臂', '腹部', '腘绳'] },
+  { en: 'Short Box Around the World', zh: '短箱环游世界', file: 'short-box-around-the-world', category: '短箱', muscles: ['腹部', '背部', '髋部'] },
+  { en: 'Headstand 1', zh: '头倒立一式', file: 'headstand-1', category: '进阶与平衡', muscles: ['肩部', '手臂', '腹部', '背部'] },
+  { en: 'Headstand 2', zh: '头倒立二式', file: 'headstand-2', category: '进阶与平衡', muscles: ['肩部', '手臂', '腹部', '背部'] },
+  { en: 'Headstand with Straps', zh: '拉带头倒立', file: 'headstand-with-straps', category: '进阶与平衡', muscles: ['肩部', '手臂', '腹部', '背部'] },
+  { en: 'Swakate Series', zh: 'Swakate 手臂系列', file: 'swakate-series', category: '坐姿与划船', muscles: ['肩部', '手臂', '背部', '腹部'] },
+  { en: 'Long Spine Control', zh: '长脊柱控制', file: 'long-spine-control', category: '脚踏板与仰卧', muscles: ['腹部', '背部', '臀部', '腘绳'] },
+  { en: 'Scorpion', zh: '蝎子式', file: 'scorpion', category: '进阶与平衡', muscles: ['背部', '臀部', '肩部', '腹部'] },
+  { en: 'Grande Splits', zh: '大劈叉', file: 'grande-splits', category: '站姿与侧向', muscles: ['髋部', '腘绳', '股四', '臀部'] },
+  { en: 'Russian Squats', zh: '俄式深蹲', file: 'russian-squats', category: '站姿与侧向', muscles: ['股四', '臀部', '腘绳', '腹部'] },
+  { en: 'Gondola', zh: '吊桥式', file: 'gondola', category: '站姿与侧向', muscles: ['臀部', '髋部', '股四', '腹部'] },
+  { en: 'Reformer Roll Down', zh: '滑床卷腹后倒', file: 'reformer-roll-down', category: '坐姿与划船', muscles: ['腹部', '背部', '髋部'] },
+  { en: 'Oblique Roll Down', zh: '斜向卷腹后倒', file: 'oblique-roll-down', category: '坐姿与划船', muscles: ['腹部', '背部', '髋部'] },
+  { en: 'Single-Leg Footwork Arches', zh: '单腿足弓脚踏', file: 'single-leg-footwork-arches', category: '脚踏板与仰卧', muscles: ['股四', '臀部', '腘绳', '小腿'] },
+  { en: 'Single-Leg Tendon Footwork', zh: '单腿肌腱脚踏', file: 'single-leg-tendon-footwork', category: '脚踏板与仰卧', muscles: ['股四', '腘绳', '小腿'] },
+  { en: 'Wide-V Toes', zh: '宽位脚趾脚踏', file: 'wide-v-toes', category: '脚踏板与仰卧', muscles: ['股四', '臀部', '髋部', '小腿'] },
+  { en: 'Wide-V Heels', zh: '宽位足跟脚踏', file: 'wide-v-heels', category: '脚踏板与仰卧', muscles: ['股四', '臀部', '髋部', '腘绳'] },
+  { en: 'Supine Arm Press Down', zh: '仰卧手臂下压', file: 'supine-arm-press-down', category: '脚踏板与仰卧', muscles: ['肩部', '手臂', '背部', '腹部'] },
+  { en: 'Supine Arm Circles', zh: '仰卧手臂画圈', file: 'supine-arm-circles', category: '脚踏板与仰卧', muscles: ['肩部', '手臂', '背部', '腹部'] },
+  { en: 'Supine Triceps Press', zh: '仰卧肱三头肌推压', file: 'supine-triceps-press', category: '脚踏板与仰卧', muscles: ['手臂', '肩部', '腹部'] },
+  { en: 'Supine T-Pull', zh: '仰卧T形拉带', file: 'supine-t-pull', category: '脚踏板与仰卧', muscles: ['肩部', '背部', '手臂', '腹部'] },
+  { en: 'Feet in Straps Arcs', zh: '脚套弧线', file: 'feet-in-straps-arcs', category: '脚踏板与仰卧', muscles: ['髋部', '臀部', '腹部', '腘绳'] },
+  { en: 'Feet in Straps Openings', zh: '脚套开合', file: 'feet-in-straps-openings', category: '脚踏板与仰卧', muscles: ['髋部', '臀部', '腹部'] },
+  { en: 'Feet in Straps Walking', zh: '脚套行走', file: 'feet-in-straps-walking', category: '脚踏板与仰卧', muscles: ['髋部', '股四', '腘绳', '腹部'] },
+  { en: 'Feet in Straps Beats', zh: '脚套拍击', file: 'feet-in-straps-beats', category: '脚踏板与仰卧', muscles: ['髋部', '腹部', '股四'] },
+  { en: 'Single-Leg Circles in Straps', zh: '脚套单腿画圈', file: 'single-leg-circles-in-straps', category: '脚踏板与仰卧', muscles: ['髋部', '臀部', '腹部'] },
+  { en: 'Single-Leg Frog', zh: '脚套单腿蛙式', file: 'single-leg-frog', category: '脚踏板与仰卧', muscles: ['髋部', '臀部', '股四', '腹部'] },
+  { en: 'Long Box Overhead Press', zh: '长箱过顶推压', file: 'long-box-overhead-press', category: '长箱', muscles: ['肩部', '手臂', '背部', '腹部'] },
+  { en: 'Long Box Swan Dive', zh: '长箱天鹅俯冲', file: 'long-box-swan-dive', category: '长箱', muscles: ['背部', '臀部', '肩部', '腘绳'] },
+  { en: 'Long Box Triceps Pull', zh: '长箱肱三头肌拉带', file: 'long-box-triceps-pull', category: '长箱', muscles: ['手臂', '肩部', '背部', '腹部'] },
+  { en: 'Long Box Teaser Arm Circles', zh: '长箱V形手臂画圈', file: 'long-box-teaser-arm-circles', category: '长箱', muscles: ['腹部', '髋部', '肩部', '手臂'] },
+  { en: 'Short Box Oblique Round Back', zh: '短箱斜向圆背', file: 'short-box-oblique-round-back', category: '短箱', muscles: ['腹部', '背部', '髋部'] },
+  { en: 'Short Box Flat Back with Pole', zh: '短箱持杆平背', file: 'short-box-flat-back-with-pole', category: '短箱', muscles: ['腹部', '背部', '肩部', '髋部'] },
+  { en: 'Short Box Side Reach with Pole', zh: '短箱持杆侧屈', file: 'short-box-side-reach-with-pole', category: '短箱', muscles: ['腹部', '背部', '肩部', '髋部'] },
+  { en: 'Rowing Front I: Sitting Tall', zh: '前向划船一式—挺直坐姿', file: 'rowing-front-i-sitting-tall', category: '坐姿与划船', muscles: ['背部', '肩部', '手臂', '腹部'] },
+  { en: 'Rowing Front II: Bending Down', zh: '前向划船二式—俯身', file: 'rowing-front-ii-bending-down', category: '坐姿与划船', muscles: ['背部', '肩部', '手臂', '腹部'] },
+  { en: 'Hug a Tree Facing Footbar', zh: '面向脚杆抱树式', file: 'hug-a-tree-facing-footbar', category: '坐姿与划船', muscles: ['胸部', '肩部', '手臂', '腹部'] },
+  { en: 'Salute', zh: '面向脚杆敬礼式', file: 'salute', category: '坐姿与划船', muscles: ['肩部', '手臂', '腹部'] },
+  { en: 'Twist Front – Punching', zh: '前向扭转出拳', file: 'twist-front-punching', category: '坐姿与划船', muscles: ['腹部', '肩部', '手臂', '背部'] },
+  { en: 'Triceps Press Facing Straps', zh: '面向拉带肱三头肌推压', file: 'triceps-press-facing-straps', category: '跪姿', muscles: ['手臂', '肩部', '腹部'] },
+  { en: 'Straight-Arm Pull Facing Straps', zh: '面向拉带直臂下压', file: 'straight-arm-pull-facing-straps', category: '跪姿', muscles: ['背部', '肩部', '手臂', '腹部'] },
+  { en: 'Kneeling Draw a Sword', zh: '跪姿拔剑式', file: 'kneeling-draw-a-sword', category: '跪姿', muscles: ['肩部', '手臂', '背部', '腹部'] },
+  { en: 'Kneeling Side Arm External Rotation', zh: '跪姿侧臂外旋', file: 'kneeling-side-arm-external-rotation', category: '跪姿', muscles: ['肩部', '手臂', '背部', '腹部'] },
+  { en: 'One-Leg Knee Stretch Round', zh: '单腿圆背膝部伸展', file: 'one-leg-knee-stretch-round', category: '跪姿', muscles: ['腹部', '肩部', '臀部', '股四'] },
+  { en: 'One-Leg Knee Stretch Arched', zh: '单腿拱背膝部伸展', file: 'one-leg-knee-stretch-arched', category: '跪姿', muscles: ['背部', '肩部', '臀部', '股四'] },
+  { en: 'One-Leg Long Stretch', zh: '单腿长伸展', file: 'one-leg-long-stretch', category: '进阶与平衡', muscles: ['肩部', '手臂', '腹部', '臀部'] },
+  { en: 'Long Stretch Leg Lift', zh: '长伸展抬腿', file: 'long-stretch-leg-lift', category: '进阶与平衡', muscles: ['肩部', '手臂', '腹部', '臀部'] },
+  { en: "Eve's Lunge", zh: '夏娃弓步', file: 'eves-lunge', category: '站姿与侧向', muscles: ['髋部', '股四', '臀部', '腘绳'] },
+  { en: 'Skating', zh: '滑冰式', file: 'skating', category: '站姿与侧向', muscles: ['臀部', '髋部', '股四', '腹部'] },
+  { en: 'Side Split Squat', zh: '侧劈腿深蹲', file: 'side-split-squat', category: '站姿与侧向', muscles: ['臀部', '髋部', '股四', '腘绳'] },
+  { en: 'Back Splits', zh: '后劈腿', file: 'back-splits', category: '站姿与侧向', muscles: ['髋部', '股四', '腘绳', '臀部'] },
+  { en: 'Kneeling Scooter', zh: '跪姿滑板车', file: 'kneeling-scooter', category: '跪姿', muscles: ['臀部', '股四', '髋部', '腹部'] },
+  { en: 'Jumpboard Parallel Jumps', zh: '平行腿跳跃', file: 'jumpboard-parallel-jumps', category: '脚踏板与仰卧', muscles: ['股四', '臀部', '小腿', '腹部'] },
+  { en: 'Jumpboard Pilates-V', zh: '普拉提V字跳跃', file: 'jumpboard-pilates-v', category: '脚踏板与仰卧', muscles: ['股四', '臀部', '髋部', '小腿'] },
+  { en: 'Jumpboard Wide-V', zh: '宽位V字跳跃', file: 'jumpboard-wide-v', category: '脚踏板与仰卧', muscles: ['股四', '臀部', '髋部', '小腿'] },
+  { en: 'Jumpboard Single-Leg Jumps', zh: '单腿跳跃', file: 'jumpboard-single-leg-jumps', category: '脚踏板与仰卧', muscles: ['股四', '臀部', '小腿', '腹部'] },
+  { en: 'Jumpboard Running', zh: '跳板跑步', file: 'jumpboard-running', category: '脚踏板与仰卧', muscles: ['股四', '腘绳', '小腿', '腹部'] },
+  { en: 'Jumpboard Prancing', zh: '跳板腾跃式', file: 'jumpboard-prancing', category: '脚踏板与仰卧', muscles: ['小腿', '股四', '腘绳'] },
+  { en: 'Jumpboard Skiing', zh: '跳板滑雪式', file: 'jumpboard-skiing', category: '脚踏板与仰卧', muscles: ['股四', '臀部', '髋部', '腹部'] },
+  { en: 'Side-Lying Jumpboard', zh: '侧卧跳跃', file: 'side-lying-jumpboard', category: '脚踏板与仰卧', muscles: ['臀部', '髋部', '股四', '腹部'] },
+  { en: 'Jumpboard Tuck Jumps', zh: '屈膝跳跃', file: 'jumpboard-tuck-jumps', category: '脚踏板与仰卧', muscles: ['腹部', '髋部', '股四', '小腿'] },
+  { en: 'Oblique Reverse Abdominals', zh: '斜向反向腹部', file: 'oblique-reverse-abdominals', category: '脚踏板与仰卧', muscles: ['腹部', '髋部', '背部'] },
+  { en: 'Single-Leg High Bridge', zh: '单腿高桥式', file: 'single-leg-high-bridge', category: '脚踏板与仰卧', muscles: ['臀部', '腘绳', '腹部', '髋部'] },
+  { en: 'Star with Leg Lift', zh: '星式抬腿', file: 'star-with-leg-lift', category: '进阶与平衡', muscles: ['肩部', '手臂', '腹部', '臀部'] },
+  { en: 'Snake with Bar Up', zh: '蛇式推杆上举', file: 'snake-with-bar-up', category: '进阶与平衡', muscles: ['肩部', '手臂', '腹部', '背部'] },
+  { en: 'Twist with Bar Up', zh: '扭转式推杆上举', file: 'twist-with-bar-up', category: '进阶与平衡', muscles: ['肩部', '手臂', '腹部', '背部'] },
+]
+const reformerComprehensiveExercises: Exercise[] = reformerComprehensiveItems.map((item, index) => ({
+  id: 242 + index,
+  en: item.en,
+  zh: item.zh,
+  image: assetUrl(`assets/reformer-comprehensive/${item.file}.png?v=1`),
+  kind: 'Reformer' as const,
+}))
+const reformerComprehensiveMuscles = Object.fromEntries(reformerComprehensiveItems.map(item => [item.en, item.muscles])) as Record<string, MuscleGroup[]>
+const exercises: Exercise[] = [...towerExercises, ...matExercises, ...matExtraExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises, ...reformerComprehensiveExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press') || (exercise.kind === 'Reformer' && ['Tree / Climb-a-Tree', 'Short Box Mermaid', 'Thigh Stretch', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Footbar', 'Rowing Back'].includes(exercise.en))))
 
-type ReformerCategory = '全部' | '脚踏板与仰卧' | '长箱' | '短箱' | '跪姿' | '坐姿与划船' | '站姿与侧向' | '进阶与平衡'
 const reformerCategoryNames: Record<Exclude<ReformerCategory, '全部'>, string[]> = {
-  '脚踏板与仰卧': ['Footwork', 'The Hundred', 'Frog', 'Leg Circles', 'Short Spine', 'Footwork Toes', 'Footwork Heels', 'High Frog', 'Semi Circle', 'High Bridge', 'Pelvic Lift', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Footwork on Footplate', 'Jumping on Footplate', 'Supine Arm Work', 'Teaser Beats', 'Bridging', 'Feet in Straps', 'Reverse Abdominals', 'Running', 'Coordination'],
-  '长箱': ['Long Box Pulling Straps', 'Backstroke', 'Swan on Long Box', 'Breaststroke', 'Hamstring Curls', 'Horseback', 'Side Sit Ups', 'Pulling Straps', 'Horizontal T-Pull', 'Grasshopper', 'Swimming', 'Long Box Double Leg Kick', 'Rocking'],
-  '短箱': ['Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'Short Box Abdominals', 'Short Box Oblique Abdominals', 'Short Box Advanced Abdominals', 'Short Box Mermaid', 'Short Box Climb a Tree'],
-  '跪姿': ['Knee Stretches', 'Down Stretch', 'Up Stretch', 'Knee Stretches Knees Off', 'Knee Stretches Round', 'Knee Stretches Arched', 'Chest Expansion', 'Thigh Stretch', 'Arm Circles', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Straps', 'Arm Work Facing Footbar', 'Kneeling Side Arms'],
-  '坐姿与划船': ['Rowing Into the Sternum', 'Rowing 90 Degrees', 'Rowing From the Chest', 'Rowing From the Hips', 'Rowing Back', 'Rowing Front', 'Seated Side Arm Pull', 'Seated Side Arm Pull – Feet Grounded', 'Teaser Arm Pull', 'Shaving', 'Hug', 'Teaser', 'Mermaid', 'Stomach Massage Basic', 'Stomach Massage Round', 'Stomach Massage Hands Back', 'Stomach Massage Reach Up', 'Stomach Massage Twist', 'Side Stretch / Mermaid', 'Cleopatra', 'Biceps Curl', 'Posterior Shoulder Press', 'Serve a Tray'],
-  '站姿与侧向': ['Single Leg Elephant', 'Arabesque', 'Front Splits', 'Russian Splits', 'Side Splits', 'Tendon Stretch', 'Tendon Stretch Side', 'Lunges', 'Scooter', 'Side Standing Scooter', 'Standing Instep Press', 'Side Support'],
-  '进阶与平衡': ['Long Stretch', 'Elephant', 'Long Back Stretch', 'Overhead', 'Corkscrew', 'Tic Toc', 'Control Balance Off', 'Snake', 'Twist', 'Footbar Plank Box Slide', 'Footbar Reverse Plank Box Slide', 'Star', 'Footbar Plank Carriage Slide', 'Footbar Reverse Plank Carriage Slide'],
+  '脚踏板与仰卧': ['Footwork', 'The Hundred', 'Frog', 'Leg Circles', 'Short Spine', 'Footwork Toes', 'Footwork Heels', 'High Frog', 'Semi Circle', 'High Bridge', 'Pelvic Lift', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Footwork on Footplate', 'Jumping on Footplate', 'Supine Arm Work', 'Teaser Beats', 'Bridging', 'Feet in Straps', 'Reverse Abdominals', 'Running', 'Coordination', ...reformerComprehensiveItems.filter(item => item.category === '脚踏板与仰卧').map(item => item.en)],
+  '长箱': ['Long Box Pulling Straps', 'Backstroke', 'Swan on Long Box', 'Breaststroke', 'Hamstring Curls', 'Horseback', 'Side Sit Ups', 'Pulling Straps', 'Horizontal T-Pull', 'Grasshopper', 'Swimming', 'Long Box Double Leg Kick', 'Rocking', ...reformerComprehensiveItems.filter(item => item.category === '长箱').map(item => item.en)],
+  '短箱': ['Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'Short Box Abdominals', 'Short Box Oblique Abdominals', 'Short Box Advanced Abdominals', 'Short Box Mermaid', 'Short Box Climb a Tree', ...reformerComprehensiveItems.filter(item => item.category === '短箱').map(item => item.en)],
+  '跪姿': ['Knee Stretches', 'Down Stretch', 'Up Stretch', 'Knee Stretches Knees Off', 'Knee Stretches Round', 'Knee Stretches Arched', 'Chest Expansion', 'Thigh Stretch', 'Arm Circles', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Straps', 'Arm Work Facing Footbar', 'Kneeling Side Arms', ...reformerComprehensiveItems.filter(item => item.category === '跪姿').map(item => item.en)],
+  '坐姿与划船': ['Rowing Into the Sternum', 'Rowing 90 Degrees', 'Rowing From the Chest', 'Rowing From the Hips', 'Rowing Back', 'Rowing Front', 'Seated Side Arm Pull', 'Seated Side Arm Pull – Feet Grounded', 'Teaser Arm Pull', 'Shaving', 'Hug', 'Teaser', 'Mermaid', 'Stomach Massage Basic', 'Stomach Massage Round', 'Stomach Massage Hands Back', 'Stomach Massage Reach Up', 'Stomach Massage Twist', 'Side Stretch / Mermaid', 'Cleopatra', 'Biceps Curl', 'Posterior Shoulder Press', 'Serve a Tray', ...reformerComprehensiveItems.filter(item => item.category === '坐姿与划船').map(item => item.en)],
+  '站姿与侧向': ['Single Leg Elephant', 'Arabesque', 'Front Splits', 'Russian Splits', 'Side Splits', 'Tendon Stretch', 'Tendon Stretch Side', 'Lunges', 'Scooter', 'Side Standing Scooter', 'Standing Instep Press', 'Side Support', ...reformerComprehensiveItems.filter(item => item.category === '站姿与侧向').map(item => item.en)],
+  '进阶与平衡': ['Long Stretch', 'Elephant', 'Long Back Stretch', 'Overhead', 'Corkscrew', 'Tic Toc', 'Control Balance Off', 'Snake', 'Twist', 'Footbar Plank Box Slide', 'Footbar Reverse Plank Box Slide', 'Star', 'Footbar Plank Carriage Slide', 'Footbar Reverse Plank Carriage Slide', ...reformerComprehensiveItems.filter(item => item.category === '进阶与平衡').map(item => item.en)],
 }
 const reformerCategoryList = Object.keys(reformerCategoryNames) as Exclude<ReformerCategory, '全部'>[]
 const reformerCategoryFor = (en: string): Exclude<ReformerCategory, '全部'> => reformerCategoryList.find(category => reformerCategoryNames[category].includes(en)) || '进阶与平衡'
@@ -172,6 +255,7 @@ const spriteStyle = (exercise: Exercise) => {
 const exerciseImageClass = (exercise: Exercise) => {
   if (exercise.en === 'Hanging Pull Ups') return 'hanging-pull-image'
   if (exercise.kind === '垫上' && ['Scissors', 'Bicycle'].includes(exercise.en)) return 'compact-mat-image'
+  if (exercise.kind === 'Reformer' && exercise.id >= 242 && exercise.id <= 313) return 'compact-reformer-image'
   if (exercise.kind === 'Reformer' && ['Frog', 'Rowing 90 Degrees', 'Rowing From the Hips', 'Shaving', 'Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'High Frog', 'High Bridge', 'Footwork Heels', 'Footwork Toes', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Horizontal T-Pull', 'Seated Side Arm Pull', 'Seated Side Arm Pull – Feet Grounded', 'Teaser Arm Pull', 'Side Standing Scooter', 'Standing Instep Press', 'Teaser Beats', 'Coordination', 'Arm Circles', 'Knee Stretches Knees Off', 'Running', 'Hamstring Curls', 'Long Box Pulling Straps', 'Backstroke', 'Breaststroke', 'Supine Arm Work', 'Semi Circle', 'Jumping on Footplate', 'Thigh Stretch', 'Down Stretch', 'Hug', 'Stomach Massage Basic', 'Stomach Massage Round', 'Stomach Massage Hands Back', 'Stomach Massage Reach Up', 'Stomach Massage Twist', 'Backbend to Bar', 'Russian Splits', 'Footbar Plank Carriage Slide', 'Footbar Reverse Plank Carriage Slide', 'Footbar Plank Box Slide', 'Footbar Reverse Plank Box Slide'].includes(exercise.en)) return 'compact-reformer-image'
   if (exercise.kind === '小器械' && ['Supine Bent-Knee Magic Circle Inner Thigh Squeeze', 'Seated Magic Circle Inner Thigh Squeeze', 'Supine Tabletop Magic Circle Inner Thigh Squeeze', 'Magic Circle Side Leg Press', 'Resistance Band Leg Press', 'Small Ball Leg Lift'].includes(exercise.en)) return 'compact-small-apparatus-image'
   return ''
@@ -418,7 +502,7 @@ const equipmentExerciseMuscles: Record<string, MuscleGroup[]> = {
 }
 
 const musclesFor = (exercise: Exercise): MuscleGroup[] => {
-  return equipmentExerciseMuscles[`${exercise.kind}|${exercise.en}`] || exerciseMuscles[exercise.en] || []
+  return equipmentExerciseMuscles[`${exercise.kind}|${exercise.en}`] || reformerComprehensiveMuscles[exercise.en] || exerciseMuscles[exercise.en] || []
 }
 
 type Step = 'choose' | 'edit' | 'share'
