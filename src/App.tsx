@@ -5,8 +5,9 @@ type EquipmentKind = '塔架' | '垫上' | 'Ladder Barrel' | '小器械' | 'Wund
 type MuscleGroup = '胸部' | '肩部' | '手臂' | '腹部' | '背部' | '臀部' | '髋部' | '股四' | '腘绳' | '小腿'
 type ReformerCategory = '全部' | '脚踏板与仰卧' | '长箱' | '短箱' | '跪姿' | '坐姿与划船' | '站姿与侧向' | '进阶与平衡'
 type Exercise = { id: number; en: string; zh: string; image: string; kind: EquipmentKind; sprite?: string; tileX?: number; tileY?: number; spriteCols?: number; spriteRows?: number }
-type SetEntry = { weight: string; reps: string }
+type SetEntry = { spring: string; reps: string }
 const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path}`
+const springOptions = ['红弹簧', '绿弹簧', '黄弹簧']
 
 const towerExercises: Exercise[] = [
   ['Roll Down', '卷腹下拉'], ['Push Through Front', '推杆前推'], ['Push Through Reverse', '推杆反向'], ['Tower', '塔式'], ['Monkey', '猴式'],
@@ -514,6 +515,8 @@ export default function App() {
   const [reformerCategory, setReformerCategory] = useState<ReformerCategory>('全部')
   const [selected, setSelected] = useState<number[]>([])
   const [logs, setLogs] = useState<Record<number, SetEntry[]>>({})
+  const [exerciseNotes, setExerciseNotes] = useState<Record<number, string>>({})
+  const [overallNote, setOverallNote] = useState('')
   const visible = useMemo(() => exercises.filter(e => (kind === '全部' || e.kind === kind) && (kind !== 'Reformer' || reformerCategory === '全部' || reformerCategoryFor(e.en) === reformerCategory) && `${e.zh} ${e.en}`.toLowerCase().includes(query.toLowerCase())), [query, kind, reformerCategory])
   const chosen = selected.map(id => exercises.find(exercise => exercise.id === id)).filter((exercise): exercise is Exercise => Boolean(exercise))
   const toggle = (id: number) => setSelected(current => current.includes(id) ? current.filter(item => item !== id) : [...current, id])
@@ -532,17 +535,32 @@ export default function App() {
       delete next[id]
       return next
     })
+    setExerciseNotes(current => {
+      const next = { ...current }
+      delete next[id]
+      return next
+    })
   }
-  const updateSet = (id: number, index: number, key: keyof SetEntry, value: string) => setLogs(current => ({ ...current, [id]: (current[id] || [{ weight: '', reps: '' }]).map((set, i) => i === index ? { ...set, [key]: value } : set) }))
-  const addSet = (id: number) => setLogs(current => ({ ...current, [id]: [...(current[id] || [{ weight: '', reps: '' }]), { weight: '', reps: '' }] }))
+  const updateSet = (id: number, index: number, key: keyof SetEntry, value: string) => setLogs(current => ({ ...current, [id]: (current[id] || [{ spring: '', reps: '' }]).map((set, i) => i === index ? { ...set, [key]: value } : set) }))
+  const addSet = (id: number) => setLogs(current => ({ ...current, [id]: [...(current[id] || [{ spring: '', reps: '' }]), { spring: '', reps: '' }] }))
   const makeShare = () => setStep('share')
   const download = () => {
     const node = document.getElementById('share-card')
     if (!node) return
     const activeMuscles = [...new Set(chosen.flatMap(musclesFor))]
-    const totalSets = chosen.reduce((sum, exercise) => sum + (logs[exercise.id] || [{ weight: '', reps: '' }]).length, 0)
-    const canvas = document.createElement('canvas'); canvas.width = 1200; canvas.height = Math.max(1500, 430 + chosen.length * 100 + totalSets * 44)
+    const totalSets = chosen.reduce((sum, exercise) => sum + (logs[exercise.id] || [{ spring: '', reps: '' }]).length, 0)
+    const noteLines = chosen.reduce((sum, exercise) => sum + (exerciseNotes[exercise.id] ? Math.ceil(exerciseNotes[exercise.id].length / 38) + 1 : 0), 0) + (overallNote ? Math.ceil(overallNote.length / 38) + 2 : 0)
+    const canvas = document.createElement('canvas'); canvas.width = 1200; canvas.height = Math.max(1500, 430 + chosen.length * 100 + totalSets * 44 + noteLines * 34)
     const ctx = canvas.getContext('2d'); if (!ctx) return
+    const drawWrappedText = (text: string, x: number, startY: number, maxWidth: number, lineHeight: number) => {
+      let line = ''; let lineY = startY
+      Array.from(text).forEach(character => {
+        const testLine = line + character
+        if (line && ctx.measureText(testLine).width > maxWidth) { ctx.fillText(line, x, lineY); line = character; lineY += lineHeight } else line = testLine
+      })
+      if (line) { ctx.fillText(line, x, lineY); lineY += lineHeight }
+      return lineY
+    }
     ctx.fillStyle = '#f7efde'; ctx.fillRect(0, 0, canvas.width, canvas.height)
     ctx.fillStyle = '#211a14'; ctx.font = 'bold 48px serif'; ctx.fillText('今日训练记录', 70, 95)
     ctx.font = '26px sans-serif'; ctx.fillStyle = '#73685b'; ctx.fillText(new Date().toLocaleDateString('zh-CN'), 72, 140)
@@ -559,16 +577,56 @@ export default function App() {
     })
     ctx.fillStyle = '#73685b'; ctx.font = '20px sans-serif'; ctx.fillText(`本次训练覆盖 ${activeMuscles.length} 个主要发力或稳定区域`, 72, chipY + 66)
     let y = chipY + 130
-    chosen.forEach(exercise => { ctx.fillStyle = '#9f2f24'; ctx.font = 'bold 30px serif'; ctx.fillText(`${exercise.zh}  ${exercise.en}`, 72, y); y += 48; ctx.fillStyle = '#211a14'; ctx.font = '24px sans-serif'; (logs[exercise.id] || []).forEach((set, i) => { ctx.fillText(`第 ${i + 1} 组     ${set.weight || '—'} kg × ${set.reps || '—'} 次`, 90, y); y += 36 }); y += 35 })
+    chosen.forEach(exercise => {
+      ctx.fillStyle = '#9f2f24'; ctx.font = 'bold 30px serif'; ctx.fillText(`${exercise.zh}  ${exercise.en}`, 72, y); y += 48
+      ctx.fillStyle = '#211a14'; ctx.font = '24px sans-serif'
+      ;(logs[exercise.id] || [{ spring: '', reps: '' }]).forEach((set, i) => { ctx.fillText(`第 ${i + 1} 组     ${set.spring || '未选择弹簧'} × ${set.reps || '—'} 次`, 90, y); y += 36 })
+      if (exerciseNotes[exercise.id]) { ctx.fillStyle = '#73685b'; ctx.font = '21px sans-serif'; ctx.fillText('动作心得', 90, y + 6); y = drawWrappedText(exerciseNotes[exercise.id], 205, y + 6, 900, 31) }
+      y += 35
+    })
+    if (overallNote) { ctx.fillStyle = '#9f2f24'; ctx.font = 'bold 28px serif'; ctx.fillText('今日总心得', 72, y); y += 42; ctx.fillStyle = '#211a14'; ctx.font = '22px sans-serif'; drawWrappedText(overallNote, 72, y, 1056, 32) }
     const link = document.createElement('a'); link.download = 'pilates-workout.png'; link.href = canvas.toDataURL('image/png'); link.click()
   }
 
   return <main className="fitness-app">
     <header className="fitness-header"><div><h1>训练本纪 · 今日记录</h1></div><span className="date-stamp">{new Date().toLocaleDateString('zh-CN')}</span></header>
     <div className="progress"><span className={step === 'choose' ? 'active' : ''}>01 选择动作</span><i /> <span className={step === 'edit' ? 'active' : ''}>02 填写训练</span><i /> <span className={step === 'share' ? 'active' : ''}>03 生成分享图</span></div>
-    {step === 'choose' && <section className="sheet"><div className="section-heading"><div><span className="eyebrow">Classical Pilates Library · {exercises.length} Exercises</span><h2>选择今天练习的动作</h2></div><span className="count">已选 {selected.length} / {exercises.length}</span></div><div className="filters"><button className={kind === '全部' ? 'on' : ''} onClick={() => { setKind('全部'); setReformerCategory('全部') }}>全部 · {exercises.length}</button>{(['塔架', '垫上', 'Ladder Barrel', '小器械', 'Wunda Chair', 'Reformer'] as EquipmentKind[]).map(item => <button key={item} className={kind === item ? 'on' : ''} onClick={() => { setKind(item); setReformerCategory('全部') }}>{item} · {exercises.filter(exercise => exercise.kind === item).length}</button>)}</div>{kind === 'Reformer' && <div className="reformer-subfilters"><span>按器械配置筛选</span><div><button className={reformerCategory === '全部' ? 'on' : ''} onClick={() => setReformerCategory('全部')}>全部 · {exercises.filter(exercise => exercise.kind === 'Reformer').length}</button>{reformerCategoryList.map(category => <button key={category} className={reformerCategory === category ? 'on' : ''} onClick={() => setReformerCategory(category)}>{category} · {exercises.filter(exercise => exercise.kind === 'Reformer' && reformerCategoryFor(exercise.en) === category).length}</button>)}</div></div>}<input className="search" placeholder="搜索动作，例如：美人鱼、Monkey、The Hundred" value={query} onChange={e => setQuery(e.target.value)} /><div className="exercise-grid">{visible.map(exercise => <button className={`exercise-card ${selected.includes(exercise.id) ? 'selected' : ''}`} key={exercise.id} onClick={() => toggle(exercise.id)}>{exercise.sprite ? <div className="exercise-art" role="img" aria-label={exercise.en} style={spriteStyle(exercise)} /> : <div className="exercise-image-frame"><img className={exerciseImageClass(exercise)} src={exercise.image} alt={exercise.en} /></div>}<span className="kind-mark">{exercise.kind}</span>{selected.includes(exercise.id) && <span className="chosen-mark">✓ 已选</span>}<strong>{exercise.zh}</strong><small>{exercise.en}</small></button>)}</div><div className="action-bar"><span>先选择动作，确认后再填写重量与组数</span><button className="primary" disabled={!selected.length} onClick={() => setStep('edit')}>确认选择 · {selected.length} 个动作</button></div></section>}
-    {step === 'edit' && <section className="sheet edit-sheet"><div className="section-heading"><div><span className="eyebrow">Training Log</span><h2>填写今天的训练</h2></div><button className="text-button" onClick={() => setStep('choose')}>← 返回选动作</button></div><div className="edit-layout"><div className="edit-list">{chosen.map((exercise, exerciseIndex) => <article className="edit-row" key={exercise.id}>{exercise.sprite ? <div className="edit-sprite" role="img" aria-label={exercise.en} style={spriteStyle(exercise)} /> : <div className="edit-image-frame"><img className={exerciseImageClass(exercise)} src={exercise.image} alt="" /></div>}<div className="edit-main"><div className="edit-row-heading"><div className="edit-title"><h3>{exercise.zh}</h3><small>{exercise.en}</small></div><div className="edit-row-actions"><div className="order-actions" aria-label={`调整动作顺序：${exercise.zh}`}><button type="button" disabled={exerciseIndex === 0} aria-label={`上移：${exercise.zh}`} onClick={() => moveExercise(exercise.id, -1)}>↑ 上移</button><button type="button" disabled={exerciseIndex === chosen.length - 1} aria-label={`下移：${exercise.zh}`} onClick={() => moveExercise(exercise.id, 1)}>↓ 下移</button></div><button className="remove-exercise" type="button" aria-label={`删除动作：${exercise.zh} ${exercise.en}`} onClick={() => removeExercise(exercise.id)}>删除动作</button></div></div>{(logs[exercise.id] || [{ weight: '', reps: '' }]).map((set, index) => <div className="set-line" key={index}><span>第 {index + 1} 组</span><input inputMode="decimal" placeholder="重量" value={set.weight} onChange={e => updateSet(exercise.id, index, 'weight', e.target.value)} /><b>kg ×</b><input inputMode="numeric" placeholder="次数" value={set.reps} onChange={e => updateSet(exercise.id, index, 'reps', e.target.value)} /><b>次</b></div>)}<button className="add-set" onClick={() => addSet(exercise.id)}>＋ 添加一组</button></div></article>)}{!chosen.length && <div className="empty-training"><span className="eyebrow">No Exercise Selected</span><h3>还没有训练动作</h3><p>返回动作库重新选择，已删除动作的训练数据不会保留。</p><button className="secondary" type="button" onClick={() => setStep('choose')}>返回选择动作</button></div>}</div><MuscleMap chosen={chosen} /></div><div className="action-bar"><span>{chosen.length ? `${chosen.length} 个动作 · 可用上移/下移调整训练顺序` : '请至少选择 1 个动作'}</span><button className="primary" disabled={!chosen.length} onClick={makeShare}>确认训练 · 生成分享图</button></div></section>}
-    {step === 'share' && <section className="sheet share-sheet"><div className="section-heading"><div><span className="eyebrow">Record Complete</span><h2>今日训练已整理</h2></div><button className="text-button" onClick={() => setStep('edit')}>← 修改训练</button></div><div className="share-layout"><div id="share-card" className="share-preview"><div className="share-preview-head"><span>训练本纪 · 今日</span></div>{chosen.map(exercise => <article key={exercise.id}><div><h3>{exercise.zh}</h3><small>{exercise.en}</small></div><div>{(logs[exercise.id] || [{ weight: '', reps: '' }]).map((set, index) => <p key={index}>第 {index + 1} 组　<strong>{set.weight || '—'} kg × {set.reps || '—'} 次</strong></p>)}</div></article>)}<footer>Keep moving · Pilates practice</footer></div><MuscleMap chosen={chosen} /></div><div className="share-actions"><button className="secondary" onClick={() => setStep('choose')}>重新选择</button><button className="primary" onClick={download}>下载分享图 PNG</button></div></section>}
+    {step === 'choose' && <section className="sheet"><div className="section-heading"><div><span className="eyebrow">Classical Pilates Library · {exercises.length} Exercises</span><h2>选择今天练习的动作</h2></div><span className="count">已选 {selected.length} / {exercises.length}</span></div><div className="filters"><button className={kind === '全部' ? 'on' : ''} onClick={() => { setKind('全部'); setReformerCategory('全部') }}>全部 · {exercises.length}</button>{(['塔架', '垫上', 'Ladder Barrel', '小器械', 'Wunda Chair', 'Reformer'] as EquipmentKind[]).map(item => <button key={item} className={kind === item ? 'on' : ''} onClick={() => { setKind(item); setReformerCategory('全部') }}>{item} · {exercises.filter(exercise => exercise.kind === item).length}</button>)}</div>{kind === 'Reformer' && <div className="reformer-subfilters"><span>按器械配置筛选</span><div><button className={reformerCategory === '全部' ? 'on' : ''} onClick={() => setReformerCategory('全部')}>全部 · {exercises.filter(exercise => exercise.kind === 'Reformer').length}</button>{reformerCategoryList.map(category => <button key={category} className={reformerCategory === category ? 'on' : ''} onClick={() => setReformerCategory(category)}>{category} · {exercises.filter(exercise => exercise.kind === 'Reformer' && reformerCategoryFor(exercise.en) === category).length}</button>)}</div></div>}<input className="search" placeholder="搜索动作，例如：美人鱼、Monkey、The Hundred" value={query} onChange={e => setQuery(e.target.value)} /><div className="exercise-grid">{visible.map(exercise => <button className={`exercise-card ${selected.includes(exercise.id) ? 'selected' : ''}`} key={exercise.id} onClick={() => toggle(exercise.id)}>{exercise.sprite ? <div className="exercise-art" role="img" aria-label={exercise.en} style={spriteStyle(exercise)} /> : <div className="exercise-image-frame"><img className={exerciseImageClass(exercise)} src={exercise.image} alt={exercise.en} /></div>}<span className="kind-mark">{exercise.kind}</span>{selected.includes(exercise.id) && <span className="chosen-mark">✓ 已选</span>}<strong>{exercise.zh}</strong><small>{exercise.en}</small></button>)}</div><div className="action-bar"><span>先选择动作，确认后再填写弹簧、次数与训练心得</span><button className="primary" disabled={!selected.length} onClick={() => setStep('edit')}>确认选择 · {selected.length} 个动作</button></div></section>}
+    {step === 'edit' && <section className="sheet edit-sheet">
+      <div className="section-heading"><div><span className="eyebrow">Training Log</span><h2>填写今天的训练</h2></div><button className="text-button" onClick={() => setStep('choose')}>← 返回选动作</button></div>
+      <div className="edit-layout"><div className="edit-list">
+        {chosen.map((exercise, exerciseIndex) => <article className="edit-row" key={exercise.id}>
+          {exercise.sprite ? <div className="edit-sprite" role="img" aria-label={exercise.en} style={spriteStyle(exercise)} /> : <div className="edit-image-frame"><img className={exerciseImageClass(exercise)} src={exercise.image} alt="" /></div>}
+          <div className="edit-main">
+            <div className="edit-row-heading"><div className="edit-title"><h3>{exercise.zh}</h3><small>{exercise.en}</small></div><div className="edit-row-actions"><div className="order-actions" aria-label={`调整动作顺序：${exercise.zh}`}><button type="button" disabled={exerciseIndex === 0} aria-label={`上移：${exercise.zh}`} onClick={() => moveExercise(exercise.id, -1)}>↑ 上移</button><button type="button" disabled={exerciseIndex === chosen.length - 1} aria-label={`下移：${exercise.zh}`} onClick={() => moveExercise(exercise.id, 1)}>↓ 下移</button></div><button className="remove-exercise" type="button" aria-label={`删除动作：${exercise.zh} ${exercise.en}`} onClick={() => removeExercise(exercise.id)}>删除动作</button></div></div>
+            {(logs[exercise.id] || [{ spring: '', reps: '' }]).map((set, index) => <div className="set-line" key={index}>
+              <span>第 {index + 1} 组</span>
+              <select aria-label={`${exercise.zh}第${index + 1}组弹簧`} value={set.spring} onChange={e => updateSet(exercise.id, index, 'spring', e.target.value)}><option value="">选择弹簧</option>{springOptions.map((spring, springIndex) => <option value={spring} key={spring}>{['🔴', '🟢', '🟡'][springIndex]} {spring}</option>)}</select>
+              <b>×</b><input inputMode="numeric" placeholder="次数" value={set.reps} onChange={e => updateSet(exercise.id, index, 'reps', e.target.value)} /><b>次</b>
+            </div>)}
+            <button className="add-set" onClick={() => addSet(exercise.id)}>＋ 添加一组</button>
+            <label className="note-field"><span>动作心得</span><textarea rows={3} maxLength={300} placeholder="记录动作感受、身体反馈或下次要调整的地方……" value={exerciseNotes[exercise.id] || ''} onChange={e => setExerciseNotes(current => ({ ...current, [exercise.id]: e.target.value }))} /></label>
+          </div>
+        </article>)}
+        {!chosen.length && <div className="empty-training"><span className="eyebrow">No Exercise Selected</span><h3>还没有训练动作</h3><p>返回动作库重新选择，已删除动作的训练数据不会保留。</p><button className="secondary" type="button" onClick={() => setStep('choose')}>返回选择动作</button></div>}
+        {chosen.length > 0 && <section className="overall-note-card"><span className="eyebrow">Session Reflection</span><label className="note-field"><span>今日总心得</span><textarea rows={5} maxLength={600} placeholder="记录今天整体的身体状态、训练收获和下次计划……" value={overallNote} onChange={e => setOverallNote(e.target.value)} /></label></section>}
+      </div><MuscleMap chosen={chosen} /></div>
+      <div className="action-bar"><span>{chosen.length ? `${chosen.length} 个动作 · 可用上移/下移调整训练顺序` : '请至少选择 1 个动作'}</span><button className="primary" disabled={!chosen.length} onClick={makeShare}>确认训练 · 生成分享图</button></div>
+    </section>}
+    {step === 'share' && <section className="sheet share-sheet">
+      <div className="section-heading"><div><span className="eyebrow">Record Complete</span><h2>今日训练已整理</h2></div><button className="text-button" onClick={() => setStep('edit')}>← 修改训练</button></div>
+      <div className="share-layout"><div id="share-card" className="share-preview">
+        <div className="share-preview-head"><span>训练本纪 · 今日</span></div>
+        {chosen.map(exercise => <article key={exercise.id}>
+          <div><h3>{exercise.zh}</h3><small>{exercise.en}</small></div>
+          <div>{(logs[exercise.id] || [{ spring: '', reps: '' }]).map((set, index) => <p key={index}>第 {index + 1} 组　<strong>{set.spring || '未选择弹簧'} × {set.reps || '—'} 次</strong></p>)}</div>
+          {exerciseNotes[exercise.id] && <p className="share-exercise-note"><b>动作心得</b>{exerciseNotes[exercise.id]}</p>}
+        </article>)}
+        {overallNote && <section className="share-overall-note"><span className="eyebrow">Session Reflection</span><h3>今日总心得</h3><p>{overallNote}</p></section>}
+        <footer>Keep moving · Pilates practice</footer>
+      </div><MuscleMap chosen={chosen} /></div>
+      <div className="share-actions"><button className="secondary" onClick={() => setStep('choose')}>重新选择</button><button className="primary" onClick={download}>下载分享图 PNG</button></div>
+    </section>}
   </main>
 }
 

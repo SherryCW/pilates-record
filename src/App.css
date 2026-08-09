@@ -72,9 +72,18 @@ h2 { margin: 6px 0 0; font: 700 30px/1.2 Georgia, "Songti SC", serif; }
 .remove-exercise:hover, .remove-exercise:focus-visible { color: #f7efde; background: #9f2f24; border-color: #9f2f24; outline: none; }
 .set-line { display: flex; align-items: center; gap: 8px; margin: 7px 0; color: #73685b; font-size: 13px; }
 .set-line span { width: 52px; }
-.set-line input { width: 90px; padding: 8px 9px; background: #f7efde; border: 1px solid #af8b5575; }
+.set-line input, .set-line select { padding: 8px 9px; color: #211a14; background: #f7efde; border: 1px solid #af8b5575; border-radius: 0; }
+.set-line input { width: 90px; }
+.set-line select { min-width: 142px; }
 .set-line b { color: #211a14; font-size: 12px; }
 .add-set { padding: 5px 0; color: #66745e; background: none; border: 0; font-size: 13px; font-weight: 700; }
+.note-field { display: block; margin-top: 13px; }
+.note-field > span { display: block; margin-bottom: 7px; color: #53604d; font-size: 12px; font-weight: 800; letter-spacing: .06em; }
+.note-field textarea { box-sizing: border-box; width: 100%; min-height: 76px; padding: 10px 12px; color: #211a14; background: #f7efde; border: 1px solid #af8b5575; border-radius: 0; font: 13px/1.6 inherit; resize: vertical; }
+.note-field textarea:focus, .set-line input:focus, .set-line select:focus { border-color: #9f2f24; outline: 2px solid #9f2f2420; outline-offset: 1px; }
+.overall-note-card { padding: 18px; background: #e7d6b6; border: 1px solid #af8b5575; }
+.overall-note-card .note-field { margin-top: 8px; }
+.overall-note-card .note-field > span { color: #211a14; font: 700 21px Georgia, "Songti SC", serif; letter-spacing: 0; }
 .empty-training { padding: 38px 28px; text-align: center; border: 1px dashed #af8b55; background: #f7efde; }
 .empty-training h3 { margin: 7px 0 8px; font: 700 23px Georgia, "Songti SC", serif; }
 .empty-training p { margin: 0 0 18px; color: #73685b; font-size: 13px; }
@@ -100,8 +109,13 @@ h2 { margin: 6px 0 0; font: 700 30px/1.2 Georgia, "Songti SC", serif; }
 .share-preview article { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 22px 0; border-bottom: 1px solid #af8b5575; }
 .share-preview article p { margin: 0 0 7px; color: #73685b; font-size: 13px; }
 .share-preview article strong { color: #211a14; }
+.share-preview article .share-exercise-note { grid-column: 1 / -1; margin: 0; padding: 12px 14px; color: #53604d; background: #ede0c7; line-height: 1.6; white-space: pre-wrap; }
+.share-exercise-note b { display: block; margin-bottom: 3px; color: #9f2f24; font-size: 11px; letter-spacing: .08em; }
+.share-overall-note { margin-top: 24px; padding: 20px; background: #e7d6b6; border-left: 3px solid #9f2f24; }
+.share-overall-note h3 { margin: 5px 0 8px; }
+.share-overall-note p { margin: 0; color: #53604d; font-size: 14px; line-height: 1.7; white-space: pre-wrap; }
 .share-preview footer { padding-top: 22px; color: #73685b; font: italic 13px Georgia, serif; text-align: right; }
 .share-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
 @media (max-width: 900px) { .exercise-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 900px) { .edit-layout, .share-layout { grid-template-columns: 1fr; } .muscle-panel { order: -1; } }
-@media (max-width: 600px) { .fitness-header { padding: 24px 18px 20px; } .fitness-header h1 { font-size: 27px; } .sheet { width: calc(100% - 20px); padding: 18px 14px; margin-top: 14px; } .progress { gap: 7px; font-size: 11px; } .progress i { width: 17px; } .exercise-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; } .section-heading { align-items: start; flex-direction: column; } .action-bar { align-items: stretch; flex-direction: column; } .action-bar .primary { width: 100%; } .edit-row { gap: 10px; padding: 10px; } .edit-row img, .edit-sprite { width: 74px; height: 78px; flex-basis: 74px; } .edit-row-heading { align-items: start; flex-direction: column; } .edit-title { display: block; } .edit-row-actions { width: 100%; justify-content: space-between; } .order-actions button, .remove-exercise { padding: 6px 8px; } .set-line { flex-wrap: wrap; } .set-line span { width: 46px; } .set-line input { width: 68px; } .share-preview { padding: 20px 16px; } .share-preview article { grid-template-columns: 1fr; gap: 10px; } }
+@media (max-width: 600px) { .fitness-header { padding: 24px 18px 20px; } .fitness-header h1 { font-size: 27px; } .sheet { width: calc(100% - 20px); padding: 18px 14px; margin-top: 14px; } .progress { gap: 7px; font-size: 11px; } .progress i { width: 17px; } .exercise-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; } .section-heading { align-items: start; flex-direction: column; } .action-bar { align-items: stretch; flex-direction: column; } .action-bar .primary { width: 100%; } .edit-row { gap: 10px; padding: 10px; } .edit-row img, .edit-sprite { width: 74px; height: 78px; flex-basis: 74px; } .edit-row-heading { align-items: start; flex-direction: column; } .edit-title { display: block; } .edit-row-actions { width: 100%; justify-content: space-between; } .order-actions button, .remove-exercise { padding: 6px 8px; } .set-line { flex-wrap: wrap; } .set-line span { width: 46px; } .set-line input { width: 68px; } .set-line select { min-width: 132px; } .share-preview { padding: 20px 16px; } .share-preview article { grid-template-columns: 1fr; gap: 10px; } }
