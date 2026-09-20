@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 670" role="img" aria-label="Seated Forward Reach">
+  <defs><linearGradient id="g408" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF9EA"/><stop offset="1" stop-color="#EFE0C4"/></linearGradient></defs>
+  <rect width="640" height="670" fill="url(#g408)"/>
+  <circle cx="330" cy="358" r="188" fill="none" stroke="#7A521F" stroke-opacity=".17" stroke-width="18"/>
+  <circle cx="330" cy="358" r="234" fill="none" stroke="#73685B" stroke-opacity=".12" stroke-width="4" stroke-dasharray="5 14"/>
+  <rect x="102" y="488" width="438" height="44" rx="10" fill="#D8C39B" stroke="#8A6C3C" stroke-width="3"/>
+  <g stroke-linecap="round">
+    <path d="M372 258 L322 392" stroke="#7A521F" stroke-width="11" stroke-linecap="round"/><path d="M365 252 L372 258" stroke="#7A521F" stroke-width="10" stroke-linecap="round"/><path d="M372 258 L442 312" stroke="#7A521F" stroke-width="9" stroke-linecap="round"/><path d="M442 312 L516 342" stroke="#7A521F" stroke-width="9" stroke-linecap="round"/><path d="M372 258 L318 320" stroke="#7A521F" stroke-width="9" stroke-linecap="round"/><path d="M318 320 L256 348" stroke="#7A521F" stroke-width="9" stroke-linecap="round"/><path d="M322 392 L458 418" stroke="#7A521F" stroke-width="11" stroke-linecap="round"/><path d="M458 418 L538 428" stroke="#7A521F" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="402" cy="205" r="28" fill="#FFF9EA" stroke="#7A521F" stroke-width="9"/>
+    <circle cx="365" cy="252" r="7" fill="#7A521F"/>
+    <circle cx="322" cy="392" r="8" fill="#7A521F"/>
+  </g>
+  <rect x="24" y="24" width="98" height="42" rx="5" fill="#7A521F"/>
+  <text x="73" y="53" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#FFF9EA" letter-spacing="2">NEW</text>
+  <text x="610" y="630" text-anchor="end" font-family="Arial, sans-serif" font-size="24" fill="#73685B">R-8</text>
+</svg>
