@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 670" role="img" aria-label="Corpse Pose">
+  <defs><linearGradient id="yg532" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4F8EF"/><stop offset="1" stop-color="#DCE7D4"/></linearGradient></defs>
+  <rect width="640" height="670" fill="url(#yg532)"/>
+  <circle cx="322" cy="352" r="195" fill="none" stroke="#7A521F" stroke-opacity=".14" stroke-width="20"/>
+  <circle cx="322" cy="352" r="238" fill="none" stroke="#53604D" stroke-opacity=".12" stroke-width="4" stroke-dasharray="4 16"/>
+  <rect x="92" y="525" width="456" height="42" rx="10" fill="#CBD8C6" stroke="#53604D" stroke-width="3"/>
+  <g stroke-linecap="round"><path d="M152 360 L225 372" stroke="#7A521F" stroke-width="9" stroke-linecap="round"/><path d="M225 372 L298 382" stroke="#7A521F" stroke-width="10" stroke-linecap="round"/><path d="M298 382 L445 405" stroke="#7A521F" stroke-width="11" stroke-linecap="round"/><path d="M298 382 L255 452" stroke="#7A521F" stroke-width="9" stroke-linecap="round"/><path d="M255 452 L318 568" stroke="#7A521F" stroke-width="9" stroke-linecap="round"/><path d="M298 382 L492 458" stroke="#7A521F" stroke-width="9" stroke-linecap="round"/><path d="M492 458 L545 562" stroke="#7A521F" stroke-width="9" stroke-linecap="round"/><path d="M445 405 L428 522" stroke="#7A521F" stroke-width="10" stroke-linecap="round"/><path d="M428 522 L515 565" stroke="#7A521F" stroke-width="10" stroke-linecap="round"/><path d="M445 405 L412 528" stroke="#7A521F" stroke-width="10" stroke-linecap="round"/><path d="M412 528 L498 570" stroke="#7A521F" stroke-width="10" stroke-linecap="round"/></g>
+  <circle cx="152" cy="360" r="27" fill="#F4F8EF" stroke="#7A521F" stroke-width="9"/>
+  <circle cx="225" cy="372" r="7" fill="#7A521F"/><circle cx="445" cy="405" r="8" fill="#7A521F"/>
+  <rect x="24" y="24" width="92" height="42" rx="5" fill="#7A521F"/><text x="70" y="53" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#F4F8EF" letter-spacing="2">YOGA</text>
+  <text x="610" y="630" text-anchor="end" font-family="Arial, sans-serif" font-size="24" fill="#53604D">5</text>
+</svg>

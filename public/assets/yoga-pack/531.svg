@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 670" role="img" aria-label="Eagle Pose">
+  <defs><linearGradient id="yg531" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4F8EF"/><stop offset="1" stop-color="#DCE7D4"/></linearGradient></defs>
+  <rect width="640" height="670" fill="url(#yg531)"/>
+  <circle cx="322" cy="352" r="195" fill="none" stroke="#9F2F24" stroke-opacity=".14" stroke-width="20"/>
+  <circle cx="322" cy="352" r="238" fill="none" stroke="#53604D" stroke-opacity=".12" stroke-width="4" stroke-dasharray="4 16"/>
+  <rect x="92" y="525" width="456" height="42" rx="10" fill="#CBD8C6" stroke="#53604D" stroke-width="3"/>
+  <g stroke-linecap="round"><path d="M362 148 L342 205" stroke="#9F2F24" stroke-width="9" stroke-linecap="round"/><path d="M342 205 L330 235" stroke="#9F2F24" stroke-width="10" stroke-linecap="round"/><path d="M330 235 L322 390" stroke="#9F2F24" stroke-width="11" stroke-linecap="round"/><path d="M330 235 L432 298" stroke="#9F2F24" stroke-width="9" stroke-linecap="round"/><path d="M432 298 L482 242" stroke="#9F2F24" stroke-width="9" stroke-linecap="round"/><path d="M330 235 L228 302" stroke="#9F2F24" stroke-width="9" stroke-linecap="round"/><path d="M228 302 L172 248" stroke="#9F2F24" stroke-width="9" stroke-linecap="round"/><path d="M322 390 L328 488" stroke="#9F2F24" stroke-width="10" stroke-linecap="round"/><path d="M328 488 L322 562" stroke="#9F2F24" stroke-width="10" stroke-linecap="round"/><path d="M322 390 L428 458" stroke="#9F2F24" stroke-width="10" stroke-linecap="round"/><path d="M428 458 L498 538" stroke="#9F2F24" stroke-width="10" stroke-linecap="round"/></g>
+  <circle cx="362" cy="148" r="27" fill="#F4F8EF" stroke="#9F2F24" stroke-width="9"/>
+  <circle cx="342" cy="205" r="7" fill="#9F2F24"/><circle cx="322" cy="390" r="8" fill="#9F2F24"/>
+  <rect x="24" y="24" width="92" height="42" rx="5" fill="#9F2F24"/><text x="70" y="53" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#F4F8EF" letter-spacing="2">YOGA</text>
+  <text x="610" y="630" text-anchor="end" font-family="Arial, sans-serif" font-size="24" fill="#53604D">4</text>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 670" role="img" aria-label="Chair Pose">
+  <defs><linearGradient id="yg505" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4F8EF"/><stop offset="1" stop-color="#DCE7D4"/></linearGradient></defs>
+  <rect width="640" height="670" fill="url(#yg505)"/>
+  <circle cx="322" cy="352" r="195" fill="none" stroke="#31598F" stroke-opacity=".14" stroke-width="20"/>
+  <circle cx="322" cy="352" r="238" fill="none" stroke="#53604D" stroke-opacity=".12" stroke-width="4" stroke-dasharray="4 16"/>
+  <rect x="92" y="525" width="456" height="42" rx="10" fill="#CBD8C6" stroke="#53604D" stroke-width="3"/>
+  <g stroke-linecap="round"><path d="M372 138 L352 198" stroke="#31598F" stroke-width="9" stroke-linecap="round"/><path d="M352 198 L342 222" stroke="#31598F" stroke-width="10" stroke-linecap="round"/><path d="M342 222 L288 388" stroke="#31598F" stroke-width="11" stroke-linecap="round"/><path d="M342 222 L428 148" stroke="#31598F" stroke-width="9" stroke-linecap="round"/><path d="M428 148 L502 122" stroke="#31598F" stroke-width="9" stroke-linecap="round"/><path d="M342 222 L378 96" stroke="#31598F" stroke-width="9" stroke-linecap="round"/><path d="M378 96 L452 68" stroke="#31598F" stroke-width="9" stroke-linecap="round"/><path d="M288 388 L238 478" stroke="#31598F" stroke-width="10" stroke-linecap="round"/><path d="M238 478 L232 566" stroke="#31598F" stroke-width="10" stroke-linecap="round"/><path d="M288 388 L328 482" stroke="#31598F" stroke-width="10" stroke-linecap="round"/><path d="M328 482 L348 570" stroke="#31598F" stroke-width="10" stroke-linecap="round"/></g>
+  <circle cx="372" cy="138" r="27" fill="#F4F8EF" stroke="#31598F" stroke-width="9"/>
+  <circle cx="352" cy="198" r="7" fill="#31598F"/><circle cx="288" cy="388" r="8" fill="#31598F"/>
+  <rect x="24" y="24" width="92" height="42" rx="5" fill="#31598F"/><text x="70" y="53" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#F4F8EF" letter-spacing="2">YOGA</text>
+  <text x="610" y="630" text-anchor="end" font-family="Arial, sans-serif" font-size="24" fill="#53604D">5</text>
+</svg>

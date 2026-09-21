@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import './App.css'
 
-type EquipmentKind = '塔架' | '垫上' | 'Ladder Barrel' | '小器械' | 'Wunda Chair' | 'Reformer'
+type EquipmentKind = '塔架' | '垫上' | 'Ladder Barrel' | '小器械' | 'Wunda Chair' | 'Reformer' | '瑜伽'
 type MuscleGroup = '胸部' | '肩部' | '手臂' | '腹部' | '背部' | '臀部' | '髋部' | '股四' | '腘绳' | '小腿'
 type ReformerCategory = '全部' | '脚踏板与仰卧' | '长箱' | '短箱' | '跪姿' | '坐姿与划船' | '站姿与侧向' | '进阶与平衡'
 type Exercise = { id: number; en: string; zh: string; image: string; kind: EquipmentKind; sprite?: string; tileX?: number; tileY?: number; spriteCols?: number; spriteRows?: number; isNew?: boolean }
@@ -273,7 +273,47 @@ const newPackExercises: Exercise[] = newPackItems.map(item => ({
   isNew: true,
 }))
 
-const exercises: Exercise[] = [...towerExercises, ...matExercises, ...matExtraExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises, ...reformerComprehensiveExercises, ...newPackExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press') || (exercise.kind === 'Reformer' && ['Tree / Climb-a-Tree', 'Short Box Mermaid', 'Thigh Stretch', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Footbar', 'Rowing Back'].includes(exercise.en))))
+const yogaPackItems: { id: number; en: string; zh: string; muscles: MuscleGroup[] }[] = [
+  { id: 501, en: 'Yoga Mountain Pose', zh: '瑜伽山式', muscles: ['腹部', '臀部', '小腿'] },
+  { id: 502, en: 'Yoga Upward Salute', zh: '瑜伽展臂式', muscles: ['肩部', '腹部', '背部'] },
+  { id: 503, en: 'Yoga Standing Forward Fold', zh: '瑜伽站立前屈', muscles: ['腘绳', '背部', '腹部'] },
+  { id: 504, en: 'Yoga Half Forward Fold', zh: '瑜伽半前屈', muscles: ['腘绳', '背部', '腹部'] },
+  { id: 505, en: 'Yoga Chair Pose', zh: '瑜伽幻椅式', muscles: ['股四', '臀部', '腹部', '小腿'] },
+  { id: 506, en: 'Yoga Tree Pose', zh: '瑜伽树式', muscles: ['臀部', '髋部', '腹部', '小腿'] },
+  { id: 507, en: 'Yoga Extended Triangle', zh: '瑜伽三角伸展式', muscles: ['腘绳', '髋部', '肩部', '背部'] },
+  { id: 508, en: 'Yoga Warrior I', zh: '瑜伽战士一式', muscles: ['股四', '髋部', '肩部', '背部'] },
+  { id: 509, en: 'Yoga Warrior II', zh: '瑜伽战士二式', muscles: ['股四', '臀部', '肩部', '腹部'] },
+  { id: 510, en: 'Yoga Warrior III', zh: '瑜伽战士三式', muscles: ['臀部', '腘绳', '腹部', '背部'] },
+  { id: 511, en: 'Yoga Wide-Legged Fold', zh: '瑜伽双角前屈', muscles: ['腘绳', '髋部', '背部'] },
+  { id: 512, en: 'Yoga High Lunge', zh: '瑜伽高位起跑式', muscles: ['股四', '臀部', '小腿', '腹部'] },
+  { id: 513, en: 'Yoga Low Lunge', zh: '瑜伽低弓步式', muscles: ['髋部', '股四', '腹部'] },
+  { id: 514, en: 'Yoga Downward Dog', zh: '瑜伽下犬式', muscles: ['肩部', '腘绳', '小腿', '背部'] },
+  { id: 515, en: 'Yoga Four-Limbed Staff', zh: '瑜伽四柱式', muscles: ['胸部', '肩部', '手臂', '腹部'] },
+  { id: 516, en: 'Yoga Upward Dog', zh: '瑜伽上犬式', muscles: ['背部', '臀部', '肩部', '手臂'] },
+  { id: 517, en: 'Yoga Cobra Pose', zh: '瑜伽眼镜蛇式', muscles: ['背部', '臀部', '肩部', '腹部'] },
+  { id: 518, en: 'Yoga Child’s Pose', zh: '瑜伽婴儿式', muscles: ['背部', '肩部', '髋部'] },
+  { id: 519, en: 'Yoga Cat-Cow Flow', zh: '瑜伽猫牛流动', muscles: ['腹部', '背部', '肩部'] },
+  { id: 520, en: 'Yoga Bridge Pose', zh: '瑜伽桥式', muscles: ['臀部', '腘绳', '腹部'] },
+  { id: 521, en: 'Yoga Legs-Up-The-Wall', zh: '瑜伽靠墙倒箭式', muscles: ['腘绳', '小腿', '背部'] },
+  { id: 522, en: 'Yoga Fish Pose', zh: '瑜伽鱼式', muscles: ['背部', '胸部', '肩部'] },
+  { id: 523, en: 'Yoga Seated Forward Bend', zh: '瑜伽坐立前屈', muscles: ['腘绳', '背部', '腹部'] },
+  { id: 524, en: 'Yoga Head-to-Knee Pose', zh: '瑜伽头触膝式', muscles: ['腘绳', '背部', '腹部'] },
+  { id: 525, en: 'Yoga Seated Spinal Twist', zh: '瑜伽坐姿脊柱扭转', muscles: ['腹部', '背部', '髋部'] },
+  { id: 526, en: 'Yoga Cow Face Pose', zh: '瑜伽牛面式', muscles: ['髋部', '肩部', '背部'] },
+  { id: 527, en: 'Yoga Boat Pose', zh: '瑜伽船式', muscles: ['腹部', '髋部', '腘绳'] },
+  { id: 528, en: 'Yoga Half Lord of the Fishes', zh: '瑜伽半鱼王式', muscles: ['腹部', '背部', '髋部'] },
+  { id: 529, en: 'Yoga Pigeon Prep', zh: '瑜伽鸽子式准备', muscles: ['髋部', '臀部', '腹部'] },
+  { id: 530, en: 'Yoga Lizard Pose', zh: '瑜伽蜥蜴式', muscles: ['髋部', '腘绳', '腹部'] },
+  { id: 531, en: 'Yoga Eagle Pose', zh: '瑜伽鹰式', muscles: ['肩部', '手臂', '髋部', '臀部'] },
+  { id: 532, en: 'Yoga Corpse Pose', zh: '瑜伽挺尸式', muscles: ['背部', '腹部'] },
+]
+const yogaPackExercises: Exercise[] = yogaPackItems.map(item => ({
+  ...item,
+  kind: '瑜伽' as const,
+  image: assetUrl(`assets/yoga-pack/${item.id}.svg?v=1`),
+}))
+
+const exercises: Exercise[] = [...towerExercises, ...matExercises, ...matExtraExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises, ...reformerComprehensiveExercises, ...newPackExercises, ...yogaPackExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press') || (exercise.kind === 'Reformer' && ['Tree / Climb-a-Tree', 'Short Box Mermaid', 'Thigh Stretch', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Footbar', 'Rowing Back'].includes(exercise.en))))
 
 const reformerCategoryNames: Record<Exclude<ReformerCategory, '全部'>, string[]> = {
   '脚踏板与仰卧': ['Footwork', 'The Hundred', 'Frog', 'Leg Circles', 'Short Spine', 'Footwork Toes', 'Footwork Heels', 'High Frog', 'Semi Circle', 'High Bridge', 'Pelvic Lift', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Footwork on Footplate', 'Jumping on Footplate', 'Supine Arm Work', 'Teaser Beats', 'Bridging', 'Feet in Straps', 'Reverse Abdominals', 'Running', 'Coordination', ...reformerComprehensiveItems.filter(item => item.category === '脚踏板与仰卧').map(item => item.en)],
@@ -544,8 +584,10 @@ const equipmentExerciseMuscles: Record<string, MuscleGroup[]> = {
 
 const newPackMuscles = Object.fromEntries(newPackItems.map(item => [item.en, item.muscles])) as Record<string, MuscleGroup[]>
 
+const yogaPackMuscles = Object.fromEntries(yogaPackItems.map(item => [item.en, item.muscles])) as Record<string, MuscleGroup[]>
+
 const musclesFor = (exercise: Exercise): MuscleGroup[] => {
-  return equipmentExerciseMuscles[`${exercise.kind}|${exercise.en}`] || reformerComprehensiveMuscles[exercise.en] || newPackMuscles[exercise.en] || exerciseMuscles[exercise.en] || []
+  return equipmentExerciseMuscles[`${exercise.kind}|${exercise.en}`] || reformerComprehensiveMuscles[exercise.en] || newPackMuscles[exercise.en] || yogaPackMuscles[exercise.en] || exerciseMuscles[exercise.en] || []
 }
 
 type Step = 'choose' | 'edit' | 'share'
@@ -635,7 +677,7 @@ export default function App() {
   return <main className="fitness-app">
     <header className="fitness-header"><div><h1>训练本纪 · 今日记录</h1></div><span className="date-stamp">{new Date().toLocaleDateString('zh-CN')}</span></header>
     <div className="progress"><span className={step === 'choose' ? 'active' : ''}>01 选择动作</span><i /> <span className={step === 'edit' ? 'active' : ''}>02 填写训练</span><i /> <span className={step === 'share' ? 'active' : ''}>03 生成分享图</span></div>
-    {step === 'choose' && <section className="sheet"><div className="section-heading"><div><span className="eyebrow">Classical Pilates Library · {exercises.length} Exercises</span><h2>选择今天练习的动作</h2></div><span className="count">已选 {selected.length} / {exercises.length}</span></div><div className="filters"><button className={kind === '全部' ? 'on' : ''} onClick={() => { setKind('全部'); setReformerCategory('全部') }}>全部 · {exercises.length}</button>{(['塔架', '垫上', 'Ladder Barrel', '小器械', 'Wunda Chair', 'Reformer'] as EquipmentKind[]).map(item => <button key={item} className={kind === item ? 'on' : ''} onClick={() => { setKind(item); setReformerCategory('全部') }}>{item} · {exercises.filter(exercise => exercise.kind === item).length}</button>)}<button className={onlyNew ? 'on' : ''} onClick={() => setOnlyNew(current => !current)}>新增动作 · {newPackCount}</button></div>{kind === 'Reformer' && <div className="reformer-subfilters"><span>按器械配置筛选</span><div><button className={reformerCategory === '全部' ? 'on' : ''} onClick={() => setReformerCategory('全部')}>全部 · {exercises.filter(exercise => exercise.kind === 'Reformer').length}</button>{reformerCategoryList.map(category => <button key={category} className={reformerCategory === category ? 'on' : ''} onClick={() => setReformerCategory(category)}>{category} · {exercises.filter(exercise => exercise.kind === 'Reformer' && reformerCategoryFor(exercise.en) === category).length}</button>)}</div></div>}<input className="search" placeholder="搜索动作，例如：美人鱼、Monkey、The Hundred" value={query} onChange={e => setQuery(e.target.value)} /><div className="exercise-grid">{visible.map(exercise => <button className={`exercise-card ${selected.includes(exercise.id) ? 'selected' : ''}`} key={exercise.id} onClick={() => toggle(exercise.id)}>{exercise.sprite ? <div className="exercise-art" role="img" aria-label={exercise.en} style={spriteStyle(exercise)} /> : <div className="exercise-image-frame"><img className={exerciseImageClass(exercise)} src={exercise.image} alt={exercise.en} /></div>}<span className="kind-mark">{exercise.kind}</span>{exercise.isNew && <span className="new-mark">NEW</span>}{selected.includes(exercise.id) && <span className="chosen-mark">✓ 已选</span>}<strong>{exercise.zh}</strong><small>{exercise.en}</small></button>)}</div><div className="action-bar"><span>先选择动作，确认后再填写弹簧、次数与训练心得</span><button className="primary" disabled={!selected.length} onClick={() => setStep('edit')}>确认选择 · {selected.length} 个动作</button></div></section>}
+    {step === 'choose' && <section className="sheet"><div className="section-heading"><div><span className="eyebrow">Pilates & Yoga Library · {exercises.length} Exercises</span><h2>选择今天练习的动作</h2></div><span className="count">已选 {selected.length} / {exercises.length}</span></div><div className="filters"><button className={kind === '全部' ? 'on' : ''} onClick={() => { setKind('全部'); setReformerCategory('全部') }}>全部 · {exercises.length}</button>{(['塔架', '垫上', 'Ladder Barrel', '小器械', 'Wunda Chair', 'Reformer', '瑜伽'] as EquipmentKind[]).map(item => <button key={item} className={kind === item ? 'on' : ''} onClick={() => { setKind(item); setReformerCategory('全部') }}>{item} · {exercises.filter(exercise => exercise.kind === item).length}</button>)}<button className={onlyNew ? 'on' : ''} onClick={() => setOnlyNew(current => !current)}>新增动作 · {newPackCount}</button></div>{kind === 'Reformer' && <div className="reformer-subfilters"><span>按器械配置筛选</span><div><button className={reformerCategory === '全部' ? 'on' : ''} onClick={() => setReformerCategory('全部')}>全部 · {exercises.filter(exercise => exercise.kind === 'Reformer').length}</button>{reformerCategoryList.map(category => <button key={category} className={reformerCategory === category ? 'on' : ''} onClick={() => setReformerCategory(category)}>{category} · {exercises.filter(exercise => exercise.kind === 'Reformer' && reformerCategoryFor(exercise.en) === category).length}</button>)}</div></div>}<input className="search" placeholder="搜索动作，例如：美人鱼、下犬式、Downward Dog" value={query} onChange={e => setQuery(e.target.value)} /><div className="exercise-grid">{visible.map(exercise => <button className={`exercise-card ${selected.includes(exercise.id) ? 'selected' : ''}`} key={exercise.id} onClick={() => toggle(exercise.id)}>{exercise.sprite ? <div className="exercise-art" role="img" aria-label={exercise.en} style={spriteStyle(exercise)} /> : <div className="exercise-image-frame"><img className={exerciseImageClass(exercise)} src={exercise.image} alt={exercise.en} /></div>}<span className="kind-mark">{exercise.kind}</span>{exercise.isNew && <span className="new-mark">NEW</span>}{selected.includes(exercise.id) && <span className="chosen-mark">✓ 已选</span>}<strong>{exercise.zh}</strong><small>{exercise.en}</small></button>)}</div><div className="action-bar"><span>先选择动作，确认后再填写弹簧、次数与训练心得</span><button className="primary" disabled={!selected.length} onClick={() => setStep('edit')}>确认选择 · {selected.length} 个动作</button></div></section>}
     {step === 'edit' && <section className="sheet edit-sheet">
       <div className="section-heading"><div><span className="eyebrow">Training Log</span><h2>填写今天的训练</h2></div><button className="text-button" onClick={() => setStep('choose')}>← 返回选动作</button></div>
       <div className="edit-layout"><div className="edit-list">
