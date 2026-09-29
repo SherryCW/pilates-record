@@ -1,10 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 
-type EquipmentKind = '塔架' | '垫上' | 'Ladder Barrel' | '小器械' | 'Wunda Chair' | 'Reformer'
+type EquipmentKind = '塔架' | '垫上' | 'Ladder Barrel' | '小器械' | 'Wunda Chair' | 'Reformer' | '其他'
 type MuscleGroup = '胸部' | '肩部' | '手臂' | '腹部' | '背部' | '臀部' | '髋部' | '股四' | '腘绳' | '小腿'
 type ReformerCategory = '全部' | '脚踏板与仰卧' | '长箱' | '短箱' | '跪姿' | '坐姿与划船' | '站姿与侧向' | '进阶与平衡'
-type Exercise = { id: number; en: string; zh: string; image: string; kind: EquipmentKind; sprite?: string; tileX?: number; tileY?: number; spriteCols?: number; spriteRows?: number }
+type Exercise = { id: number; en: string; zh: string; image: string; kind: EquipmentKind; sprite?: string; tileX?: number; tileY?: number; spriteCols?: number; spriteRows?: number; customMuscles?: MuscleGroup[] }
 type SetEntry = { spring: string; reps: string }
 const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path}`
 const springOptions = ['红弹簧', '绿弹簧', '黄弹簧', '空']
@@ -772,8 +772,10 @@ const equipmentExerciseMuscles: Record<string, MuscleGroup[]> = {
 }
 
 const musclesFor = (exercise: Exercise): MuscleGroup[] => {
-  return equipmentExerciseMuscles[`${exercise.kind}|${exercise.en}`] || reformerComprehensiveMuscles[exercise.en] || exerciseMuscles[exercise.en] || []
+  return exercise.customMuscles || equipmentExerciseMuscles[`${exercise.kind}|${exercise.en}`] || reformerComprehensiveMuscles[exercise.en] || exerciseMuscles[exercise.en] || []
 }
+
+const allMuscleGroups = Object.keys(muscleLabels) as MuscleGroup[]
 
 type Step = 'choose' | 'edit' | 'share'
 
@@ -786,8 +788,39 @@ export default function App() {
   const [logs, setLogs] = useState<Record<number, SetEntry[]>>({})
   const [exerciseNotes, setExerciseNotes] = useState<Record<number, string>>({})
   const [overallNote, setOverallNote] = useState('')
-  const visible = useMemo(() => exercises.filter(e => (kind === '全部' || e.kind === kind) && (kind !== 'Reformer' || reformerCategory === '全部' || reformerCategoryFor(e.en) === reformerCategory) && `${e.zh} ${e.en}`.toLowerCase().includes(query.toLowerCase())), [query, kind, reformerCategory])
-  const chosen = selected.map(id => exercises.find(exercise => exercise.id === id)).filter((exercise): exercise is Exercise => Boolean(exercise))
+  // 自定义动作（「其他」分类）：名称 + 勾选的部位，存 localStorage
+  type CustomItem = { id: number; name: string; muscles: MuscleGroup[] }
+  const [customExercises, setCustomExercises] = useState<CustomItem[]>(() => {
+    try { return JSON.parse(localStorage.getItem('pilates-custom-exercises') || '[]') } catch { return [] }
+  })
+  const [customDraft, setCustomDraft] = useState<{ id: number | null; name: string; muscles: MuscleGroup[] }>({ id: null, name: '', muscles: [] })
+  useEffect(() => { localStorage.setItem('pilates-custom-exercises', JSON.stringify(customExercises)) }, [customExercises])
+  const allExercises = useMemo(() => [...exercises, ...customExercises.map((item): Exercise => ({ id: item.id, en: item.name, zh: item.name, image: assetUrl('assets/custom-exercise.png?v=1'), kind: '其他', customMuscles: item.muscles }))], [customExercises])
+  const toggleDraftMuscle = (group: MuscleGroup) => setCustomDraft(current => ({ ...current, muscles: current.muscles.includes(group) ? current.muscles.filter(item => item !== group) : [...current.muscles, group] }))
+  const resetDraft = () => setCustomDraft({ id: null, name: '', muscles: [] })
+  const saveCustom = () => {
+    const name = customDraft.name.trim()
+    if (!name || !customDraft.muscles.length) return
+    if (customDraft.id) {
+      setCustomExercises(list => list.map(item => item.id === customDraft.id ? { ...item, name, muscles: [...customDraft.muscles] } : item))
+    } else {
+      setCustomExercises(list => [...list, { id: Date.now(), name, muscles: [...customDraft.muscles] }])
+    }
+    resetDraft()
+  }
+  const startEditCustom = (id: number) => {
+    const item = customExercises.find(entry => entry.id === id)
+    if (!item) return
+    setCustomDraft({ id: item.id, name: item.name, muscles: [...item.muscles] })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+  const deleteCustom = (id: number) => {
+    setCustomExercises(list => list.filter(item => item.id !== id))
+    setSelected(current => current.filter(item => item !== id))
+    setCustomDraft(current => current.id === id ? { id: null, name: '', muscles: [] } : current)
+  }
+  const visible = useMemo(() => allExercises.filter(e => (kind === '全部' || e.kind === kind) && (kind !== 'Reformer' || reformerCategory === '全部' || reformerCategoryFor(e.en) === reformerCategory) && `${e.zh} ${e.en}`.toLowerCase().includes(query.toLowerCase())), [query, kind, reformerCategory, allExercises])
+  const chosen = selected.map(id => allExercises.find(exercise => exercise.id === id)).filter((exercise): exercise is Exercise => Boolean(exercise))
   const toggle = (id: number) => setSelected(current => current.includes(id) ? current.filter(item => item !== id) : [...current, id])
   const moveExercise = (id: number, direction: -1 | 1) => setSelected(current => {
     const index = current.indexOf(id)
@@ -860,7 +893,7 @@ export default function App() {
   return <main className="fitness-app">
     <header className="fitness-header"><div><h1>普拉提 · 今日记录</h1></div><span className="date-stamp">{new Date().toLocaleDateString('zh-CN')}</span></header>
     <div className="progress"><span className={step === 'choose' ? 'active' : ''}>01 选择动作</span><i /> <span className={step === 'edit' ? 'active' : ''}>02 填写训练</span><i /> <span className={step === 'share' ? 'active' : ''}>03 生成分享图</span></div>
-    {step === 'choose' && <section className="sheet"><div className="section-heading"><div><span className="eyebrow">Pilates Library · {exercises.length} Exercises</span><h2>选择今天练习的动作</h2></div><span className="count">已选 {selected.length} / {exercises.length}</span></div><div className="filters"><button className={kind === '全部' ? 'on' : ''} onClick={() => { setKind('全部'); setReformerCategory('全部') }}>全部 · {exercises.length}</button>{(['塔架', '垫上', 'Ladder Barrel', '小器械', 'Wunda Chair', 'Reformer'] as EquipmentKind[]).map(item => <button key={item} className={kind === item ? 'on' : ''} onClick={() => { setKind(item); setReformerCategory('全部') }}>{item} · {exercises.filter(exercise => exercise.kind === item).length}</button>)}</div>{kind === 'Reformer' && <div className="reformer-subfilters"><span>按器械配置筛选</span><div><button className={reformerCategory === '全部' ? 'on' : ''} onClick={() => setReformerCategory('全部')}>全部 · {exercises.filter(exercise => exercise.kind === 'Reformer').length}</button>{reformerCategoryList.map(category => <button key={category} className={reformerCategory === category ? 'on' : ''} onClick={() => setReformerCategory(category)}>{category} · {exercises.filter(exercise => exercise.kind === 'Reformer' && reformerCategoryFor(exercise.en) === category).length}</button>)}</div></div>}<input className="search" placeholder="搜索动作，例如：美人鱼、蛙式、Frog" value={query} onChange={e => setQuery(e.target.value)} /><div className="exercise-grid">{visible.map(exercise => <button className={`exercise-card ${selected.includes(exercise.id) ? 'selected' : ''}`} key={exercise.id} onClick={() => toggle(exercise.id)}>{exercise.sprite ? <div className="exercise-art" role="img" aria-label={exercise.en} style={spriteStyle(exercise)} /> : <div className="exercise-image-frame"><img className={exerciseImageClass(exercise)} src={exercise.image} alt={exercise.en} /></div>}<span className="kind-mark">{exercise.kind}</span>{selected.includes(exercise.id) && <span className="chosen-mark">✓ 已选</span>}<strong>{exercise.zh}</strong><small>{exercise.en}</small></button>)}</div><div className="action-bar"><span>先选择动作，确认后再填写弹簧、次数与训练心得</span><button className="primary" disabled={!selected.length} onClick={() => setStep('edit')}>确认选择 · {selected.length} 个动作</button></div></section>}
+    {step === 'choose' && <section className="sheet"><div className="section-heading"><div><span className="eyebrow">Pilates Library · {allExercises.length} Exercises</span><h2>选择今天练习的动作</h2></div><span className="count">已选 {selected.length} / {allExercises.length}</span></div><div className="filters"><button className={kind === '全部' ? 'on' : ''} onClick={() => { setKind('全部'); setReformerCategory('全部') }}>全部 · {allExercises.length}</button>{(['塔架', '垫上', 'Ladder Barrel', '小器械', 'Wunda Chair', 'Reformer', '其他'] as EquipmentKind[]).map(item => <button key={item} className={kind === item ? 'on' : ''} onClick={() => { setKind(item); setReformerCategory('全部') }}>{item} · {allExercises.filter(exercise => exercise.kind === item).length}</button>)}</div>{kind === 'Reformer' && <div className="reformer-subfilters"><span>按器械配置筛选</span><div><button className={reformerCategory === '全部' ? 'on' : ''} onClick={() => setReformerCategory('全部')}>全部 · {allExercises.filter(exercise => exercise.kind === 'Reformer').length}</button>{reformerCategoryList.map(category => <button key={category} className={reformerCategory === category ? 'on' : ''} onClick={() => setReformerCategory(category)}>{category} · {allExercises.filter(exercise => exercise.kind === 'Reformer' && reformerCategoryFor(exercise.en) === category).length}</button>)}</div></div>}{kind === '其他' && <div className="custom-panel"><div className="custom-panel-head"><div><span className="eyebrow">Custom Exercise</span><h3>{customDraft.id ? '编辑自定义动作' : '新建自定义动作'}</h3></div>{customDraft.id && <button className="text-button" onClick={resetDraft}>取消编辑</button>}</div><input className="custom-name" placeholder="输入动作名称，如：悬挂蹬腿" maxLength={20} value={customDraft.name} onChange={e => setCustomDraft(current => ({ ...current, name: e.target.value }))} /><div className="muscle-chips">{allMuscleGroups.map(group => <button key={group} type="button" className={customDraft.muscles.includes(group) ? 'chip on' : 'chip'} onClick={() => toggleDraftMuscle(group)}>{muscleLabels[group]}</button>)}</div><div className="custom-actions"><button className="primary" type="button" disabled={!customDraft.name.trim() || !customDraft.muscles.length} onClick={saveCustom}>{customDraft.id ? '保存修改' : '保存动作'}</button>{customDraft.id && <button className="secondary" type="button" onClick={resetDraft}>放弃</button>}</div><p className="custom-hint">{customExercises.length ? '点击卡片可勾选进今日训练；卡片上的「编辑」可改名或调整部位。' : '还没有自定义动作：填好名称、勾选练到的部位后保存，它会出现在下方并可以勾选进今日训练。'}</p></div>}<input className="search" placeholder="搜索动作，例如：美人鱼、蛙式、Frog" value={query} onChange={e => setQuery(e.target.value)} /><div className="exercise-grid">{visible.map(exercise => <button className={`exercise-card ${selected.includes(exercise.id) ? 'selected' : ''}`} key={exercise.id} onClick={() => toggle(exercise.id)}>{exercise.sprite ? <div className="exercise-art" role="img" aria-label={exercise.en} style={spriteStyle(exercise)} /> : <div className="exercise-image-frame"><img className={exerciseImageClass(exercise)} src={exercise.image} alt={exercise.en} /></div>}<span className="kind-mark">{exercise.kind}</span>{selected.includes(exercise.id) && <span className="chosen-mark">✓ 已选</span>}{exercise.kind === '其他' && <span className="card-tools"><span role="button" tabIndex={0} className="card-tool" onClick={e => { e.stopPropagation(); startEditCustom(exercise.id) }}>编辑</span><span role="button" tabIndex={0} className="card-tool danger" onClick={e => { e.stopPropagation(); deleteCustom(exercise.id) }}>删除</span></span>}<strong>{exercise.zh}</strong><small>{exercise.en}</small></button>)}</div><div className="action-bar"><span>先选择动作，确认后再填写弹簧、次数与训练心得</span><button className="primary" disabled={!selected.length} onClick={() => setStep('edit')}>确认选择 · {selected.length} 个动作</button></div></section>}
     {step === 'edit' && <section className="sheet edit-sheet">
       <div className="section-heading"><div><span className="eyebrow">Training Log</span><h2>填写今天的训练</h2></div><button className="text-button" onClick={() => setStep('choose')}>← 返回选动作</button></div>
       <div className="edit-layout"><div className="edit-list">
