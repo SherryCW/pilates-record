@@ -302,7 +302,7 @@ const ladderBarrelAlignedImages: Record<string, string> = {
   'Tree': 'assets/ladder-barrel/7.png?v=2',
   'Side Bend': 'assets/ladder-barrel/8.png?v=2',
   'Leg Circles': 'assets/ladder-barrel/9.png?v=2',
-  'Hamstring Stretch': 'assets/ladder-barrel/11.png?v=2',
+  'Hamstring Stretch': 'assets/ladder-barrel/11.png?v=3',
   'Hip Flexor Stretch': 'assets/ladder-barrel/12.png?v=2',
   'Side Stretch': 'assets/ladder-barrel/13.png?v=1',
   'Back Extension': 'assets/ladder-barrel/14.png?v=1',
@@ -496,11 +496,21 @@ const alignedImageFor = (exercise: Exercise) => {
   return undefined
 }
 
+// 已下架：胃部按摩系列（王总 2026-09-30）
+const REMOVED_REFORMER_NAMES = new Set(['Stomach Massage Round', 'Stomach Massage Hands Back', 'Stomach Massage Reach Up', 'Stomach Massage Twist', 'Stomach Massage Basic'])
+const REMOVED_THIS_SESSION = new Set<string>()
+if (import.meta.env.DEV && REMOVED_THIS_SESSION.size) console.log('removed:', [...REMOVED_THIS_SESSION])
+
 const exercises: Exercise[] = [...towerExercises.slice(0, 12), towerChestExpansionStanding, ...towerExercises.slice(12), ...towerExtraExercises, matExercises[0], matHundredTabletop, ...matExercises.slice(1), ...matExtraExercises, ...extraExercisesWithCustomImages.flatMap(exercise => exercise.en === 'Frog' ? [exercise, highFrogExercise] : exercise.en === 'Long Box Pulling Straps' ? [exercise, swanOnLongBoxExercise] : [exercise]), ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises.flatMap(exercise => exercise.en === 'Pelvic Lift' ? [exercise, bridgingExercise, semiCircleExercise, highBridgeExercise] : [exercise]), ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises].map(exercise => {
   // 已重做的实拍图是独立整图，替换图片并清掉雪碧图切片信息
   const aligned = alignedImageFor(exercise)
   return aligned ? { ...exercise, image: assetUrl(aligned), sprite: undefined, tileX: undefined, tileY: undefined } : exercise
-}).filter(exercise => !((exercise.kind === 'Reformer' && exercise.en === 'Rowing Into the Sternum') || (exercise.kind === '垫上' && exercise.en === 'Rolling Like a Ball') || (exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press') || (exercise.kind === 'Reformer' && ['Tree / Climb-a-Tree', 'Short Box Mermaid', 'Thigh Stretch', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Footbar', 'Rowing Back'].includes(exercise.en))))
+}).filter(exercise => !((exercise.kind === 'Reformer' && exercise.en === 'Rowing Into the Sternum') || (exercise.kind === '垫上' && exercise.en === 'Rolling Like a Ball') || (exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press') || (exercise.kind === 'Reformer' && ['Tree / Climb-a-Tree', 'Short Box Mermaid', 'Thigh Stretch', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Footbar', 'Rowing Back'].includes(exercise.en)))).filter(exercise => {
+  // 已下架的动作（王总 2026-09-30 指示移除 Reformer 的胃部按摩系列）
+  if (exercise.kind !== 'Reformer' || !REMOVED_REFORMER_NAMES.has(exercise.en)) return true
+  REMOVED_THIS_SESSION.add(exercise.en)
+  return false
+})
 
 const reformerCategoryNames: Record<Exclude<ReformerCategory, '全部'>, string[]> = {
   '脚踏板与仰卧': ['Footwork', 'The Hundred', 'Frog', 'High Frog', 'Leg Circles', 'Short Spine', 'Footwork Toes', 'Footwork Heels', 'Pelvic Lift', 'Bridging', 'Semi Circle', 'High Bridge', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Footwork on Footplate', 'Jumping on Footplate', 'Supine Arm Work', 'Teaser Beats', 'Feet in Straps', 'Reverse Abdominals', 'Running', 'Coordination', ...reformerComprehensiveItems.filter(item => item.category === '脚踏板与仰卧').map(item => item.en)],
