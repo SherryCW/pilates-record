@@ -122,3 +122,6 @@ h2 { margin: 6px 0 0; font: 700 30px/1.2 Georgia, "Songti SC", serif; }
 .muscle-feedback { font-size: 14px; line-height: 1.6; color: #211a14; background: #fff; border: 1px solid #e5d9c3; border-radius: 10px; padding: 8px 12px; }
 .muscle-feedback b { color: #9f2f24; }
 .muscle-feedback span { color: #9c8f7d; }
+.muscle-feedback { font-size: 14px; line-height: 1.6; color: #211a14; background: #fff; border: 1px solid #e5d9c3; border-radius: 10px; padding: 8px 12px; }
+.muscle-feedback b { color: #9f2f24; }
+.muscle-feedback span { color: #9c8f7d; }
