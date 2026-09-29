@@ -281,9 +281,9 @@ const reformerAlignedImages: Record<string, string> = {
   Teaser: 'assets/reformer/11.png?v=1',
   Mermaid: 'assets/reformer/12.png?v=1',
   'Rowing Into the Sternum': 'assets/reformer/13.png?v=1',
-  'Rowing 90 Degrees': 'assets/reformer/14.png?v=1',
-  'Rowing From the Chest': 'assets/reformer/15.png?v=1',
-  'Rowing From the Hips': 'assets/reformer/16.png?v=1',
+  'Rowing 90 Degrees': 'assets/reformer/14.png?v=2',
+  'Rowing From the Chest': 'assets/reformer/15.png?v=2',
+  'Rowing From the Hips': 'assets/reformer/16.png?v=2',
   Shaving: 'assets/reformer/17.png?v=1',
   Hug: 'assets/reformer/18.png?v=1',
   'Short Box Round Back': 'assets/reformer/19.png?v=1',
@@ -300,7 +300,7 @@ const exercises: Exercise[] = [...towerExercises.slice(0, 12), towerChestExpansi
   // 已重做的实拍图是独立整图，替换图片并清掉雪碧图切片信息
   const aligned = alignedImageFor(exercise)
   return aligned ? { ...exercise, image: assetUrl(aligned), sprite: undefined, tileX: undefined, tileY: undefined } : exercise
-}).filter(exercise => !((exercise.kind === '垫上' && exercise.en === 'Rolling Like a Ball') || (exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press') || (exercise.kind === 'Reformer' && ['Tree / Climb-a-Tree', 'Short Box Mermaid', 'Thigh Stretch', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Footbar', 'Rowing Back'].includes(exercise.en))))
+}).filter(exercise => !((exercise.kind === 'Reformer' && exercise.en === 'Rowing Into the Sternum') || (exercise.kind === '垫上' && exercise.en === 'Rolling Like a Ball') || (exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press') || (exercise.kind === 'Reformer' && ['Tree / Climb-a-Tree', 'Short Box Mermaid', 'Thigh Stretch', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Footbar', 'Rowing Back'].includes(exercise.en))))
 
 const reformerCategoryNames: Record<Exclude<ReformerCategory, '全部'>, string[]> = {
   '脚踏板与仰卧': ['Footwork', 'The Hundred', 'Frog', 'Leg Circles', 'Short Spine', 'Footwork Toes', 'Footwork Heels', 'High Frog', 'Semi Circle', 'High Bridge', 'Pelvic Lift', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Footwork on Footplate', 'Jumping on Footplate', 'Supine Arm Work', 'Teaser Beats', 'Bridging', 'Feet in Straps', 'Reverse Abdominals', 'Running', 'Coordination', ...reformerComprehensiveItems.filter(item => item.category === '脚踏板与仰卧').map(item => item.en)],
