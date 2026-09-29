@@ -52,12 +52,12 @@ const extraSets: { kind: EquipmentKind; folder: string; names: [string, string][
   { kind: 'Wunda Chair', folder: 'wunda-chair', names: [['Footwork', '脚步练习'], ['Pull Up', '上拉'], ['Going Up Front', '前侧上台'], ['Going Up Side', '侧向上台'], ['Mountain Climb', '登山式'], ['Swan Front', '前侧天鹅'], ['Mermaid', '美人鱼式'], ['Teaser', 'V形平衡'], ['Tendon Stretch', '肌腱伸展'], ['Pike', '折叠支撑'], ['Press Down', '下压'], ['Hamstring Stretch', '腿后侧伸展']] },
   { kind: 'Reformer', folder: 'reformer', names: [['Footwork', '脚步练习'], ['The Hundred', '百次呼吸'], ['Frog', '蛙式'], ['Leg Circles', '腿部画圈'], ['Short Spine', '短脊柱'], ['Long Stretch', '长伸展'], ['Elephant', '大象式'], ['Knee Stretches', '跪姿伸展'], ['Long Box Pulling Straps', '长箱拉绳'], ['Backstroke', '仰卧划水'], ['Teaser', 'V形平衡'], ['Mermaid', '美人鱼式']] },
 ]
-const extraExercises: Exercise[] = extraSets.flatMap(({ kind, folder, names }, setIndex) => names.map(([en, zh], index) => ({ id: 55 + setIndex * 12 + index, en, zh, image: assetUrl(`assets/${folder}/${index + 1}.png?v=1`), sprite: assetUrl(`assets/${folder}/${folder}-clean.png?v=1`), tileX: index % 4, tileY: Math.floor(index / 4), kind })))
+// Reformer 这一组的 12 个动作已全部由 reformerAlignedImages 换成独立整图
+// （assets/reformer/N.png），不再需要雪碧图；其余三组仍用 4x3 雪碧图。
+const extraExercises: Exercise[] = extraSets.flatMap(({ kind, folder, names }, setIndex) => names.map(([en, zh], index) => ({ id: 55 + setIndex * 12 + index, en, zh, image: assetUrl(`assets/${folder}/${index + 1}.png?v=1`), ...(kind === 'Reformer' ? {} : { sprite: assetUrl(`assets/${folder}/${folder}-clean.png?v=1`), tileX: index % 4, tileY: Math.floor(index / 4) }), kind })))
 const extraExercisesWithCustomImages: Exercise[] = extraExercises.map(exercise => {
-  if (exercise.kind === 'Reformer' && exercise.en === 'The Hundred') return { ...exercise, image: assetUrl('assets/reformer/reformer-hundred.png?v=2'), sprite: undefined, tileX: undefined, tileY: undefined }
-  if (exercise.kind === 'Reformer' && exercise.en === 'Frog') return { ...exercise, image: assetUrl('assets/reformer/reformer-frog.png?v=3'), sprite: undefined, tileX: undefined, tileY: undefined }
-  if (exercise.kind === 'Reformer' && exercise.en === 'Long Box Pulling Straps') return { ...exercise, image: assetUrl('assets/reformer-custom/long-box-pulling-straps.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
-  if (exercise.kind === 'Reformer' && exercise.en === 'Backstroke') return { ...exercise, image: assetUrl('assets/reformer-custom/backstroke.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
+  // Reformer 的四条特例（The Hundred / Frog / Long Box Pulling Straps / Backstroke）
+  // 已由 reformerAlignedImages 统一接管，不再需要单独覆盖。
   if (exercise.kind === '小器械' && exercise.en === 'Supine Bent-Knee Magic Circle Inner Thigh Squeeze') return { ...exercise, image: assetUrl('assets/small-apparatus/magic-circle-inner-thigh-squeeze-supine.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
   if (exercise.kind === '小器械' && exercise.en === 'Magic Circle Side Leg Press') return { ...exercise, image: assetUrl('assets/small-apparatus/magic-circle-side-leg-press.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
   if (exercise.kind === '小器械' && exercise.en === 'Resistance Band Leg Press') return { ...exercise, image: assetUrl('assets/small-apparatus/resistance-band-leg-press.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
