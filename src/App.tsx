@@ -58,8 +58,8 @@ const extraExercises: Exercise[] = extraSets.flatMap(({ kind, folder, names }, s
 const extraExercisesWithCustomImages: Exercise[] = extraExercises.map(exercise => {
   // Reformer 的四条特例（The Hundred / Frog / Long Box Pulling Straps / Backstroke）
   // 已由 reformerAlignedImages 统一接管，不再需要单独覆盖。
-  if (exercise.kind === '小器械' && exercise.en === 'Supine Bent-Knee Magic Circle Inner Thigh Squeeze') return { ...exercise, image: assetUrl('assets/small-apparatus/magic-circle-inner-thigh-squeeze-supine.png?v?v=2'), sprite: undefined, tileX: undefined, tileY: undefined }
-  if (exercise.kind === '小器械' && exercise.en === 'Magic Circle Side Leg Press') return { ...exercise, image: assetUrl('assets/small-apparatus/magic-circle-side-leg-press.png?v?v=2'), sprite: undefined, tileX: undefined, tileY: undefined }
+  if (exercise.kind === '小器械' && exercise.en === 'Supine Bent-Knee Magic Circle Inner Thigh Squeeze') return { ...exercise, image: assetUrl('assets/small-apparatus/magic-circle-inner-thigh-squeeze-supine.png?v=3'), sprite: undefined, tileX: undefined, tileY: undefined }
+  if (exercise.kind === '小器械' && exercise.en === 'Magic Circle Side Leg Press') return { ...exercise, image: assetUrl('assets/small-apparatus/magic-circle-side-leg-press.png?v=3'), sprite: undefined, tileX: undefined, tileY: undefined }
   if (exercise.kind === '小器械' && exercise.en === 'Resistance Band Leg Press') return { ...exercise, image: assetUrl('assets/small-apparatus/resistance-band-leg-press.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
   return exercise
 })
@@ -151,8 +151,8 @@ const moreNames: { kind: EquipmentKind; en: string; zh: string }[] = [
 ]
 const moreExercises: Exercise[] = moreNames.map((item, index) => ({ ...item, id: 103 + index, image: assetUrl('assets/more-exercises/more-exercises-clean.png?v=1'), sprite: assetUrl('assets/more-exercises/more-exercises-clean.png?v=1'), tileX: index % 6, tileY: Math.floor(index / 6), spriteCols: 6, spriteRows: 3 }))
 const innerThighSqueezeExercises: Exercise[] = [
-  { id: 220, kind: '小器械', en: 'Seated Magic Circle Inner Thigh Squeeze', zh: '坐姿普拉提圈内收', image: assetUrl('assets/small-apparatus/magic-circle-inner-thigh-squeeze-seated.png?v?v=2') },
-  { id: 221, kind: '小器械', en: 'Supine Tabletop Magic Circle Inner Thigh Squeeze', zh: '仰卧桌面腿普拉提圈内收', image: assetUrl('assets/small-apparatus/magic-circle-inner-thigh-squeeze-tabletop.png?v?v=2') },
+  { id: 220, kind: '小器械', en: 'Seated Magic Circle Inner Thigh Squeeze', zh: '坐姿普拉提圈内收', image: assetUrl('assets/small-apparatus/magic-circle-inner-thigh-squeeze-seated.png?v=3') },
+  { id: 221, kind: '小器械', en: 'Supine Tabletop Magic Circle Inner Thigh Squeeze', zh: '仰卧桌面腿普拉提圈内收', image: assetUrl('assets/small-apparatus/magic-circle-inner-thigh-squeeze-tabletop.png?v=3') },
 ]
 const smallApparatusExtraExercises: Exercise[] = [
   { id: 238, kind: '小器械', en: 'Mini Ball Adductor Squeeze', zh: '小球内收夹压', image: assetUrl('assets/small-apparatus-extra/mini-ball-adductor-squeeze.png?v=1') },
