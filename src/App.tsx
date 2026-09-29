@@ -67,7 +67,7 @@ const reformerExpansionNames: [string, string][] = [
   ['Rowing Into the Sternum', '划船入胸骨'], ['Rowing 90 Degrees', '90度划船'], ['Rowing From the Chest', '胸前划船'], ['Rowing From the Hips', '髋部划船'],
   ['Shaving', '剃须式'], ['Hug', '拥抱式'], ['Short Box Round Back', '短箱圆背'], ['Short Box Flat Back', '短箱平背'],
   ['Short Box Side to Side', '短箱侧屈'], ['Short Box Twist and Reach', '短箱扭转伸展'], ['Gone Fishing', '钓鱼式（叉鱼）'], ['Tree / Climb-a-Tree', '爬树式'],
-  ['Swan on Long Box', '长箱天鹅式'], ['Breaststroke', '蛙泳式'], ['Hamstring Curls', '腘绳肌弯曲'], ['Horseback', '骑马式'],
+  ['Breaststroke', '蛙泳式'], ['Hamstring Curls', '腘绳肌弯曲'], ['Horseback', '骑马式'],
   ['Side Sit Ups', '侧仰卧起坐'], ['Overhead', '过顶式'], ['Corkscrew', '螺旋式'], ['Tic Toc', '钟摆式'],
   ['Control Balance Off', '离床控制平衡'], ['Grasshopper', '蚱蜢式'], ['Swimming', '游泳式'], ['Rocking', '摇摆式'],
   ['Single Leg Elephant', '单腿大象式'], ['Arabesque', '阿拉伯式'], ['Long Back Stretch', '长背伸展'], ['Stomach Massage Round', '胃部按摩圆背'],
@@ -251,8 +251,11 @@ const reformerComprehensiveExercises: Exercise[] = reformerComprehensiveItems.ma
 const reformerComprehensiveMuscles = Object.fromEntries(reformerComprehensiveItems.map(item => [item.en, item.muscles])) as Record<string, MuscleGroup[]>
 
 // 高蛙式从扩展列表里拆出来，作为独立动作紧跟在蛙式后面展示（两者是一对基础/进阶）。
-// 编号用空闲段（316），图片走已对齐的 reformer/46.png。
+// 编号用空闲段（316），图片走已对齐的 reformer/45.png。
 const highFrogExercise: Exercise = { id: 316, kind: 'Reformer', en: 'High Frog', zh: '高蛙式', image: assetUrl('assets/reformer/45.png?v=1') }
+// 长箱天鹅式同理，紧跟在长箱拉绳后面展示（趴长箱的一对：拉绳练手臂、天鹅练脊柱）。
+// 编号 317，图片走已对齐的 reformer/24.png。
+const swanOnLongBoxExercise: Exercise = { id: 317, kind: 'Reformer', en: 'Swan on Long Box', zh: '长箱天鹅式', image: assetUrl('assets/reformer/24.png?v=1') }
 
 // 已按「垫上」实拍风格重做的配图，按动作英文名索引，编号 = 该分类内的显示序号。
 // 英文名不是全局唯一的（例如 Footwork 在 Wunda Chair 和 Reformer 里都有），
@@ -463,7 +466,7 @@ const alignedImageFor = (exercise: Exercise) => {
   return undefined
 }
 
-const exercises: Exercise[] = [...towerExercises.slice(0, 12), towerChestExpansionStanding, ...towerExercises.slice(12), ...towerExtraExercises, matExercises[0], matHundredTabletop, ...matExercises.slice(1), ...matExtraExercises, ...extraExercisesWithCustomImages.flatMap(exercise => exercise.en === 'Frog' ? [exercise, highFrogExercise] : [exercise]), ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises].map(exercise => {
+const exercises: Exercise[] = [...towerExercises.slice(0, 12), towerChestExpansionStanding, ...towerExercises.slice(12), ...towerExtraExercises, matExercises[0], matHundredTabletop, ...matExercises.slice(1), ...matExtraExercises, ...extraExercisesWithCustomImages.flatMap(exercise => exercise.en === 'Frog' ? [exercise, highFrogExercise] : exercise.en === 'Long Box Pulling Straps' ? [exercise, swanOnLongBoxExercise] : [exercise]), ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises].map(exercise => {
   // 已重做的实拍图是独立整图，替换图片并清掉雪碧图切片信息
   const aligned = alignedImageFor(exercise)
   return aligned ? { ...exercise, image: assetUrl(aligned), sprite: undefined, tileX: undefined, tileY: undefined } : exercise
@@ -471,7 +474,7 @@ const exercises: Exercise[] = [...towerExercises.slice(0, 12), towerChestExpansi
 
 const reformerCategoryNames: Record<Exclude<ReformerCategory, '全部'>, string[]> = {
   '脚踏板与仰卧': ['Footwork', 'The Hundred', 'Frog', 'High Frog', 'Leg Circles', 'Short Spine', 'Footwork Toes', 'Footwork Heels', 'Semi Circle', 'High Bridge', 'Pelvic Lift', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Footwork on Footplate', 'Jumping on Footplate', 'Supine Arm Work', 'Teaser Beats', 'Bridging', 'Feet in Straps', 'Reverse Abdominals', 'Running', 'Coordination', ...reformerComprehensiveItems.filter(item => item.category === '脚踏板与仰卧').map(item => item.en)],
-  '长箱': ['Long Box Pulling Straps', 'Backstroke', 'Swan on Long Box', 'Breaststroke', 'Hamstring Curls', 'Horseback', 'Side Sit Ups', 'Pulling Straps', 'Horizontal T-Pull', 'Grasshopper', 'Swimming', 'Long Box Double Leg Kick', 'Rocking', ...reformerComprehensiveItems.filter(item => item.category === '长箱').map(item => item.en)],
+  '长箱': ['Long Box Pulling Straps', 'Swan on Long Box', 'Backstroke', 'Breaststroke', 'Hamstring Curls', 'Horseback', 'Side Sit Ups', 'Pulling Straps', 'Horizontal T-Pull', 'Grasshopper', 'Swimming', 'Long Box Double Leg Kick', 'Rocking', ...reformerComprehensiveItems.filter(item => item.category === '长箱').map(item => item.en)],
   '短箱': ['Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'Short Box Abdominals', 'Short Box Oblique Abdominals', 'Short Box Advanced Abdominals', 'Short Box Mermaid', 'Short Box Climb a Tree', ...reformerComprehensiveItems.filter(item => item.category === '短箱').map(item => item.en)],
   '跪姿': ['Knee Stretches', 'Down Stretch', 'Up Stretch', 'Knee Stretches Knees Off', 'Knee Stretches Round', 'Knee Stretches Arched', 'Chest Expansion', 'Thigh Stretch', 'Arm Circles', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Straps', 'Arm Work Facing Footbar', 'Kneeling Side Arms', ...reformerComprehensiveItems.filter(item => item.category === '跪姿').map(item => item.en)],
   '坐姿与划船': ['Rowing Into the Sternum', 'Rowing 90 Degrees', 'Rowing From the Chest', 'Rowing From the Hips', 'Rowing Back', 'Rowing Front', 'Seated Side Arm Pull', 'Seated Side Arm Pull – Feet Grounded', 'Teaser Arm Pull', 'Shaving', 'Hug', 'Teaser', 'Mermaid', 'Stomach Massage Basic', 'Stomach Massage Round', 'Stomach Massage Hands Back', 'Stomach Massage Reach Up', 'Stomach Massage Twist', 'Side Stretch / Mermaid', 'Cleopatra', 'Biceps Curl', 'Posterior Shoulder Press', 'Serve a Tray', ...reformerComprehensiveItems.filter(item => item.category === '坐姿与划船').map(item => item.en)],
