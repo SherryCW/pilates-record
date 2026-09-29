@@ -14,7 +14,15 @@ const towerExercises: Exercise[] = [
   ['Leg Springs Frogs', '腿弹簧蛙式'], ['Leg Springs Circles', '腿弹簧画圈'], ['Leg Springs Walking', '腿弹簧行走'], ['Leg Spring Beats', '腿弹簧拍击'], ['Arm Springs Supine', '仰卧手臂弹簧'],
   ['Arm Springs Kneeling', '跪姿手臂弹簧'], ['Chest Expansion', '胸部扩展'], ['Thigh Stretch', '大腿伸展'], ['Cat', '猫式'], ['Mermaid', '美人鱼式'],
   ['Parakeet', '鹦鹉式'], ['Breathing', '呼吸式'], ['Teaser with Push-Through Bar', '推杆V形平衡'], ['Hanging Pull Ups', '悬垂引体'], ['Spread Eagle', '展翅式'],
-].map((item, index) => ({ id: index + 1, en: item[0], zh: item[1], image: assetUrl(`assets/exercises/${index + 1}.png?v=3`), kind: '塔架' as const }))
+].map((item, index) => ({ id: index + 1, en: item[0], zh: item[1], image: assetUrl(`assets/exercises/${index + 1}.png?v=4`), kind: '塔架' as const }))
+
+// 塔架附加动作：原先与其它器械共用 more-exercises 雪碧图，现按垫上的结构改成
+// 一个动作一张独立图片，编号接在 20 个主动作之后（21-23）。
+const towerExtraExercises: Exercise[] = [
+  { id: 103, kind: '塔架', en: 'Standing Arm Press', zh: '站姿手臂推压', image: assetUrl('assets/exercises/21.png?v=4') },
+  { id: 104, kind: '塔架', en: 'Roll Back', zh: '塔架后卷', image: assetUrl('assets/exercises/22.png?v=4') },
+  { id: 105, kind: '塔架', en: 'Hip Opener', zh: '髋部打开', image: assetUrl('assets/exercises/23.png?v=4') },
+]
 
 const matNames: [string, string][] = [
   ['The Hundred', '百次呼吸'], ['Roll Up', '卷脊起身'], ['Roll Over', '翻滚'], ['One Leg Circle', '单腿画圈'], ['Rolling Like a Ball', '像球一样滚动'], ['Single Leg Stretch', '单腿伸展'], ['Double Leg Stretch', '双腿伸展'], ['Spine Stretch Forward', '脊柱前伸展'], ['Open Leg Rocker', '开腿摇摆'], ['Corkscrew', '螺旋转'], ['Saw', '锯式'], ['Swan Dive', '天鹅俯冲'], ['Single Leg Kick', '单腿踢'], ['Double Leg Kick', '双腿踢'], ['Neck Pull', '颈部牵拉'], ['Scissors', '剪刀式'], ['Bicycle', '自行车式'], ['Shoulder Bridge', '肩桥'], ['Spine Twist', '脊柱扭转'], ['Jackknife', '折刀式'], ['Side Kick', '侧踢系列'], ['Teaser', 'V形平衡'], ['Hip Twist', '髋部扭转'], ['Swimming', '游泳式'], ['Leg Pull Front', '前侧腿拉'], ['Leg Pull Back', '后侧腿拉'], ['Side Kick Kneeling', '跪姿侧踢'], ['Side Bend', '侧弯支撑'], ['Boomerang', '回旋木马'], ['Seal', '海豹式'], ['Crab', '螃蟹式'], ['Rocking', '摇摆式'], ['Control Balance', '控制平衡'], ['Push Up', '普拉提俯卧撑'],
@@ -234,7 +242,7 @@ const reformerComprehensiveExercises: Exercise[] = reformerComprehensiveItems.ma
 }))
 const reformerComprehensiveMuscles = Object.fromEntries(reformerComprehensiveItems.map(item => [item.en, item.muscles])) as Record<string, MuscleGroup[]>
 
-const exercises: Exercise[] = [...towerExercises, ...matExercises, ...matExtraExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises, ...reformerComprehensiveExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press') || (exercise.kind === 'Reformer' && ['Tree / Climb-a-Tree', 'Short Box Mermaid', 'Thigh Stretch', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Footbar', 'Rowing Back'].includes(exercise.en))))
+const exercises: Exercise[] = [...towerExercises, ...towerExtraExercises, ...matExercises, ...matExtraExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press') || (exercise.kind === 'Reformer' && ['Tree / Climb-a-Tree', 'Short Box Mermaid', 'Thigh Stretch', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Footbar', 'Rowing Back'].includes(exercise.en))))
 
 const reformerCategoryNames: Record<Exclude<ReformerCategory, '全部'>, string[]> = {
   '脚踏板与仰卧': ['Footwork', 'The Hundred', 'Frog', 'Leg Circles', 'Short Spine', 'Footwork Toes', 'Footwork Heels', 'High Frog', 'Semi Circle', 'High Bridge', 'Pelvic Lift', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Footwork on Footplate', 'Jumping on Footplate', 'Supine Arm Work', 'Teaser Beats', 'Bridging', 'Feet in Straps', 'Reverse Abdominals', 'Running', 'Coordination', ...reformerComprehensiveItems.filter(item => item.category === '脚踏板与仰卧').map(item => item.en)],
@@ -255,7 +263,6 @@ const spriteStyle = (exercise: Exercise) => {
 }
 
 const exerciseImageClass = (exercise: Exercise) => {
-  if (exercise.en === 'Hanging Pull Ups') return 'hanging-pull-image'
   if (exercise.kind === '垫上' && ['Scissors', 'Bicycle'].includes(exercise.en)) return 'compact-mat-image'
   if (exercise.kind === 'Reformer' && exercise.id >= 242 && exercise.id <= 313) return 'compact-reformer-image'
   if (exercise.kind === 'Reformer' && ['Frog', 'Rowing 90 Degrees', 'Rowing From the Hips', 'Shaving', 'Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'High Frog', 'High Bridge', 'Footwork Heels', 'Footwork Toes', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Horizontal T-Pull', 'Seated Side Arm Pull', 'Seated Side Arm Pull – Feet Grounded', 'Teaser Arm Pull', 'Side Standing Scooter', 'Standing Instep Press', 'Teaser Beats', 'Coordination', 'Arm Circles', 'Knee Stretches Knees Off', 'Running', 'Hamstring Curls', 'Long Box Pulling Straps', 'Backstroke', 'Breaststroke', 'Supine Arm Work', 'Semi Circle', 'Jumping on Footplate', 'Thigh Stretch', 'Down Stretch', 'Hug', 'Stomach Massage Basic', 'Stomach Massage Round', 'Stomach Massage Hands Back', 'Stomach Massage Reach Up', 'Stomach Massage Twist', 'Backbend to Bar', 'Russian Splits', 'Footbar Plank Carriage Slide', 'Footbar Reverse Plank Carriage Slide', 'Footbar Plank Box Slide', 'Footbar Reverse Plank Box Slide'].includes(exercise.en)) return 'compact-reformer-image'
