@@ -242,7 +242,57 @@ const reformerComprehensiveExercises: Exercise[] = reformerComprehensiveItems.ma
 }))
 const reformerComprehensiveMuscles = Object.fromEntries(reformerComprehensiveItems.map(item => [item.en, item.muscles])) as Record<string, MuscleGroup[]>
 
-const exercises: Exercise[] = [...towerExercises, ...towerExtraExercises, ...matExercises, ...matExtraExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises].filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press') || (exercise.kind === 'Reformer' && ['Tree / Climb-a-Tree', 'Short Box Mermaid', 'Thigh Stretch', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Footbar', 'Rowing Back'].includes(exercise.en))))
+// 已按「垫上」实拍风格重做的配图，按动作英文名索引，编号 = 该分类内的显示序号。
+// 英文名不是全局唯一的（例如 Footwork 在 Wunda Chair 和 Reformer 里都有），
+// 所以覆盖表必须按分类分开，应用时也要限定 kind。
+const matAlignedImages: Record<string, string> = {
+  'Half Roll Back': 'assets/mat/35.png?v=1',
+  'Chest Lift': 'assets/mat/36.png?v=1',
+  'Single Leg Lift': 'assets/mat/37.png?v=1',
+  'Toe Taps': 'assets/mat/38.png?v=1',
+  'Side-Lying Leg Series': 'assets/mat/39.png?v=1',
+  Clam: 'assets/mat/40.png?v=1',
+  Dart: 'assets/mat/41.png?v=1',
+  'Mat Mermaid': 'assets/mat/42.png?v=1',
+  'Plank Leg Lift': 'assets/mat/43.png?v=1',
+  'Side Plank Twist': 'assets/mat/44.png?v=1',
+  'Bridge March': 'assets/mat/45.png?v=1',
+}
+
+const reformerAlignedImages: Record<string, string> = {
+  Footwork: 'assets/reformer/1.png?v=1',
+  'The Hundred': 'assets/reformer/2.png?v=1',
+  Frog: 'assets/reformer/3.png?v=1',
+  'Leg Circles': 'assets/reformer/4.png?v=1',
+  'Short Spine': 'assets/reformer/5.png?v=1',
+  'Long Stretch': 'assets/reformer/6.png?v=1',
+  Elephant: 'assets/reformer/7.png?v=1',
+  'Knee Stretches': 'assets/reformer/8.png?v=1',
+  'Long Box Pulling Straps': 'assets/reformer/9.png?v=1',
+  Backstroke: 'assets/reformer/10.png?v=1',
+  Teaser: 'assets/reformer/11.png?v=1',
+  Mermaid: 'assets/reformer/12.png?v=1',
+  'Rowing Into the Sternum': 'assets/reformer/13.png?v=1',
+  'Rowing 90 Degrees': 'assets/reformer/14.png?v=1',
+  'Rowing From the Chest': 'assets/reformer/15.png?v=1',
+  'Rowing From the Hips': 'assets/reformer/16.png?v=1',
+  Shaving: 'assets/reformer/17.png?v=1',
+  Hug: 'assets/reformer/18.png?v=1',
+  'Short Box Round Back': 'assets/reformer/19.png?v=1',
+  'Short Box Flat Back': 'assets/reformer/20.png?v=1',
+}
+
+const alignedImageFor = (exercise: Exercise) => {
+  if (exercise.kind === '垫上') return matAlignedImages[exercise.en]
+  if (exercise.kind === 'Reformer') return reformerAlignedImages[exercise.en]
+  return undefined
+}
+
+const exercises: Exercise[] = [...towerExercises, ...towerExtraExercises, ...matExercises, ...matExtraExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises].map(exercise => {
+  // 已重做的实拍图是独立整图，替换图片并清掉雪碧图切片信息
+  const aligned = alignedImageFor(exercise)
+  return aligned ? { ...exercise, image: assetUrl(aligned), sprite: undefined, tileX: undefined, tileY: undefined } : exercise
+}).filter(exercise => !((exercise.kind === 'Wunda Chair' && exercise.en === 'Mermaid') || (exercise.kind === 'Ladder Barrel' && exercise.en === 'Tree') || (exercise.kind === '小器械' && exercise.en === 'Magic Circle Arm Press') || (exercise.kind === 'Reformer' && ['Tree / Climb-a-Tree', 'Short Box Mermaid', 'Thigh Stretch', 'Kneeling Abdominals Facing Back', 'Kneeling Abdominals Facing Front', 'Arm Work Facing Footbar', 'Rowing Back'].includes(exercise.en))))
 
 const reformerCategoryNames: Record<Exclude<ReformerCategory, '全部'>, string[]> = {
   '脚踏板与仰卧': ['Footwork', 'The Hundred', 'Frog', 'Leg Circles', 'Short Spine', 'Footwork Toes', 'Footwork Heels', 'High Frog', 'Semi Circle', 'High Bridge', 'Pelvic Lift', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Footwork on Footplate', 'Jumping on Footplate', 'Supine Arm Work', 'Teaser Beats', 'Bridging', 'Feet in Straps', 'Reverse Abdominals', 'Running', 'Coordination', ...reformerComprehensiveItems.filter(item => item.category === '脚踏板与仰卧').map(item => item.en)],
@@ -263,6 +313,9 @@ const spriteStyle = (exercise: Exercise) => {
 }
 
 const exerciseImageClass = (exercise: Exercise) => {
+  // 已重做的实拍图统一是 1024×944 的整图，与垫上基准一致，用默认的 cover 即可。
+  // 这样每推进一批，就自动脱离下面的 compact-* 兼容名单，不用手工维护。
+  if (alignedImageFor(exercise)) return ''
   if (exercise.kind === '垫上' && ['Scissors', 'Bicycle'].includes(exercise.en)) return 'compact-mat-image'
   if (exercise.kind === 'Reformer' && exercise.id >= 242 && exercise.id <= 313) return 'compact-reformer-image'
   if (exercise.kind === 'Reformer' && ['Frog', 'Rowing 90 Degrees', 'Rowing From the Hips', 'Shaving', 'Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'High Frog', 'High Bridge', 'Footwork Heels', 'Footwork Toes', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Horizontal T-Pull', 'Seated Side Arm Pull', 'Seated Side Arm Pull – Feet Grounded', 'Teaser Arm Pull', 'Side Standing Scooter', 'Standing Instep Press', 'Teaser Beats', 'Coordination', 'Arm Circles', 'Knee Stretches Knees Off', 'Running', 'Hamstring Curls', 'Long Box Pulling Straps', 'Backstroke', 'Breaststroke', 'Supine Arm Work', 'Semi Circle', 'Jumping on Footplate', 'Thigh Stretch', 'Down Stretch', 'Hug', 'Stomach Massage Basic', 'Stomach Massage Round', 'Stomach Massage Hands Back', 'Stomach Massage Reach Up', 'Stomach Massage Twist', 'Backbend to Bar', 'Russian Splits', 'Footbar Plank Carriage Slide', 'Footbar Reverse Plank Carriage Slide', 'Footbar Plank Box Slide', 'Footbar Reverse Plank Box Slide'].includes(exercise.en)) return 'compact-reformer-image'
