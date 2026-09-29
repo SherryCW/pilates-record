@@ -25,9 +25,13 @@ const towerExtraExercises: Exercise[] = [
 ]
 
 const matNames: [string, string][] = [
-  ['The Hundred', '百次呼吸'], ['Roll Up', '卷脊起身'], ['Roll Over', '翻滚'], ['One Leg Circle', '单腿画圈'], ['Rolling Like a Ball', '像球一样滚动'], ['Single Leg Stretch', '单腿伸展'], ['Double Leg Stretch', '双腿伸展'], ['Spine Stretch Forward', '脊柱前伸展'], ['Open Leg Rocker', '开腿摇摆'], ['Corkscrew', '螺旋转'], ['Saw', '锯式'], ['Swan Dive', '天鹅俯冲'], ['Single Leg Kick', '单腿踢'], ['Double Leg Kick', '双腿踢'], ['Neck Pull', '颈部牵拉'], ['Scissors', '剪刀式'], ['Bicycle', '自行车式'], ['Shoulder Bridge', '肩桥'], ['Spine Twist', '脊柱扭转'], ['Jackknife', '折刀式'], ['Side Kick', '侧踢系列'], ['Teaser', 'V形平衡'], ['Hip Twist', '髋部扭转'], ['Swimming', '游泳式'], ['Leg Pull Front', '前侧腿拉'], ['Leg Pull Back', '后侧腿拉'], ['Side Kick Kneeling', '跪姿侧踢'], ['Side Bend', '侧弯支撑'], ['Boomerang', '回旋木马'], ['Seal', '海豹式'], ['Crab', '螃蟹式'], ['Rocking', '摇摆式'], ['Control Balance', '控制平衡'], ['Push Up', '普拉提俯卧撑'],
+  ['The Hundred', '百次呼吸（标准）'], ['Roll Up', '卷脊起身'], ['Roll Over', '翻滚'], ['One Leg Circle', '单腿画圈'], ['Rolling Like a Ball', '像球一样滚动'], ['Single Leg Stretch', '单腿伸展'], ['Double Leg Stretch', '双腿伸展'], ['Spine Stretch Forward', '脊柱前伸展'], ['Open Leg Rocker', '开腿摇摆'], ['Corkscrew', '螺旋转'], ['Saw', '锯式'], ['Swan Dive', '天鹅俯冲'], ['Single Leg Kick', '单腿踢'], ['Double Leg Kick', '双腿踢'], ['Neck Pull', '颈部牵拉'], ['Scissors', '剪刀式'], ['Bicycle', '自行车式'], ['Shoulder Bridge', '肩桥'], ['Spine Twist', '脊柱扭转'], ['Jackknife', '折刀式'], ['Side Kick', '侧踢系列'], ['Teaser', 'V形平衡'], ['Hip Twist', '髋部扭转'], ['Swimming', '游泳式'], ['Leg Pull Front', '前侧腿拉'], ['Leg Pull Back', '后侧腿拉'], ['Side Kick Kneeling', '跪姿侧踢'], ['Side Bend', '侧弯支撑'], ['Boomerang', '回旋木马'], ['Seal', '海豹式'], ['Crab', '螃蟹式'], ['Rocking', '摇摆式'], ['Control Balance', '控制平衡'], ['Push Up', '普拉提俯卧撑'],
 ]
-const matExercises: Exercise[] = matNames.map(([en, zh], index) => ({ id: 21 + index, en, zh, image: assetUrl(`assets/mat/${index + 1}.png?v=5`), kind: '垫上' as const }))
+const matExercises: Exercise[] = matNames.map(([en, zh], index) => ({ id: 21 + index, en, zh, image: assetUrl(`assets/mat/${index + 1}.png?v=6`), kind: '垫上' as const }))
+
+// 百次呼吸的降阶版本（桌面腿）。作为独立动作与标准版并存，紧跟在标准版之后展示。
+// 编号 46 接在垫上现有编号之后，展示位置由下面 exercises 数组里的插入点决定。
+const matHundredTabletop: Exercise = { id: 314, kind: '垫上', en: 'The Hundred (Tabletop)', zh: '百次呼吸（桌面腿）', image: assetUrl('assets/mat/46.png?v=1') }
 const matExtraExercises: Exercise[] = [
   ['Half Roll Back', '半卷脊后倒', 'half-roll-back.png'],
   ['Chest Lift', '胸部抬升', 'chest-lift.png'],
@@ -288,7 +292,7 @@ const alignedImageFor = (exercise: Exercise) => {
   return undefined
 }
 
-const exercises: Exercise[] = [...towerExercises, ...towerExtraExercises, ...matExercises, ...matExtraExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises].map(exercise => {
+const exercises: Exercise[] = [...towerExercises, ...towerExtraExercises, matExercises[0], matHundredTabletop, ...matExercises.slice(1), ...matExtraExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises].map(exercise => {
   // 已重做的实拍图是独立整图，替换图片并清掉雪碧图切片信息
   const aligned = alignedImageFor(exercise)
   return aligned ? { ...exercise, image: assetUrl(aligned), sprite: undefined, tileX: undefined, tileY: undefined } : exercise
@@ -351,6 +355,7 @@ const exerciseMuscles: Record<string, MuscleGroup[]> = {
   'Spread Eagle': ['背部', '肩部', '手臂', '腹部'],
 
   'The Hundred': ['腹部', '髋部', '肩部'],
+  'The Hundred (Tabletop)': ['腹部', '髋部', '肩部'],
   'Roll Up': ['腹部', '背部', '腘绳'],
   'Roll Over': ['腹部', '背部', '腘绳'],
   'One Leg Circle': ['腹部', '髋部'],
