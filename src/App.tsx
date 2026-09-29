@@ -267,6 +267,12 @@ const matAlignedImages: Record<string, string> = {
   'Bridge March': 'assets/mat/45.png?v=1',
 }
 
+const smallApparatusAlignedImages: Record<string, string> = {
+  'Magic Circle Chest Press': 'assets/small-apparatus/1.png?v=1',
+  'Magic Circle Bridge Squeeze': 'assets/small-apparatus/3.png?v=1',
+  'Magic Circle Overhead Press': 'assets/small-apparatus/4.png?v=1',
+}
+
 const reformerAlignedImages: Record<string, string> = {
   Footwork: 'assets/reformer/1.png?v=1',
   'The Hundred': 'assets/reformer/2.png?v=1',
@@ -449,6 +455,7 @@ const reformerAlignedImages: Record<string, string> = {
 const alignedImageFor = (exercise: Exercise) => {
   if (exercise.kind === '垫上') return matAlignedImages[exercise.en]
   if (exercise.kind === 'Reformer') return reformerAlignedImages[exercise.en]
+  if (exercise.kind === '小器械') return smallApparatusAlignedImages[exercise.en]
   return undefined
 }
 
