@@ -12,17 +12,21 @@ const springOptions = ['红弹簧', '绿弹簧', '黄弹簧', '空']
 const towerExercises: Exercise[] = [
   ['Roll Down', '卷腹下拉'], ['Push Through Front', '推杆前推'], ['Push Through Reverse', '推杆反向'], ['Tower', '塔式'], ['Monkey', '猴式'],
   ['Leg Springs Frogs', '腿弹簧蛙式'], ['Leg Springs Circles', '腿弹簧画圈'], ['Leg Springs Walking', '腿弹簧行走'], ['Leg Spring Beats', '腿弹簧拍击'], ['Arm Springs Supine', '仰卧手臂弹簧'],
-  ['Arm Springs Kneeling', '跪姿手臂弹簧'], ['Chest Expansion', '胸部扩展'], ['Thigh Stretch', '大腿伸展'], ['Cat', '猫式'], ['Mermaid', '美人鱼式'],
+  ['Arm Springs Kneeling', '跪姿手臂弹簧'], ['Chest Expansion', '胸部扩展（跪姿）'], ['Thigh Stretch', '大腿伸展'], ['Cat', '猫式'], ['Mermaid', '美人鱼式'],
   ['Parakeet', '鹦鹉式'], ['Breathing', '呼吸式'], ['Teaser with Push-Through Bar', '推杆V形平衡'], ['Hanging Pull Ups', '悬垂引体'], ['Spread Eagle', '展翅式'],
-].map((item, index) => ({ id: index + 1, en: item[0], zh: item[1], image: assetUrl(`assets/exercises/${index + 1}.png?v=4`), kind: '塔架' as const }))
+].map((item, index) => ({ id: index + 1, en: item[0], zh: item[1], image: assetUrl(`assets/exercises/${index + 1}.png?v=5`), kind: '塔架' as const }))
 
 // 塔架附加动作：原先与其它器械共用 more-exercises 雪碧图，现按垫上的结构改成
 // 一个动作一张独立图片，编号接在 20 个主动作之后（21-23）。
 const towerExtraExercises: Exercise[] = [
-  { id: 103, kind: '塔架', en: 'Standing Arm Press', zh: '站姿手臂推压', image: assetUrl('assets/exercises/21.png?v=4') },
-  { id: 104, kind: '塔架', en: 'Roll Back', zh: '塔架后卷', image: assetUrl('assets/exercises/22.png?v=4') },
-  { id: 105, kind: '塔架', en: 'Hip Opener', zh: '髋部打开', image: assetUrl('assets/exercises/23.png?v=4') },
+  { id: 103, kind: '塔架', en: 'Standing Arm Press', zh: '站姿手臂推压', image: assetUrl('assets/exercises/21.png?v=5') },
+  { id: 104, kind: '塔架', en: 'Roll Back', zh: '塔架后卷', image: assetUrl('assets/exercises/22.png?v=5') },
+  { id: 105, kind: '塔架', en: 'Hip Opener', zh: '髋部打开', image: assetUrl('assets/exercises/23.png?v=5') },
 ]
+
+// 塔架胸部扩展的站姿版本，作为独立动作与跪姿版并存，紧跟在跪姿版之后展示。
+// 编号 24 接在塔架现有编号之后，展示位置由下面 exercises 数组里的插入点决定。
+const towerChestExpansionStanding: Exercise = { id: 315, kind: '塔架', en: 'Chest Expansion (Standing)', zh: '胸部扩展（站姿）', image: assetUrl('assets/exercises/24.png?v=1') }
 
 const matNames: [string, string][] = [
   ['The Hundred', '百次呼吸（标准）'], ['Roll Up', '卷脊起身'], ['Roll Over', '翻滚'], ['One Leg Circle', '单腿画圈'], ['Rolling Like a Ball', '像球一样滚动'], ['Single Leg Stretch', '单腿伸展'], ['Double Leg Stretch', '双腿伸展'], ['Spine Stretch Forward', '脊柱前伸展'], ['Open Leg Rocker', '开腿摇摆'], ['Corkscrew', '螺旋转'], ['Saw', '锯式'], ['Swan Dive', '天鹅俯冲'], ['Single Leg Kick', '单腿踢'], ['Double Leg Kick', '双腿踢'], ['Neck Pull', '颈部牵拉'], ['Scissors', '剪刀式'], ['Bicycle', '自行车式'], ['Shoulder Bridge', '肩桥'], ['Spine Twist', '脊柱扭转'], ['Jackknife', '折刀式'], ['Side Kick', '侧踢系列'], ['Teaser', 'V形平衡'], ['Hip Twist', '髋部扭转'], ['Swimming', '游泳式'], ['Leg Pull Front', '前侧腿拉'], ['Leg Pull Back', '后侧腿拉'], ['Side Kick Kneeling', '跪姿侧踢'], ['Side Bend', '侧弯支撑'], ['Boomerang', '回旋木马'], ['Seal', '海豹式'], ['Crab', '螃蟹式'], ['Rocking', '摇摆式'], ['Control Balance', '控制平衡'], ['Push Up', '普拉提俯卧撑'],
@@ -292,7 +296,7 @@ const alignedImageFor = (exercise: Exercise) => {
   return undefined
 }
 
-const exercises: Exercise[] = [...towerExercises, ...towerExtraExercises, matExercises[0], matHundredTabletop, ...matExercises.slice(1), ...matExtraExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises].map(exercise => {
+const exercises: Exercise[] = [...towerExercises.slice(0, 12), towerChestExpansionStanding, ...towerExercises.slice(12), ...towerExtraExercises, matExercises[0], matHundredTabletop, ...matExercises.slice(1), ...matExtraExercises, ...extraExercisesWithCustomImages, ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises, ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises].map(exercise => {
   // 已重做的实拍图是独立整图，替换图片并清掉雪碧图切片信息
   const aligned = alignedImageFor(exercise)
   return aligned ? { ...exercise, image: assetUrl(aligned), sprite: undefined, tileX: undefined, tileY: undefined } : exercise
@@ -345,6 +349,7 @@ const exerciseMuscles: Record<string, MuscleGroup[]> = {
   'Arm Springs Supine': ['肩部', '手臂', '背部', '腹部'],
   'Arm Springs Kneeling': ['肩部', '手臂', '背部', '腹部'],
   'Chest Expansion': ['背部', '肩部', '手臂', '腹部'],
+  'Chest Expansion (Standing)': ['背部', '肩部', '手臂', '腹部'],
   'Thigh Stretch': ['股四', '腹部', '臀部'],
   Cat: ['腹部', '背部', '肩部'],
   Mermaid: ['腹部', '背部', '肩部', '髋部'],
