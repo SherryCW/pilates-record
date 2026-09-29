@@ -304,6 +304,9 @@ const ladderBarrelAlignedImages: Record<string, string> = {
   'Leg Circles': 'assets/ladder-barrel/9.png?v=2',
   'Hamstring Stretch': 'assets/ladder-barrel/11.png?v=2',
   'Hip Flexor Stretch': 'assets/ladder-barrel/12.png?v=2',
+  'Side Stretch': 'assets/ladder-barrel/13.png?v=1',
+  'Back Extension': 'assets/ladder-barrel/14.png?v=1',
+  'Adductor Stretch': 'assets/ladder-barrel/15.png?v=1',
 }
 
 const reformerAlignedImages: Record<string, string> = {
