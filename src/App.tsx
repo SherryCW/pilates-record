@@ -307,6 +307,9 @@ const ladderBarrelAlignedImages: Record<string, string> = {
   'Side Stretch': 'assets/ladder-barrel/13.png?v=1',
   'Back Extension': 'assets/ladder-barrel/14.png?v=1',
   'Adductor Stretch': 'assets/ladder-barrel/15.png?v=1',
+  'Side Stretch': 'assets/ladder-barrel/13.png?v=1',
+  'Back Extension': 'assets/ladder-barrel/14.png?v=1',
+  'Adductor Stretch': 'assets/ladder-barrel/15.png?v=1',
 }
 
 const reformerAlignedImages: Record<string, string> = {
