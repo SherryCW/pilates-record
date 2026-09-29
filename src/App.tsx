@@ -293,18 +293,18 @@ const smallApparatusAlignedImages: Record<string, string> = {
 }
 
 const ladderBarrelAlignedImages: Record<string, string> = {
-  'Swan': 'assets/ladder-barrel/1.png?v=1',
-  'Horseback': 'assets/ladder-barrel/2.png?v=1',
-  'Ballet Stretch': 'assets/ladder-barrel/3.png?v=1',
-  'Side Sit Up': 'assets/ladder-barrel/4.png?v=1',
-  'Backward Stretch': 'assets/ladder-barrel/5.png?v=1',
-  'Short Box Round': 'assets/ladder-barrel/6.png?v=1',
-  'Tree': 'assets/ladder-barrel/7.png?v=1',
-  'Side Bend': 'assets/ladder-barrel/8.png?v=1',
-  'Leg Circles': 'assets/ladder-barrel/9.png?v=1',
-  'Handstand Prep': 'assets/ladder-barrel/10.png?v=1',
-  'Hamstring Stretch': 'assets/ladder-barrel/11.png?v=1',
-  'Hip Flexor Stretch': 'assets/ladder-barrel/12.png?v=1',
+  'Swan': 'assets/ladder-barrel/1.png?v=2',
+  'Horseback': 'assets/ladder-barrel/2.png?v=2',
+  'Ballet Stretch': 'assets/ladder-barrel/3.png?v=2',
+  'Side Sit Up': 'assets/ladder-barrel/4.png?v=2',
+  'Backward Stretch': 'assets/ladder-barrel/5.png?v=2',
+  'Short Box Round': 'assets/ladder-barrel/6.png?v=2',
+  'Tree': 'assets/ladder-barrel/7.png?v=2',
+  'Side Bend': 'assets/ladder-barrel/8.png?v=2',
+  'Leg Circles': 'assets/ladder-barrel/9.png?v=2',
+  'Handstand Prep': 'assets/ladder-barrel/10.png?v=2',
+  'Hamstring Stretch': 'assets/ladder-barrel/11.png?v=2',
+  'Hip Flexor Stretch': 'assets/ladder-barrel/12.png?v=2',
 }
 
 const reformerAlignedImages: Record<string, string> = {
