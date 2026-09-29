@@ -252,7 +252,7 @@ const reformerComprehensiveMuscles = Object.fromEntries(reformerComprehensiveIte
 
 // 高蛙式从扩展列表里拆出来，作为独立动作紧跟在蛙式后面展示（两者是一对基础/进阶）。
 // 编号用空闲段（316），图片走已对齐的 reformer/46.png。
-const highFrogExercise: Exercise = { id: 316, kind: 'Reformer', en: 'High Frog', zh: '高蛙式', image: assetUrl('assets/reformer/46.png?v=1') }
+const highFrogExercise: Exercise = { id: 316, kind: 'Reformer', en: 'High Frog', zh: '高蛙式', image: assetUrl('assets/reformer/45.png?v=1') }
 
 // 已按「垫上」实拍风格重做的配图，按动作英文名索引，编号 = 该分类内的显示序号。
 // 英文名不是全局唯一的（例如 Footwork 在 Wunda Chair 和 Reformer 里都有），
