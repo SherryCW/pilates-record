@@ -56,7 +56,7 @@ const extraSets: { kind: EquipmentKind; folder: string; names: [string, string][
 ]
 // Reformer 这一组的 12 个动作已全部由 reformerAlignedImages 换成独立整图
 // （assets/reformer/N.png），不再需要雪碧图；其余三组仍用 4x3 雪碧图。
-const extraExercises: Exercise[] = extraSets.flatMap(({ kind, folder, names }, setIndex) => names.map(([en, zh], index) => ({ id: 55 + setIndex * 12 + index, en, zh, image: assetUrl(`assets/${folder}/${index + 1}.png?v=1`), ...(kind === 'Reformer' ? {} : { sprite: assetUrl(`assets/${folder}/${folder}-clean.png?v=1`), tileX: index % 4, tileY: Math.floor(index / 4) }), kind })))
+const extraExercises: Exercise[] = extraSets.flatMap(({ kind, folder, names }, setIndex) => names.map(([en, zh], index) => ({ id: 55 + setIndex * 12 + index, en, zh, image: assetUrl(`assets/${folder}/${index + 1}.png?v=1`), ...((kind === 'Reformer' || kind === 'Wunda Chair') ? {} : { sprite: assetUrl(`assets/${folder}/${folder}-clean.png?v=1`), tileX: index % 4, tileY: Math.floor(index / 4) }), kind })))
 const extraExercisesWithCustomImages: Exercise[] = extraExercises.map(exercise => {
   // Reformer 的四条特例（The Hundred / Frog / Long Box Pulling Straps / Backstroke）
   // 已由 reformerAlignedImages 统一接管，不再需要单独覆盖。
