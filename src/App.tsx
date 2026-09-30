@@ -499,7 +499,7 @@ const alignedImageFor = (exercise: Exercise) => {
 }
 
 // 已下架：胃部按摩系列（王总 2026-09-30）
-const REMOVED_REFORMER_NAMES = new Set(['Stomach Massage Round', 'Stomach Massage Hands Back', 'Stomach Massage Reach Up', 'Stomach Massage Twist', 'Stomach Massage Basic'])
+const REMOVED_REFORMER_NAMES = new Set(['Stomach Massage Round', 'Stomach Massage Hands Back', 'Stomach Massage Reach Up', 'Stomach Massage Twist', 'Stomach Massage Basic', 'Grasshopper'])
 const REMOVED_THIS_SESSION = new Set<string>()
 if (import.meta.env.DEV && REMOVED_THIS_SESSION.size) console.log('removed:', [...REMOVED_THIS_SESSION])
 
