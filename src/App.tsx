@@ -108,7 +108,7 @@ const reformerAdditionalNames: [string, string][] = [
 ]
 const reformerAdditionalCustomImages: Record<string, string> = {
   'Footwork Toes': 'assets/reformer-custom/footwork-toes.png?v=1',
-  'Footwork Heels': 'assets/reformer-custom/footwork-heels.png?v=1',
+  'Footwork Heels': 'assets/reformer-custom/footwork-heels.png?v=2',
   'Horizontal T-Pull': 'assets/reformer-custom/horizontal-t-pull.png?v=1',
   'Down Stretch': 'assets/reformer-custom/down-stretch.png?v=1',
 }
@@ -189,7 +189,6 @@ const reformerComprehensiveItems: ReformerLibraryItem[] = [
   { en: 'Headstand 2', zh: '头倒立二式', file: 'headstand-2', category: '进阶与平衡', muscles: ['肩部', '手臂', '腹部', '背部'] },
   { en: 'Headstand with Straps', zh: '拉带头倒立', file: 'headstand-with-straps', category: '进阶与平衡', muscles: ['肩部', '手臂', '腹部', '背部'] },
   { en: 'Swakate Series', zh: 'Swakate 手臂系列', file: 'swakate-series', category: '坐姿与划船', muscles: ['肩部', '手臂', '背部', '腹部'] },
-  { en: 'Long Spine Control', zh: '长脊柱控制', file: 'long-spine-control', category: '脚踏板与仰卧', muscles: ['腹部', '背部', '臀部', '腘绳'] },
   { en: 'Scorpion', zh: '蝎子式', file: 'scorpion', category: '进阶与平衡', muscles: ['背部', '臀部', '肩部', '腹部'] },
   { en: 'Grande Splits', zh: '大劈叉', file: 'grande-splits', category: '站姿与侧向', muscles: ['髋部', '腘绳', '股四', '臀部'] },
   { en: 'Russian Squats', zh: '俄式深蹲', file: 'russian-squats', category: '站姿与侧向', muscles: ['股四', '臀部', '腘绳', '腹部'] },
@@ -439,7 +438,6 @@ const reformerAlignedImages: Record<string, string> = {
   "Headstand 2": "assets/reformer/114.png?v=1",
   "Headstand with Straps": "assets/reformer/115.png?v=1",
   "Swakate Series": "assets/reformer/116.png?v=1",
-  "Long Spine Control": "assets/reformer/117.png?v=1",
   "Scorpion": "assets/reformer/118.png?v=1",
   "Grande Splits": "assets/reformer/119.png?v=1",
   "Russian Squats": "assets/reformer/120.png?v=1",
