@@ -154,7 +154,6 @@ const moreNames: { kind: EquipmentKind; en: string; zh: string }[] = [
 ]
 const moreExercises: Exercise[] = moreNames.map((item, index) => ({ ...item, id: 103 + index, image: assetUrl('assets/more-exercises/more-exercises-clean.png?v=1'), sprite: assetUrl('assets/more-exercises/more-exercises-clean.png?v=1'), tileX: index % 6, tileY: Math.floor(index / 6), spriteCols: 6, spriteRows: 3 }))
 const innerThighSqueezeExercises: Exercise[] = [
-  { id: 220, kind: '小器械', en: 'Seated Magic Circle Inner Thigh Squeeze', zh: '坐姿普拉提圈内收', image: assetUrl('assets/small-apparatus/magic-circle-inner-thigh-squeeze-seated.png?v=3') },
   { id: 221, kind: '小器械', en: 'Supine Tabletop Magic Circle Inner Thigh Squeeze', zh: '仰卧桌面腿普拉提圈内收', image: assetUrl('assets/small-apparatus/magic-circle-inner-thigh-squeeze-tabletop.png?v=3') },
 ]
 const smallApparatusExtraExercises: Exercise[] = [
@@ -629,7 +628,6 @@ const exerciseMuscles: Record<string, MuscleGroup[]> = {
   'Magic Circle Chest Press': ['胸部', '肩部', '手臂'],
   'Magic Circle Inner Thigh Squeeze': ['髋部', '腹部'],
   'Supine Bent-Knee Magic Circle Inner Thigh Squeeze': ['髋部', '腹部'],
-  'Seated Magic Circle Inner Thigh Squeeze': ['髋部', '腹部'],
   'Supine Tabletop Magic Circle Inner Thigh Squeeze': ['髋部', '腹部'],
   'Magic Circle Bridge Squeeze': ['臀部', '腘绳', '髋部', '腹部'],
   'Magic Circle Overhead Press': ['肩部', '手臂', '背部'],
