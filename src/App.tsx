@@ -63,6 +63,7 @@ const extraExercisesWithCustomImages: Exercise[] = extraExercises.map(exercise =
   if (exercise.kind === '小器械' && exercise.en === 'Supine Bent-Knee Magic Circle Inner Thigh Squeeze') return { ...exercise, image: assetUrl('assets/small-apparatus/magic-circle-inner-thigh-squeeze-supine.png?v=3'), sprite: undefined, tileX: undefined, tileY: undefined }
   if (exercise.kind === '小器械' && exercise.en === 'Magic Circle Side Leg Press') return { ...exercise, image: assetUrl('assets/small-apparatus/magic-circle-side-leg-press.png?v=3'), sprite: undefined, tileX: undefined, tileY: undefined }
   if (exercise.kind === '小器械' && exercise.en === 'Resistance Band Leg Press') return { ...exercise, image: assetUrl('assets/small-apparatus/resistance-band-leg-press.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
+  if (exercise.kind === '小器械') return { ...exercise, sprite: undefined, tileX: undefined, tileY: undefined }
   return exercise
 })
 const reformerExpansionNames: [string, string][] = [
@@ -257,7 +258,7 @@ const highFrogExercise: Exercise = { id: 316, kind: 'Reformer', en: 'High Frog',
 // 编号 317，图片走已对齐的 reformer/24.png。
 const swanOnLongBoxExercise: Exercise = { id: 317, kind: 'Reformer', en: 'Swan on Long Box', zh: '长箱天鹅式', image: assetUrl('assets/reformer/24.png?v=1') }
 // 长箱双腿踢紧跟在腘绳肌弯曲后面展示（趴长箱练腿后侧的一对）。
-const longBoxDoubleLegKickExercise: Exercise = { id: 318, kind: 'Reformer', en: 'Long Box Double Leg Kick', zh: '长箱双腿踢', image: assetUrl('assets/reformer/80.png?v=1') }
+const longBoxDoubleLegKickExercise: Exercise = { id: 323, kind: 'Reformer', en: 'Long Box Double Leg Kick', zh: '长箱双腿踢', image: assetUrl('assets/reformer/80.png?v=1') }
 // 腿后侧深度伸展：腿后侧伸展的进阶变式（手扶小腿深拉），紧跟在腿后侧伸展后面展示。
 // 编号 321，图片 ladder-barrel/16.png。
 const deepHamstringExercise: Exercise = { id: 321, kind: 'Ladder Barrel', en: 'Deep Hamstring Stretch', zh: '腿后侧深度伸展', image: assetUrl('assets/ladder-barrel/16.png?v=1') }
