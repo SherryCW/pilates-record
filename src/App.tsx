@@ -239,7 +239,6 @@ const reformerComprehensiveItems: ReformerLibraryItem[] = [
   { en: 'Side-Lying Jumpboard', zh: '侧卧跳跃', file: 'side-lying-jumpboard', category: '跳板系', muscles: ['臀部', '髋部', '股四', '腹部'] },
   { en: 'Jumpboard Tuck Jumps', zh: '屈膝跳跃', file: 'jumpboard-tuck-jumps', category: '跳板系', muscles: ['腹部', '髋部', '股四', '小腿'] },
   { en: 'Single-Leg High Bridge', zh: '单腿高桥式', file: 'single-leg-high-bridge', category: '核心与桥系', muscles: ['臀部', '腘绳', '腹部', '髋部'] },
-  { en: 'Snake with Bar Up', zh: '蛇式推杆上举', file: 'snake-with-bar-up', category: '进阶与平衡', muscles: ['肩部', '手臂', '腹部', '背部'] },
   { en: 'Twist with Bar Up', zh: '扭转式推杆上举', file: 'twist-with-bar-up', category: '进阶与平衡', muscles: ['肩部', '手臂', '腹部', '背部'] },
 ]
 const reformerComprehensiveExercises: Exercise[] = reformerComprehensiveItems.map((item, index) => ({
@@ -493,7 +492,6 @@ const reformerAlignedImages: Record<string, string> = {
   "Side-Lying Jumpboard": "assets/reformer/170.png?v=1",
   "Jumpboard Tuck Jumps": "assets/reformer/171.png?v=1",
   "Single-Leg High Bridge": "assets/reformer/173.png?v=1",
-  "Snake with Bar Up": "assets/reformer/175.png?v=1",
   "Twist with Bar Up": "assets/reformer/176.png?v=1",
 }
 
