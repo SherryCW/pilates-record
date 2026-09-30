@@ -115,7 +115,7 @@ const reformerGeneratedNames: [string, string][] = [
   ['Supine Arm Work', '仰卧手臂练习'], ['Kneeling Abdominals Facing Back', '面向后跪姿腹部'],
   ['Kneeling Abdominals Facing Front', '面向前跪姿腹部'], ['Feet in Straps', '脚套弹簧'], ['Short Box Abdominals', '短箱腹部'],
   ['Short Box Oblique Abdominals', '短箱侧腹'], ['Short Box Advanced Abdominals', '短箱进阶腹部'], ['Short Box Mermaid', '短箱美人鱼'],
-  ['Short Box Climb a Tree', '短箱爬树'], ['Long Box Double Leg Kick', '长箱双腿踢'], ['Arm Work Facing Straps', '面向弹簧手臂练习'],
+  ['Short Box Climb a Tree', '短箱爬树'], ['Arm Work Facing Straps', '面向弹簧手臂练习'],
   ['Arm Work Facing Footbar', '面向脚杆手臂练习'], ['Kneeling Side Arms', '跪姿侧臂'], ['Lunges', '弓步'],
   ['Side Stretch / Mermaid', '侧向伸展/美人鱼'], ['Cleopatra', '克娄巴特拉式'], ['Reverse Abdominals', '反向腹部'],
   ['Footbar Plank Carriage Slide', '脚踩脚板滑床前向移动'], ['Footbar Reverse Plank Carriage Slide', '脚踩脚板滑床后向移动'], ['Side Support', '侧支撑'],
@@ -256,6 +256,8 @@ const highFrogExercise: Exercise = { id: 316, kind: 'Reformer', en: 'High Frog',
 // 长箱天鹅式紧跟在长箱天鹅俯冲后面展示（趴长箱的一对）。
 // 编号 317，图片走已对齐的 reformer/24.png。
 const swanOnLongBoxExercise: Exercise = { id: 317, kind: 'Reformer', en: 'Swan on Long Box', zh: '长箱天鹅式', image: assetUrl('assets/reformer/24.png?v=1') }
+// 长箱双腿踢紧跟在腘绳肌弯曲后面展示（趴长箱练腿后侧的一对）。
+const longBoxDoubleLegKickExercise: Exercise = { id: 318, kind: 'Reformer', en: 'Long Box Double Leg Kick', zh: '长箱双腿踢', image: assetUrl('assets/reformer/80.png?v=1') }
 // 腿后侧深度伸展：腿后侧伸展的进阶变式（手扶小腿深拉），紧跟在腿后侧伸展后面展示。
 // 编号 321，图片 ladder-barrel/16.png。
 const deepHamstringExercise: Exercise = { id: 321, kind: 'Ladder Barrel', en: 'Deep Hamstring Stretch', zh: '腿后侧深度伸展', image: assetUrl('assets/ladder-barrel/16.png?v=1') }
@@ -503,7 +505,7 @@ const REMOVED_REFORMER_NAMES = new Set(['Stomach Massage Round', 'Stomach Massag
 const REMOVED_THIS_SESSION = new Set<string>()
 if (import.meta.env.DEV && REMOVED_THIS_SESSION.size) console.log('removed:', [...REMOVED_THIS_SESSION])
 
-const exercises: Exercise[] = [...towerExercises.slice(0, 12), towerChestExpansionStanding, ...towerExercises.slice(12), ...towerExtraExercises, matExercises[0], matHundredTabletop, ...matExercises.slice(1), ...matExtraExercises, ...extraExercisesWithCustomImages.flatMap(exercise => exercise.en === 'Frog' ? [exercise, highFrogExercise] : exercise.en === 'Hamstring Stretch' ? [exercise, deepHamstringExercise] : [exercise]), ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises.flatMap(exercise => exercise.en === 'Pelvic Lift' ? [exercise, bridgingExercise, semiCircleExercise, highBridgeExercise] : [exercise]), ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises.flatMap(exercise => exercise.en === 'Long Box Swan Dive' ? [exercise, swanOnLongBoxExercise] : [exercise])].map(exercise => {
+const exercises: Exercise[] = [...towerExercises.slice(0, 12), towerChestExpansionStanding, ...towerExercises.slice(12), ...towerExtraExercises, matExercises[0], matHundredTabletop, ...matExercises.slice(1), ...matExtraExercises, ...extraExercisesWithCustomImages.flatMap(exercise => exercise.en === 'Frog' ? [exercise, highFrogExercise] : exercise.en === 'Hamstring Stretch' ? [exercise, deepHamstringExercise] : [exercise]), ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises.flatMap(exercise => exercise.en === 'Hamstring Curls' ? [exercise, longBoxDoubleLegKickExercise] : [exercise]), ...reformerAdditionalExercises.flatMap(exercise => exercise.en === 'Pelvic Lift' ? [exercise, bridgingExercise, semiCircleExercise, highBridgeExercise] : [exercise]), ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises.flatMap(exercise => exercise.en === 'Long Box Swan Dive' ? [exercise, swanOnLongBoxExercise] : [exercise])].map(exercise => {
   // 已重做的实拍图是独立整图，替换图片并清掉雪碧图切片信息
   const aligned = alignedImageFor(exercise)
   return aligned ? { ...exercise, image: assetUrl(aligned), sprite: undefined, tileX: undefined, tileY: undefined } : exercise
@@ -664,6 +666,7 @@ const exerciseMuscles: Record<string, MuscleGroup[]> = {
   'Gone Fishing': ['腹部', '背部', '肩部', '髋部'],
   'Tree / Climb-a-Tree': ['腹部', '腘绳', '髋部', '背部'],
   'Swan on Long Box': ['背部', '臀部', '肩部'],
+  'Long Box Double Leg Kick': ['腘绳', '臀部', '背部'],
   Breaststroke: ['背部', '肩部', '臀部', '腘绳'],
   'Hamstring Curls': ['腘绳', '臀部', '腹部'],
   'Side Sit Ups': ['腹部', '髋部', '肩部'],
