@@ -269,6 +269,8 @@ const longBoxDoubleLegKickExercise: Exercise = { id: 323, kind: 'Reformer', en: 
 const deepHamstringExercise: Exercise = { id: 321, kind: 'Ladder Barrel', en: 'Deep Hamstring Stretch', zh: '腿后侧深度伸展', image: assetUrl('assets/ladder-barrel/16.png?v=1') }
 // 髋屈肌深度伸展：双臂过顶加深版，紧跟在髋屈肌伸展后面展示。
 const deepHipFlexorExercise: Exercise = { id: 322, kind: 'Ladder Barrel', en: 'Deep Hip Flexor Stretch', zh: '髋屈肌深度伸展', image: assetUrl('assets/ladder-barrel/17.png?v=1') }
+// 小球夹膝卷腹：球夹双膝变体，紧跟在小球腹部卷曲后面展示。
+const smallBallKneeSqueezeCurl: Exercise = { id: 324, kind: '小器械', en: 'Small Ball Knee Squeeze Curl', zh: '小球夹膝卷腹', image: assetUrl('assets/small-apparatus/13.png?v=1') }
 // 桥类三连：桥式（基础）→ 半圆式 → 高桥式（进阶），挪到骨盆抬升后面集中展示。
 // 编号 318-320，图片走已对齐的 reformer/74、46、47.png。
 const bridgingExercise: Exercise = { id: 318, kind: 'Reformer', en: 'Bridging', zh: '桥式', image: assetUrl('assets/reformer/74.png?v=1') }
@@ -295,7 +297,7 @@ const matAlignedImages: Record<string, string> = {
 const smallApparatusAlignedImages: Record<string, string> = {
   'Magic Circle Chest Press': 'assets/small-apparatus/1.png?v=1',
   'Magic Circle Teaser': 'assets/small-apparatus/6.png?v=2',
-  'Small Ball Ab Curl': 'assets/small-apparatus/7.png?v=1',
+  'Small Ball Ab Curl': 'assets/small-apparatus/7.png?v=2',
   'Small Ball Bridge': 'assets/small-apparatus/8.png?v=2',
   'Resistance Band Row': 'assets/small-apparatus/9.png?v=1',
   'Resistance Band Leg Press': 'assets/small-apparatus/10.png?v=2',
@@ -509,7 +511,7 @@ const REMOVED_REFORMER_NAMES = new Set(['Stomach Massage Round', 'Stomach Massag
 const REMOVED_THIS_SESSION = new Set<string>()
 if (import.meta.env.DEV && REMOVED_THIS_SESSION.size) console.log('removed:', [...REMOVED_THIS_SESSION])
 
-const exercises: Exercise[] = [...towerExercises.filter(exercise => exercise.en !== 'Tower').slice(0, 12), towerChestExpansionStanding, ...towerExercises.filter(exercise => exercise.en !== 'Tower').slice(12), ...towerExtraExercises.filter(exercise => exercise.en !== 'Hip Opener'), matExercises.filter(exercise => exercise.en !== 'Boomerang' && exercise.en !== 'Push Up' && exercise.en !== 'One Leg Circle')[0], matHundredTabletop, ...matExercises.filter(exercise => exercise.en !== 'Boomerang' && exercise.en !== 'Push Up' && exercise.en !== 'One Leg Circle').slice(1), ...matExtraExercises.filter(exercise => exercise.en !== 'Dart').flatMap(exercise => exercise.en === 'Single Leg Lift' ? [exercise, oneLegCircleMat] : [exercise]), ...extraExercisesWithCustomImages.flatMap(exercise => exercise.en === 'Frog' ? [exercise, highFrogExercise] : (exercise.en === 'Hamstring Stretch' && exercise.kind === 'Ladder Barrel') ? [exercise, deepHamstringExercise] : (exercise.en === 'Hip Flexor Stretch' && exercise.kind === 'Ladder Barrel') ? [exercise, deepHipFlexorExercise] : [exercise]), ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises.flatMap(exercise => exercise.en === 'Hamstring Curls' ? [exercise, longBoxDoubleLegKickExercise] : [exercise]), ...reformerAdditionalExercises.flatMap(exercise => exercise.en === 'Pelvic Lift' ? [exercise, bridgingExercise, semiCircleExercise, highBridgeExercise] : [exercise]), ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises.flatMap(exercise => exercise.en === 'Long Box Swan Dive' ? [exercise, swanOnLongBoxExercise] : [exercise])].map(exercise => {
+const exercises: Exercise[] = [...towerExercises.filter(exercise => exercise.en !== 'Tower').slice(0, 12), towerChestExpansionStanding, ...towerExercises.filter(exercise => exercise.en !== 'Tower').slice(12), ...towerExtraExercises.filter(exercise => exercise.en !== 'Hip Opener'), matExercises.filter(exercise => exercise.en !== 'Boomerang' && exercise.en !== 'Push Up' && exercise.en !== 'One Leg Circle')[0], matHundredTabletop, ...matExercises.filter(exercise => exercise.en !== 'Boomerang' && exercise.en !== 'Push Up' && exercise.en !== 'One Leg Circle').slice(1), ...matExtraExercises.filter(exercise => exercise.en !== 'Dart').flatMap(exercise => exercise.en === 'Single Leg Lift' ? [exercise, oneLegCircleMat] : [exercise]), ...extraExercisesWithCustomImages.flatMap(exercise => exercise.en === 'Frog' ? [exercise, highFrogExercise] : (exercise.en === 'Hamstring Stretch' && exercise.kind === 'Ladder Barrel') ? [exercise, deepHamstringExercise] : (exercise.en === 'Hip Flexor Stretch' && exercise.kind === 'Ladder Barrel') ? [exercise, deepHipFlexorExercise] : (exercise.en === 'Small Ball Ab Curl' && exercise.kind === '小器械') ? [exercise, smallBallKneeSqueezeCurl] : [exercise]), ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises.flatMap(exercise => exercise.en === 'Hamstring Curls' ? [exercise, longBoxDoubleLegKickExercise] : [exercise]), ...reformerAdditionalExercises.flatMap(exercise => exercise.en === 'Pelvic Lift' ? [exercise, bridgingExercise, semiCircleExercise, highBridgeExercise] : [exercise]), ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises.flatMap(exercise => exercise.en === 'Long Box Swan Dive' ? [exercise, swanOnLongBoxExercise] : [exercise])].map(exercise => {
   // 已重做的实拍图是独立整图，替换图片并清掉雪碧图切片信息
   const aligned = alignedImageFor(exercise)
   return aligned ? { ...exercise, image: assetUrl(aligned), sprite: undefined, tileX: undefined, tileY: undefined } : exercise
@@ -634,6 +636,7 @@ const exerciseMuscles: Record<string, MuscleGroup[]> = {
   'Magic Circle Side Leg Press': ['臀部', '髋部', '腹部'],
   'Magic Circle Teaser': ['腹部', '髋部'],
   'Small Ball Ab Curl': ['腹部'],
+  'Small Ball Knee Squeeze Curl': ['腹部', '髋部'],
   'Small Ball Bridge': ['臀部', '腘绳', '腹部'],
   'Resistance Band Row': ['背部', '肩部', '手臂'],
   'Resistance Band Leg Press': ['股四', '臀部', '髋部'],
