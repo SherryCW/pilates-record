@@ -666,7 +666,6 @@ const exerciseMuscles: Record<string, MuscleGroup[]> = {
   'Gone Fishing': ['腹部', '背部', '肩部', '髋部'],
   'Tree / Climb-a-Tree': ['腹部', '腘绳', '髋部', '背部'],
   'Swan on Long Box': ['背部', '臀部', '肩部'],
-  'Long Box Double Leg Kick': ['腘绳', '臀部', '背部'],
   Breaststroke: ['背部', '肩部', '臀部', '腘绳'],
   'Hamstring Curls': ['腘绳', '臀部', '腹部'],
   'Side Sit Ups': ['腹部', '髋部', '肩部'],
