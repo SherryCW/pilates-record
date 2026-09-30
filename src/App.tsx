@@ -453,7 +453,7 @@ const reformerAlignedImages: Record<string, string> = {
   "Long Box Overhead Press": "assets/reformer/138.png?v=1",
   "Long Box Swan Dive": "assets/reformer/139.png?v=1",
   "Long Box Triceps Pull": "assets/reformer/140.png?v=1",
-  "Long Box Teaser Arm Circles": "assets/reformer/141.png?v=1",
+  "Long Box Teaser Arm Circles": "assets/reformer/141.png?v=v=2",
   "Short Box Flat Back with Pole": "assets/reformer/143.png?v=1",
   "Short Box Side Reach with Pole": "assets/reformer/144.png?v=1",
   "Rowing Front I: Sitting Tall": "assets/reformer/145.png?v=1",
