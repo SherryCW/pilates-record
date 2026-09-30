@@ -160,7 +160,7 @@ const smallApparatusExtraExercises: Exercise[] = [
   { id: 238, kind: '小器械', en: 'Mini Ball Adductor Squeeze', zh: '小球内收夹压', image: assetUrl('assets/small-apparatus-extra/mini-ball-adductor-squeeze.png?v=2') },
   { id: 239, kind: '小器械', en: 'Resistance Band Chest Expansion', zh: '弹力带胸部扩展', image: assetUrl('assets/small-apparatus-extra/resistance-band-chest-expansion.png?v=3') },
   { id: 240, kind: '小器械', en: 'Foam Roller Dead Bug', zh: '泡沫轴死虫式', image: assetUrl('assets/small-apparatus-extra/foam-roller-dead-bug.png?v=2') },
-  { id: 241, kind: '小器械', en: 'Mini Ball Hundred', zh: '小球百次呼吸', image: assetUrl('assets/small-apparatus-extra/mini-ball-hundred.png?v=2') },
+  { id: 241, kind: '小器械', en: 'Mini Ball Hundred', zh: '小球百次呼吸', image: assetUrl('assets/small-apparatus-extra/mini-ball-hundred.png?v=3') },
 ]
 const customMoreExercises: Exercise[] = moreExercises.map(exercise => {
   const moreOverrides: Record<string, string> = {
