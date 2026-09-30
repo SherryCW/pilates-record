@@ -490,7 +490,7 @@ const reformerAlignedImages: Record<string, string> = {
   "Jumpboard Pilates-V": "assets/reformer/164.png?v=1",
   "Jumpboard Wide-V": "assets/reformer/165.png?v=1",
   "Side-Lying Jumpboard": "assets/reformer/170.png?v=1",
-  "Jumpboard Tuck Jumps": "assets/reformer/171.png?v=1",
+  "Jumpboard Tuck Jumps": "assets/reformer/171.png?v=2",
   "Single-Leg High Bridge": "assets/reformer/173.png?v=1",
   "Twist with Bar Up": "assets/reformer/176.png?v=1",
 }
