@@ -284,13 +284,13 @@ const matAlignedImages: Record<string, string> = {
 
 const smallApparatusAlignedImages: Record<string, string> = {
   'Magic Circle Chest Press': 'assets/small-apparatus/1.png?v=1',
-  'Magic Circle Teaser': 'assets/small-apparatus/6.png?v=1',
+  'Magic Circle Teaser': 'assets/small-apparatus/6.png?v=2',
   'Small Ball Ab Curl': 'assets/small-apparatus/7.png?v=1',
-  'Small Ball Bridge': 'assets/small-apparatus/8.png?v=1',
+  'Small Ball Bridge': 'assets/small-apparatus/8.png?v=2',
   'Resistance Band Row': 'assets/small-apparatus/9.png?v=1',
-  'Resistance Band Leg Press': 'assets/small-apparatus/10.png?v=1',
-  'Foam Roller Balance': 'assets/small-apparatus/11.png?v=1',
-  'Foam Roller Arm Arcs': 'assets/small-apparatus/12.png?v=1',
+  'Resistance Band Leg Press': 'assets/small-apparatus/10.png?v=2',
+  'Foam Roller Balance': 'assets/small-apparatus/11.png?v=2',
+  'Foam Roller Arm Arcs': 'assets/small-apparatus/12.png?v=2',
   'Magic Circle Bridge Squeeze': 'assets/small-apparatus/3.png?v=1',
   'Magic Circle Overhead Press': 'assets/small-apparatus/4.png?v=1',
 }
