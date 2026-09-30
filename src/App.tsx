@@ -256,6 +256,9 @@ const highFrogExercise: Exercise = { id: 316, kind: 'Reformer', en: 'High Frog',
 // 长箱天鹅式同理，紧跟在长箱拉绳后面展示（趴长箱的一对：拉绳练手臂、天鹅练脊柱）。
 // 编号 317，图片走已对齐的 reformer/24.png。
 const swanOnLongBoxExercise: Exercise = { id: 317, kind: 'Reformer', en: 'Swan on Long Box', zh: '长箱天鹅式', image: assetUrl('assets/reformer/24.png?v=1') }
+// 腿后侧深度伸展：腿后侧伸展的进阶变式（手扶小腿深拉），紧跟在腿后侧伸展后面展示。
+// 编号 321，图片 ladder-barrel/16.png。
+const deepHamstringExercise: Exercise = { id: 321, kind: 'Ladder Barrel', en: 'Deep Hamstring Stretch', zh: '腿后侧深度伸展', image: assetUrl('assets/ladder-barrel/16.png?v=1') }
 // 桥类三连：桥式（基础）→ 半圆式 → 高桥式（进阶），挪到骨盆抬升后面集中展示。
 // 编号 318-320，图片走已对齐的 reformer/74、46、47.png。
 const bridgingExercise: Exercise = { id: 318, kind: 'Reformer', en: 'Bridging', zh: '桥式', image: assetUrl('assets/reformer/74.png?v=1') }
@@ -301,7 +304,8 @@ const ladderBarrelAlignedImages: Record<string, string> = {
   'Short Box Round': 'assets/ladder-barrel/6.png?v=3',
   'Tree': 'assets/ladder-barrel/7.png?v=2',
   'Leg Circles': 'assets/ladder-barrel/9.png?v=2',
-  'Hamstring Stretch': 'assets/ladder-barrel/11.png?v=3',
+  'Hamstring Stretch': 'assets/ladder-barrel/11.png?v=4',
+  'Deep Hamstring Stretch': 'assets/ladder-barrel/16.png?v=1',
   'Hip Flexor Stretch': 'assets/ladder-barrel/12.png?v=2',
   'Side Stretch': 'assets/ladder-barrel/13.png?v=1',
   'Back Extension': 'assets/ladder-barrel/14.png?v=1',
@@ -500,7 +504,7 @@ const REMOVED_REFORMER_NAMES = new Set(['Stomach Massage Round', 'Stomach Massag
 const REMOVED_THIS_SESSION = new Set<string>()
 if (import.meta.env.DEV && REMOVED_THIS_SESSION.size) console.log('removed:', [...REMOVED_THIS_SESSION])
 
-const exercises: Exercise[] = [...towerExercises.slice(0, 12), towerChestExpansionStanding, ...towerExercises.slice(12), ...towerExtraExercises, matExercises[0], matHundredTabletop, ...matExercises.slice(1), ...matExtraExercises, ...extraExercisesWithCustomImages.flatMap(exercise => exercise.en === 'Frog' ? [exercise, highFrogExercise] : exercise.en === 'Long Box Pulling Straps' ? [exercise, swanOnLongBoxExercise] : [exercise]), ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises.flatMap(exercise => exercise.en === 'Pelvic Lift' ? [exercise, bridgingExercise, semiCircleExercise, highBridgeExercise] : [exercise]), ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises].map(exercise => {
+const exercises: Exercise[] = [...towerExercises.slice(0, 12), towerChestExpansionStanding, ...towerExercises.slice(12), ...towerExtraExercises, matExercises[0], matHundredTabletop, ...matExercises.slice(1), ...matExtraExercises, ...extraExercisesWithCustomImages.flatMap(exercise => exercise.en === 'Frog' ? [exercise, highFrogExercise] : exercise.en === 'Long Box Pulling Straps' ? [exercise, swanOnLongBoxExercise] : exercise.en === 'Hamstring Stretch' ? [exercise, deepHamstringExercise] : [exercise]), ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises.flatMap(exercise => exercise.en === 'Pelvic Lift' ? [exercise, bridgingExercise, semiCircleExercise, highBridgeExercise] : [exercise]), ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises].map(exercise => {
   // 已重做的实拍图是独立整图，替换图片并清掉雪碧图切片信息
   const aligned = alignedImageFor(exercise)
   return aligned ? { ...exercise, image: assetUrl(aligned), sprite: undefined, tileX: undefined, tileY: undefined } : exercise
