@@ -157,19 +157,20 @@ const innerThighSqueezeExercises: Exercise[] = [
   { id: 221, kind: '小器械', en: 'Supine Tabletop Magic Circle Inner Thigh Squeeze', zh: '仰卧桌面腿普拉提圈内收', image: assetUrl('assets/small-apparatus/magic-circle-inner-thigh-squeeze-tabletop.png?v=3') },
 ]
 const smallApparatusExtraExercises: Exercise[] = [
-  { id: 238, kind: '小器械', en: 'Mini Ball Adductor Squeeze', zh: '小球内收夹压', image: assetUrl('assets/small-apparatus-extra/mini-ball-adductor-squeeze.png?v=1') },
-  { id: 239, kind: '小器械', en: 'Resistance Band Chest Expansion', zh: '弹力带胸部扩展', image: assetUrl('assets/small-apparatus-extra/resistance-band-chest-expansion.png?v=1') },
-  { id: 240, kind: '小器械', en: 'Foam Roller Dead Bug', zh: '泡沫轴死虫式', image: assetUrl('assets/small-apparatus-extra/foam-roller-dead-bug.png?v=1') },
-  { id: 241, kind: '小器械', en: 'Mini Ball Hundred', zh: '小球百次呼吸', image: assetUrl('assets/small-apparatus-extra/mini-ball-hundred.png?v=1') },
+  { id: 238, kind: '小器械', en: 'Mini Ball Adductor Squeeze', zh: '小球内收夹压', image: assetUrl('assets/small-apparatus-extra/mini-ball-adductor-squeeze.png?v=2') },
+  { id: 239, kind: '小器械', en: 'Resistance Band Chest Expansion', zh: '弹力带胸部扩展', image: assetUrl('assets/small-apparatus-extra/resistance-band-chest-expansion.png?v=2') },
+  { id: 240, kind: '小器械', en: 'Foam Roller Dead Bug', zh: '泡沫轴死虫式', image: assetUrl('assets/small-apparatus-extra/foam-roller-dead-bug.png?v=2') },
+  { id: 241, kind: '小器械', en: 'Mini Ball Hundred', zh: '小球百次呼吸', image: assetUrl('assets/small-apparatus-extra/mini-ball-hundred.png?v=2') },
 ]
 const customMoreExercises: Exercise[] = moreExercises.map(exercise => {
   const moreOverrides: Record<string, string> = {
     'Pumping One Leg': 'assets/wunda-chair/13.png?v=1',
     'Flying Eagle': 'assets/wunda-chair/14.png?v=1',
     'Side Mountain Climb': 'assets/wunda-chair/15.png?v=1',
+    'Resistance Band Side Step': 'assets/small-apparatus-extra/resistance-band-side-step.png?v=1',
   }
   if (moreOverrides[exercise.en]) return { ...exercise, image: assetUrl(moreOverrides[exercise.en]), sprite: undefined, tileX: undefined, tileY: undefined, spriteCols: undefined, spriteRows: undefined }
-  if (exercise.en === 'Small Ball Leg Lift') return { ...exercise, image: assetUrl('assets/small-apparatus/small-ball-leg-lift.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
+  if (exercise.en === 'Small Ball Leg Lift') return { ...exercise, image: assetUrl('assets/small-apparatus/small-ball-leg-lift.png?v=2'), sprite: undefined, tileX: undefined, tileY: undefined }
   if (exercise.kind === 'Reformer' && exercise.en === 'Running') return { ...exercise, image: assetUrl('assets/reformer-custom/running.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
   if (exercise.kind === 'Reformer' && exercise.en === 'Stomach Massage Basic') return { ...exercise, image: assetUrl('assets/reformer-custom/stomach-massage-basic.png?v=1'), sprite: undefined, tileX: undefined, tileY: undefined }
   return exercise
