@@ -126,7 +126,7 @@ const reformerGeneratedNames: [string, string][] = [
 ]
 const reformerGeneratedCustomImages: Record<string, string> = {
   'Single Leg Heel Footwork': 'assets/reformer-custom/single-leg-heel-footwork.png?v=1',
-  'Supine Arm Work': 'assets/reformer-custom/supine-arm-work.png?v=1',
+  'Supine Arm Work': 'assets/reformer-custom/supine-arm-work.png?v=2',
   'Jumping on Footplate': 'assets/reformer-custom/jumping-on-footplate.png?v=1',
   'Footbar Plank Carriage Slide': 'assets/reformer-custom/footbar-plank-carriage-slide.png?v=1',
   'Footbar Reverse Plank Carriage Slide': 'assets/reformer-custom/footbar-reverse-plank-carriage-slide.png?v=1',
