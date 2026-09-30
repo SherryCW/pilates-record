@@ -196,7 +196,6 @@ const reformerComprehensiveItems: ReformerLibraryItem[] = [
   { en: 'Reformer Roll Down', zh: '滑床卷腹后倒', file: 'reformer-roll-down', category: '坐姿与划船', muscles: ['腹部', '背部', '髋部'] },
   { en: 'Oblique Roll Down', zh: '斜向卷腹后倒', file: 'oblique-roll-down', category: '坐姿与划船', muscles: ['腹部', '背部', '髋部'] },
   { en: 'Single-Leg Footwork Arches', zh: '单腿足弓脚踏', file: 'single-leg-footwork-arches', category: '脚踏板与仰卧', muscles: ['股四', '臀部', '腘绳', '小腿'] },
-  { en: 'Single-Leg Tendon Footwork', zh: '单腿肌腱脚踏', file: 'single-leg-tendon-footwork', category: '脚踏板与仰卧', muscles: ['股四', '腘绳', '小腿'] },
   { en: 'Wide-V Toes', zh: '宽位脚趾脚踏', file: 'wide-v-toes', category: '脚踏板与仰卧', muscles: ['股四', '臀部', '髋部', '小腿'] },
   { en: 'Wide-V Heels', zh: '宽位足跟脚踏', file: 'wide-v-heels', category: '脚踏板与仰卧', muscles: ['股四', '臀部', '髋部', '腘绳'] },
   { en: 'Supine Arm Press Down', zh: '仰卧手臂下压', file: 'supine-arm-press-down', category: '脚踏板与仰卧', muscles: ['肩部', '手臂', '背部', '腹部'] },
@@ -277,7 +276,7 @@ const footworkHeelsCard: Exercise = { id: 326, kind: 'Reformer', en: 'Footwork H
 const singleLegHeelCard: Exercise = { id: 327, kind: 'Reformer', en: 'Single Leg Heel Footwork', zh: '单腿脚跟脚踏', image: assetUrl('assets/reformer-custom/single-leg-heel-footwork.png?v=1') }
 const singleLegToeCard: Exercise = { id: 328, kind: 'Reformer', en: 'Single Leg Toe Footwork', zh: '单腿前脚掌脚踏', image: assetUrl('assets/reformer-custom/single-leg-toe-footwork.png?v=1') }
 const singleLegLegLiftCard: Exercise = { id: 329, kind: 'Reformer', en: 'Single Leg Footwork with Leg Lift', zh: '单腿脚踏直腿上举', image: assetUrl('assets/reformer-custom/single-leg-footwork-leg-lift.png?v=1') }
-const singleLegArchCard: Exercise = { id: 330, kind: 'Reformer', en: 'Single-Leg Footwork Arches', zh: '单腿足弓脚踏', image: assetUrl('assets/reformer/124.png?v=1') }
+const singleLegArchCard: Exercise = { id: 330, kind: 'Reformer', en: 'Single-Leg Footwork Arches', zh: '单腿足弓脚踏', image: assetUrl('assets/reformer/124.png?v=2') }
 const singleLegTendonCard: Exercise = { id: 331, kind: 'Reformer', en: 'Single-Leg Tendon Footwork', zh: '单腿肌腱脚踏', image: assetUrl('assets/reformer/125.png?v=1') }
 // 仰卧桌面腿圈内收挪到普拉提圈队列末尾（与圈系六张集中展示）。
 const supineTabletopSqueeze: Exercise = { id: 221, kind: '小器械', en: 'Supine Tabletop Magic Circle Inner Thigh Squeeze', zh: '仰卧桌面腿普拉提圈内收', image: assetUrl('assets/small-apparatus/magic-circle-inner-thigh-squeeze-tabletop.png?v=3') }
@@ -452,8 +451,7 @@ const reformerAlignedImages: Record<string, string> = {
   "Gondola": "assets/reformer/121.png?v=1",
   "Reformer Roll Down": "assets/reformer/122.png?v=1",
   "Oblique Roll Down": "assets/reformer/123.png?v=1",
-  "Single-Leg Footwork Arches": "assets/reformer/124.png?v=1",
-  "Single-Leg Tendon Footwork": "assets/reformer/125.png?v=1",
+  "Single-Leg Footwork Arches": "assets/reformer/124.png?v=2",
   "Wide-V Toes": "assets/reformer/126.png?v=1",
   "Wide-V Heels": "assets/reformer/127.png?v=1",
   "Supine Arm Press Down": "assets/reformer/128.png?v=1",
