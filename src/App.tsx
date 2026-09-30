@@ -253,7 +253,7 @@ const reformerComprehensiveMuscles = Object.fromEntries(reformerComprehensiveIte
 // 高蛙式从扩展列表里拆出来，作为独立动作紧跟在蛙式后面展示（两者是一对基础/进阶）。
 // 编号用空闲段（316），图片走已对齐的 reformer/45.png。
 const highFrogExercise: Exercise = { id: 316, kind: 'Reformer', en: 'High Frog', zh: '高蛙式', image: assetUrl('assets/reformer/45.png?v=1') }
-// 长箱天鹅式同理，紧跟在长箱拉绳后面展示（趴长箱的一对：拉绳练手臂、天鹅练脊柱）。
+// 长箱天鹅式紧跟在长箱天鹅俯冲后面展示（趴长箱的一对）。
 // 编号 317，图片走已对齐的 reformer/24.png。
 const swanOnLongBoxExercise: Exercise = { id: 317, kind: 'Reformer', en: 'Swan on Long Box', zh: '长箱天鹅式', image: assetUrl('assets/reformer/24.png?v=1') }
 // 腿后侧深度伸展：腿后侧伸展的进阶变式（手扶小腿深拉），紧跟在腿后侧伸展后面展示。
@@ -503,7 +503,7 @@ const REMOVED_REFORMER_NAMES = new Set(['Stomach Massage Round', 'Stomach Massag
 const REMOVED_THIS_SESSION = new Set<string>()
 if (import.meta.env.DEV && REMOVED_THIS_SESSION.size) console.log('removed:', [...REMOVED_THIS_SESSION])
 
-const exercises: Exercise[] = [...towerExercises.slice(0, 12), towerChestExpansionStanding, ...towerExercises.slice(12), ...towerExtraExercises, matExercises[0], matHundredTabletop, ...matExercises.slice(1), ...matExtraExercises, ...extraExercisesWithCustomImages.flatMap(exercise => exercise.en === 'Frog' ? [exercise, highFrogExercise] : exercise.en === 'Long Box Pulling Straps' ? [exercise, swanOnLongBoxExercise] : exercise.en === 'Hamstring Stretch' ? [exercise, deepHamstringExercise] : [exercise]), ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises.flatMap(exercise => exercise.en === 'Pelvic Lift' ? [exercise, bridgingExercise, semiCircleExercise, highBridgeExercise] : [exercise]), ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises].map(exercise => {
+const exercises: Exercise[] = [...towerExercises.slice(0, 12), towerChestExpansionStanding, ...towerExercises.slice(12), ...towerExtraExercises, matExercises[0], matHundredTabletop, ...matExercises.slice(1), ...matExtraExercises, ...extraExercisesWithCustomImages.flatMap(exercise => exercise.en === 'Frog' ? [exercise, highFrogExercise] : exercise.en === 'Hamstring Stretch' ? [exercise, deepHamstringExercise] : [exercise]), ...innerThighSqueezeExercises, ...smallApparatusExtraExercises, ...reformerExpansionExercises, ...reformerAdditionalExercises.flatMap(exercise => exercise.en === 'Pelvic Lift' ? [exercise, bridgingExercise, semiCircleExercise, highBridgeExercise] : [exercise]), ...reformerGeneratedExercises, ...singleLegFootworkExercises, ...describedReformerExercises, ...customMoreExercises.filter(exercise => exercise.kind !== '塔架'), ...reformerComprehensiveExercises.flatMap(exercise => exercise.en === 'Long Box Swan Dive' ? [exercise, swanOnLongBoxExercise] : [exercise])].map(exercise => {
   // 已重做的实拍图是独立整图，替换图片并清掉雪碧图切片信息
   const aligned = alignedImageFor(exercise)
   return aligned ? { ...exercise, image: assetUrl(aligned), sprite: undefined, tileX: undefined, tileY: undefined } : exercise
