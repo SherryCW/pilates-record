@@ -140,7 +140,7 @@ const singleLegFootworkExercises: Exercise[] = [
 const describedReformerExercises: Exercise[] = [
   { id: 225, kind: 'Reformer', en: 'Seated Side Arm Pull – Feet Grounded', zh: '侧坐双脚落地水平拉带', image: assetUrl('assets/reformer-custom/seated-side-arm-pull-feet-grounded.png?v=1') },
   { id: 226, kind: 'Reformer', en: 'Teaser Arm Pull', zh: 'V型核心手臂拉带', image: assetUrl('assets/reformer-custom/teaser-arm-pull.png?v=1') },
-  { id: 227, kind: 'Reformer', en: 'Side Standing Scooter', zh: '侧向45°站姿蹬滑床', image: assetUrl('assets/reformer-custom/side-standing-scooter.png?v=1') },
+  { id: 227, kind: 'Reformer', en: 'Side Standing Scooter', zh: '侧向45°站姿蹬滑床', image: assetUrl('assets/reformer-custom/side-standing-scooter.png?v=2') },
   { id: 229, kind: 'Reformer', en: 'Teaser Beats', zh: 'V型直腿45°拍打', image: assetUrl('assets/reformer-custom/teaser-beats.png?v=1') },
 ]
 const moreNames: { kind: EquipmentKind; en: string; zh: string }[] = [
