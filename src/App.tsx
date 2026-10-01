@@ -141,7 +141,6 @@ const describedReformerExercises: Exercise[] = [
   { id: 225, kind: 'Reformer', en: 'Seated Side Arm Pull – Feet Grounded', zh: '侧坐双脚落地水平拉带', image: assetUrl('assets/reformer-custom/seated-side-arm-pull-feet-grounded.png?v=1') },
   { id: 226, kind: 'Reformer', en: 'Teaser Arm Pull', zh: 'V型核心手臂拉带', image: assetUrl('assets/reformer-custom/teaser-arm-pull.png?v=1') },
   { id: 227, kind: 'Reformer', en: 'Side Standing Scooter', zh: '侧向45°站姿蹬滑床', image: assetUrl('assets/reformer-custom/side-standing-scooter.png?v=1') },
-  { id: 228, kind: 'Reformer', en: 'Standing Instep Press', zh: '站姿压脚背', image: assetUrl('assets/reformer-custom/standing-instep-press.png?v=1') },
   { id: 229, kind: 'Reformer', en: 'Teaser Beats', zh: 'V型直腿45°拍打', image: assetUrl('assets/reformer-custom/teaser-beats.png?v=1') },
 ]
 const moreNames: { kind: EquipmentKind; en: string; zh: string }[] = [
@@ -427,7 +426,6 @@ const reformerAlignedImages: Record<string, string> = {
   "Seated Side Arm Pull – Feet Grounded": "assets/reformer/97.png?v=1",
   "Teaser Arm Pull": "assets/reformer/98.png?v=1",
   "Side Standing Scooter": "assets/reformer/99.png?v=1",
-  "Standing Instep Press": "assets/reformer/100.png?v=1",
   "Teaser Beats": "assets/reformer/101.png?v=1",
   "Coordination": "assets/reformer/102.png?v=1",
   "Stomach Massage Basic": "assets/reformer/103.png?v=1",
@@ -528,7 +526,7 @@ const reformerCategoryNames: Record<Exclude<ReformerCategory, '全部'>, string[
   '短箱系列': ['Short Box Round Back', 'Short Box Flat Back', 'Short Box Flat Back with Pole', 'Short Box Side to Side', 'Short Box Side Reach with Pole', 'Short Box Twist and Reach', 'Short Box Around the World', 'Short Box Climb a Tree', 'Short Box Mermaid', 'Short Box Advanced Abdominals', 'Tree / Climb-a-Tree', 'Gone Fishing'],
   '俯卧系': ['Long Back Stretch', 'Long Stretch', 'Long Stretch Leg Lift', 'One-Leg Long Stretch', 'Pulling Straps', 'Long Box Pulling Straps', 'Backstroke', 'Breaststroke', 'Swimming', 'Rocking', 'Grasshopper', 'Horseback', 'Swan on Long Box', 'Long Box Swan Dive', 'Long Box Teaser Arm Circles', 'Long Box Triceps Pull', 'Long Box Double Leg Kick', 'Snake', 'Twist', 'Twist with Bar Up', 'Scorpion', 'Up Stretch Combo', 'Tendon Stretch Combo', 'One-Leg Tendon Stretch Front', 'Backbend', 'Footbar Plank Box Slide', 'Footbar Plank Carriage Slide'],
   '跪姿系': ['Knee Stretches', 'Knee Stretches Round', 'Knee Stretches Arched', 'Knee Stretches Knees Off', 'One-Leg Knee Stretch Round', 'One-Leg Knee Stretch Arched', 'Kneeling Abdominals Facing Front', 'Kneeling Abdominals Facing Back', 'Up Stretch', 'Down Stretch', 'Elephant', 'Single Leg Elephant', 'Chest Expansion', 'Thigh Stretch', 'Arm Circles', 'Arm Work Facing Footbar', 'Arm Work Facing Straps', 'Kneeling Side Arms', 'Kneeling Side Arm External Rotation', 'Kneeling Draw a Sword', 'Kneeling Scooter', 'Straight-Arm Pull Facing Straps', 'Triceps Press Facing Straps'],
-  '侧向与站姿': ['Side Splits', 'Side Split Squat', 'Front Splits', 'Grande Splits', 'Back Splits', 'Scooter', 'Side Standing Scooter', 'Skating', 'Russian Squats', 'Standing Instep Press', 'Side Support', 'Side Sit Ups', 'Star', 'Tendon Stretch Side', 'One-Leg Tendon Stretch Back', 'Tic Toc', 'Side-Lying Jumpboard'],
+  '侧向与站姿': ['Side Splits', 'Side Split Squat', 'Front Splits', 'Grande Splits', 'Back Splits', 'Scooter', 'Side Standing Scooter', 'Skating', 'Russian Squats', 'Side Support', 'Side Sit Ups', 'Star', 'Tendon Stretch Side', 'One-Leg Tendon Stretch Back', 'Tic Toc', 'Side-Lying Jumpboard'],
   '倒立与高阶': ['Headstand 1', 'Headstand 2', 'Headstand with Straps'],
 }
 const reformerCategoryList = Object.keys(reformerCategoryNames) as Exclude<ReformerCategory, '全部'>[]
@@ -546,7 +544,7 @@ const exerciseImageClass = (exercise: Exercise) => {
   if (alignedImageFor(exercise)) return ''
   if (exercise.kind === '垫上' && ['Scissors', 'Bicycle'].includes(exercise.en)) return 'compact-mat-image'
   if (exercise.kind === 'Reformer' && exercise.id >= 242 && exercise.id <= 313) return 'compact-reformer-image'
-  if (exercise.kind === 'Reformer' && ['Frog', 'Rowing 90 Degrees', 'Rowing From the Hips', 'Shaving', 'Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'High Frog', 'High Bridge', 'Footwork Heels', 'Footwork Toes', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Horizontal T-Pull', 'Seated Side Arm Pull', 'Seated Side Arm Pull – Feet Grounded', 'Teaser Arm Pull', 'Side Standing Scooter', 'Standing Instep Press', 'Teaser Beats', 'Coordination', 'Arm Circles', 'Knee Stretches Knees Off', 'Running', 'Hamstring Curls', 'Long Box Pulling Straps', 'Backstroke', 'Breaststroke', 'Supine Arm Work', 'Semi Circle', 'Jumping on Footplate', 'Thigh Stretch', 'Down Stretch', 'Hug', 'Stomach Massage Basic', 'Stomach Massage Round', 'Stomach Massage Hands Back', 'Stomach Massage Reach Up', 'Stomach Massage Twist', 'Backbend to Bar', 'Russian Splits', 'Footbar Plank Carriage Slide', 'Footbar Reverse Plank Carriage Slide', 'Footbar Plank Box Slide', 'Footbar Reverse Plank Box Slide'].includes(exercise.en)) return 'compact-reformer-image'
+  if (exercise.kind === 'Reformer' && ['Frog', 'Rowing 90 Degrees', 'Rowing From the Hips', 'Shaving', 'Short Box Round Back', 'Short Box Flat Back', 'Short Box Side to Side', 'Short Box Twist and Reach', 'Gone Fishing', 'Tree / Climb-a-Tree', 'High Frog', 'High Bridge', 'Footwork Heels', 'Footwork Toes', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single Leg Footwork with Leg Lift', 'Horizontal T-Pull', 'Seated Side Arm Pull', 'Seated Side Arm Pull – Feet Grounded', 'Teaser Arm Pull', 'Side Standing Scooter', 'Teaser Beats', 'Coordination', 'Arm Circles', 'Knee Stretches Knees Off', 'Running', 'Hamstring Curls', 'Long Box Pulling Straps', 'Backstroke', 'Breaststroke', 'Supine Arm Work', 'Semi Circle', 'Jumping on Footplate', 'Thigh Stretch', 'Down Stretch', 'Hug', 'Stomach Massage Basic', 'Stomach Massage Round', 'Stomach Massage Hands Back', 'Stomach Massage Reach Up', 'Stomach Massage Twist', 'Backbend to Bar', 'Russian Splits', 'Footbar Plank Carriage Slide', 'Footbar Reverse Plank Carriage Slide', 'Footbar Plank Box Slide', 'Footbar Reverse Plank Box Slide'].includes(exercise.en)) return 'compact-reformer-image'
   return ''
 }
 
