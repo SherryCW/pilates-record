@@ -112,7 +112,7 @@ const reformerAdditionalCustomImages: Record<string, string> = {
   'Horizontal T-Pull': 'assets/reformer-custom/horizontal-t-pull.png?v=1',
   'Down Stretch': 'assets/reformer-custom/down-stretch.png?v=1',
 }
-const reformerAdditionalExercises: Exercise[] = reformerAdditionalNames.map(([en, zh], index) => ({ id: 169 + index, en, zh, image: assetUrl(reformerAdditionalCustomImages[en] || `assets/reformer-additional/${String(index + 1).padStart(2, '0')}.png`), kind: 'Reformer' as const }))
+const reformerAdditionalExercises: Exercise[] = reformerAdditionalNames.map(([en, zh], index) => ({ id: 169 + index, en, zh, image: assetUrl(reformerAdditionalCustomImages[en] || `assets/reformer-additional/${String(index + 1).padStart(2, '0')}.png?v=2?v=2`), kind: 'Reformer' as const }))
 const reformerGeneratedNames: [string, string][] = [
   ['Single Leg Heel Footwork', '单腿脚跟脚踏'], ['Footwork on Footplate', '脚踏板脚步'], ['Jumping on Footplate', '脚踏板跳跃'],
   ['Supine Arm Work', '仰卧手臂练习'], ['Kneeling Abdominals Facing Back', '面向后跪姿腹部'],
