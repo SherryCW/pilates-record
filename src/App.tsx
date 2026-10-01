@@ -706,7 +706,6 @@ const exerciseMuscles: Record<string, MuscleGroup[]> = {
   'Seated Side Arm Pull – Feet Grounded': ['肩部', '手臂', '背部', '腹部'],
   'Teaser Arm Pull': ['腹部', '髋部', '肩部', '手臂'],
   'Side Standing Scooter': ['臀部', '髋部', '股四', '小腿'],
-  'Standing Instep Press': ['小腿', '髋部', '股四'],
   'Teaser Beats': ['腹部', '髋部', '股四'],
   'Footwork on Footplate': ['股四', '臀部', '腘绳', '小腿'],
   'Jumping on Footplate': ['股四', '臀部', '腘绳', '小腿'],
