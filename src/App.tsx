@@ -226,7 +226,6 @@ const reformerComprehensiveItems: ReformerLibraryItem[] = [
   { en: "Eve's Lunge", zh: '夏娃弓步', file: 'eves-lunge', category: '侧向与站姿', muscles: ['髋部', '股四', '臀部', '腘绳'] },
   { en: 'Skating', zh: '滑冰式', file: 'skating', category: '侧向与站姿', muscles: ['臀部', '髋部', '股四', '腹部'] },
   { en: 'Side Split Squat', zh: '侧劈腿深蹲', file: 'side-split-squat', category: '侧向与站姿', muscles: ['臀部', '髋部', '股四', '腘绳'] },
-  { en: 'Back Splits', zh: '后劈腿', file: 'back-splits', category: '侧向与站姿', muscles: ['髋部', '股四', '腘绳', '臀部'] },
   { en: 'Kneeling Scooter', zh: '跪姿滑板车', file: 'kneeling-scooter', category: '跪姿系', muscles: ['臀部', '股四', '髋部', '腹部'] },
   { en: 'Jumpboard Parallel Jumps', zh: '平行腿跳跃', file: 'jumpboard-parallel-jumps', category: '仰卧·脚踏与跳跃', muscles: ['股四', '臀部', '小腿', '腹部'] },
   { en: 'Jumpboard Pilates-V', zh: '普拉提V字跳跃', file: 'jumpboard-pilates-v', category: '仰卧·脚踏与跳跃', muscles: ['股四', '臀部', '髋部', '小腿'] },
@@ -478,7 +477,6 @@ const reformerAlignedImages: Record<string, string> = {
   "Eve's Lunge": "assets/reformer/158.png?v=1",
   "Skating": "assets/reformer/159.png?v=1",
   "Side Split Squat": "assets/reformer/160.png?v=1",
-  "Back Splits": "assets/reformer/161.png?v=1",
   "Kneeling Scooter": "assets/reformer/162.png?v=1",
   "Jumpboard Parallel Jumps": "assets/reformer/163.png?v=1",
   "Jumpboard Pilates-V": "assets/reformer/164.png?v=1",
@@ -522,7 +520,7 @@ const reformerCategoryNames: Record<Exclude<ReformerCategory, '全部'>, string[
   '短箱系列': ['Short Box Round Back', 'Short Box Flat Back', 'Short Box Flat Back with Pole', 'Short Box Side to Side', 'Short Box Side Reach with Pole', 'Short Box Twist and Reach', 'Short Box Around the World', 'Short Box Climb a Tree', 'Short Box Mermaid', 'Short Box Advanced Abdominals', 'Tree / Climb-a-Tree', 'Gone Fishing'],
   '俯卧系': ['Long Back Stretch', 'Long Stretch', 'Long Stretch Leg Lift', 'One-Leg Long Stretch', 'Pulling Straps', 'Long Box Pulling Straps', 'Backstroke', 'Breaststroke', 'Swimming', 'Rocking', 'Grasshopper', 'Horseback', 'Swan on Long Box', 'Long Box Swan Dive', 'Long Box Teaser Arm Circles', 'Long Box Triceps Pull', 'Long Box Double Leg Kick', 'Snake', 'Twist', 'Twist with Bar Up', 'Scorpion', 'Up Stretch Combo', 'Tendon Stretch Combo', 'One-Leg Tendon Stretch Front', 'Backbend', 'Footbar Plank Box Slide', 'Footbar Plank Carriage Slide'],
   '跪姿系': ['Knee Stretches', 'Knee Stretches Round', 'Knee Stretches Arched', 'Knee Stretches Knees Off', 'One-Leg Knee Stretch Round', 'One-Leg Knee Stretch Arched', 'Kneeling Abdominals Facing Front', 'Kneeling Abdominals Facing Back', 'Up Stretch', 'Down Stretch', 'Elephant', 'Single Leg Elephant', 'Chest Expansion', 'Thigh Stretch', 'Arm Circles', 'Arm Work Facing Footbar', 'Arm Work Facing Straps', 'Kneeling Side Arms', 'Kneeling Side Arm External Rotation', 'Kneeling Draw a Sword', 'Kneeling Scooter', 'Straight-Arm Pull Facing Straps', 'Triceps Press Facing Straps'],
-  '侧向与站姿': ['Side Splits', 'Side Split Squat', 'Front Splits', 'Back Splits', 'Scooter', 'Side Standing Scooter', 'Skating', 'Side Support', 'Side Sit Ups', 'Star', 'Tendon Stretch Side', 'One-Leg Tendon Stretch Back', 'Tic Toc', 'Side-Lying Jumpboard'],
+  '侧向与站姿': ['Side Splits', 'Side Split Squat', 'Front Splits', 'Scooter', 'Side Standing Scooter', 'Skating', 'Side Support', 'Side Sit Ups', 'Star', 'Tendon Stretch Side', 'One-Leg Tendon Stretch Back', 'Tic Toc', 'Side-Lying Jumpboard'],
   '倒立与高阶': ['Headstand 1', 'Headstand 2', 'Headstand with Straps'],
 }
 const reformerCategoryList = Object.keys(reformerCategoryNames) as Exclude<ReformerCategory, '全部'>[]
