@@ -124,7 +124,7 @@ const reformerGeneratedNames: [string, string][] = [
   ['Biceps Curl', '二头肌弯举'], ['Posterior Shoulder Press', '后肩推压'], ['Serve a Tray', '端盘式'], ['Scooter', '滑板车式'],
 ]
 const reformerGeneratedCustomImages: Record<string, string> = {
-  'Single Leg Heel Footwork': 'assets/reformer-custom/single-leg-heel-footwork.png?v=1',
+  'Single Leg Heel Footwork': 'assets/reformer-custom/single-leg-heel-footwork.png?v=2',
   'Supine Arm Work': 'assets/reformer-custom/supine-arm-work.png?v=2',
   'Jumping on Footplate': 'assets/reformer-custom/jumping-on-footplate.png?v=1',
   'Footbar Plank Carriage Slide': 'assets/reformer-custom/footbar-plank-carriage-slide.png?v=1',
@@ -249,7 +249,7 @@ const deepHipFlexorExercise: Exercise = { id: 322, kind: 'Ladder Barrel', en: 'D
 const smallBallKneeSqueezeCurl: Exercise = { id: 324, kind: '小器械', en: 'Small Ball Knee Squeeze Curl', zh: '小球夹膝卷腹', image: assetUrl('assets/small-apparatus/13.png?v=1') }
 // 脚踏家族归队：脚趾/足跟/单腿三张紧跟在脚步练习后面集中展示。
 const footworkToesCard: Exercise = { id: 325, kind: 'Reformer', en: 'Footwork Toes', zh: '脚趾脚踏', image: assetUrl('assets/reformer-custom/footwork-toes.png?v=1') }
-const singleLegHeelCard: Exercise = { id: 327, kind: 'Reformer', en: 'Single Leg Heel Footwork', zh: '单腿脚跟脚踏', image: assetUrl('assets/reformer-custom/single-leg-heel-footwork.png?v=1') }
+const singleLegHeelCard: Exercise = { id: 327, kind: 'Reformer', en: 'Single Leg Heel Footwork', zh: '单腿脚跟脚踏', image: assetUrl('assets/reformer-custom/single-leg-heel-footwork.png?v=2') }
 const singleLegToeCard: Exercise = { id: 328, kind: 'Reformer', en: 'Single Leg Toe Footwork', zh: '单腿前脚掌脚踏', image: assetUrl('assets/reformer-custom/single-leg-toe-footwork.png?v=1') }
 const singleLegLegLiftCard: Exercise = { id: 329, kind: 'Reformer', en: 'Single Leg Footwork with Leg Lift', zh: '单腿脚踏直腿上举', image: assetUrl('assets/reformer-custom/single-leg-footwork-leg-lift.png?v=1') }
 const singleLegArchCard: Exercise = { id: 330, kind: 'Reformer', en: 'Single-Leg Footwork Arches', zh: '单腿足弓脚踏', image: assetUrl('assets/reformer/124.png?v=2') }
