@@ -195,7 +195,6 @@ const reformerComprehensiveItems: ReformerLibraryItem[] = [
   { en: 'Supine Triceps Press', zh: '仰卧肱三头肌推压', file: 'supine-triceps-press', category: '仰卧·手臂', muscles: ['手臂', '肩部', '腹部'] },
   { en: 'Supine T-Pull', zh: '仰卧T形拉带', file: 'supine-t-pull', category: '仰卧·手臂', muscles: ['肩部', '背部', '手臂', '腹部'] },
   { en: 'Feet in Straps Arcs', zh: '脚套弧线', file: 'feet-in-straps-arcs', category: '仰卧·脚套', muscles: ['髋部', '臀部', '腹部', '腘绳'] },
-  { en: 'Feet in Straps Openings', zh: '脚套开合', file: 'feet-in-straps-openings', category: '仰卧·脚套', muscles: ['髋部', '臀部', '腹部'] },
   { en: 'Feet in Straps Walking', zh: '脚套行走', file: 'feet-in-straps-walking', category: '仰卧·脚套', muscles: ['髋部', '股四', '腘绳', '腹部'] },
   { en: 'Single-Leg Circles in Straps', zh: '脚套单腿画圈', file: 'single-leg-circles-in-straps', category: '仰卧·脚套', muscles: ['髋部', '臀部', '腹部'] },
   { en: 'Single-Leg Frog', zh: '脚套单腿蛙式', file: 'single-leg-frog', category: '仰卧·脚套', muscles: ['髋部', '臀部', '股四', '腹部'] },
@@ -432,7 +431,6 @@ const reformerAlignedImages: Record<string, string> = {
   "Supine Triceps Press": "assets/reformer/130.png?v=1",
   "Supine T-Pull": "assets/reformer/131.png?v=2",
   "Feet in Straps Arcs": "assets/reformer/132.png?v=1",
-  "Feet in Straps Openings": "assets/reformer/133.png?v=1",
   "Feet in Straps Walking": "assets/reformer/134.png?v=1",
   "Single-Leg Circles in Straps": "assets/reformer/136.png?v=1",
   "Single-Leg Frog": "assets/reformer/137.png?v=1",
@@ -487,7 +485,7 @@ const exercises: Exercise[] = [...towerExercises.filter(exercise => exercise.en 
 
 const reformerCategoryNames: Record<Exclude<ReformerCategory, '全部'>, string[]> = {
   '仰卧·脚踏与跳跃': ['Footwork', 'Footwork Toes', 'Footwork Arches', 'Single Leg Heel Footwork', 'Single Leg Toe Footwork', 'Single-Leg Footwork Arches', 'Single Leg Footwork with Leg Lift', 'Footwork on Footplate', 'Jumping on Footplate', 'Jumpboard Parallel Jumps', 'Jumpboard Pilates-V', 'Jumpboard Wide-V', 'Jumpboard Tuck Jumps'],
-  '仰卧·脚套': ['Feet in Straps', 'Feet in Straps Arcs', 'Feet in Straps Openings', 'Feet in Straps Walking', 'Single-Leg Circles in Straps', 'Single-Leg Frog'],
+  '仰卧·脚套': ['Feet in Straps', 'Feet in Straps Arcs', 'Feet in Straps Walking', 'Single-Leg Circles in Straps', 'Single-Leg Frog'],
   '仰卧·手臂': ['Supine Arm Work', 'Supine Arm Press Down', 'Supine Arm Circles', 'Supine Triceps Press', 'Supine T-Pull', 'Coordination'],
   '仰卧·核心与桥': ['The Hundred', 'Frog', 'High Frog', 'Leg Circles', 'Short Spine', 'Teaser', 'Teaser Arm Pull', 'Teaser Beats', 'Oblique Roll Down', 'Reformer Roll Down', 'Corkscrew', 'Control Balance Off', 'Overhead', 'Pelvic Lift', 'Bridging', 'Semi Circle', 'High Bridge', 'Single-Leg High Bridge'],
   '坐姿系': ['Stomach Massage Basic', 'Stomach Massage Round', 'Stomach Massage Hands Back', 'Stomach Massage Reach Up', 'Stomach Massage Twist', 'Rowing Back', 'Rowing Front', 'Rowing 90 Degrees', 'Rowing From the Chest', 'Rowing From the Hips', 'Biceps Curl', 'Hug', 'Serve a Tray', 'Shaving', 'Posterior Shoulder Press', 'Cleopatra', 'Mermaid', 'Side Stretch / Mermaid', 'Seated Side Arm Pull', 'Seated Side Arm Pull – Feet Grounded'],
